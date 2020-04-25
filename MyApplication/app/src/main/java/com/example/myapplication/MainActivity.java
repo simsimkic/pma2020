@@ -25,8 +25,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-
-
                 // Set LoggedIn status to false
                 SaveSharedPreference.setLoggedIn(getApplicationContext(), false);
 

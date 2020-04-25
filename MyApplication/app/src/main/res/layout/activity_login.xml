@@ -23,7 +23,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
-            android:fontFamily="@font/adamina"
+            android:fontFamily="@font/chewy"
             android:gravity="center"
             android:text="Running app"
             android:textAllCaps="true"

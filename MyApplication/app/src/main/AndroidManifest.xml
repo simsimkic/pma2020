@@ -10,7 +10,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/AppTheme">
-
+        <activity android:name=".ui.ProfileActivity"></activity>
         <activity
             android:name=".ui.LoginActivity"
             android:excludeFromRecents="true"
@@ -25,9 +25,10 @@
             android:name=".MainActivity"
             android:excludeFromRecents="true"
             android:noHistory="true" />
-        <activity android:name=".ui.SingupActivity"
+        <activity
+            android:name=".ui.SingupActivity"
             android:excludeFromRecents="true"
-            android:noHistory="true"></activity>
+            android:noHistory="true" />
 
         <meta-data
             android:name="preloaded_fonts"
