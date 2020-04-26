@@ -5,16 +5,16 @@
         android:icon="@drawable/baseline_home_black_24dp"
         android:title="Home" />
     <item
-        android:id="@+id/activity"
+        android:id="@+id/tracking"
         android:icon="@drawable/baseline_gps_fixed_black_24dp"
-        android:title="Activity" />
+        android:title="Tracking" />
     <item
         android:id="@+id/profile"
         android:icon="@drawable/baseline_person_black_24dp"
         android:title="Profile" />
     <item
-        android:id="@+id/Accessibility"
+        android:id="@+id/activities"
         android:icon="@drawable/baseline_accessibility_new_black_24dp"
-        android:title="Accessibility" />
+        android:title="Activities" />
 
 </menu>
