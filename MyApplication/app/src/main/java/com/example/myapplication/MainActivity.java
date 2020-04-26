@@ -10,11 +10,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
+import com.example.myapplication.ui.LoginActivity;
 import com.example.myapplication.ui.fragments.AccessibilityFragment;
 import com.example.myapplication.ui.fragments.ActivityFragment;
 import com.example.myapplication.ui.fragments.HomeFragment;
 import com.example.myapplication.ui.fragments.ProfileFragment;
+import com.example.myapplication.util.SaveSharedPreference;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -27,8 +31,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         bottom_navigation = findViewById(R.id.bottom_navigation);
-
-
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         Fragment fragment = new HomeFragment();
@@ -58,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
                     case R.id.profile:
                         Log.i("profile", "profile inside1 profile");
+
                         fragment = new ProfileFragment();
                         fragmentTransaction.replace(R.id.fragment_container_view, fragment);
                         fragmentTransaction.commit();
@@ -76,15 +79,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-//    /**
-//     * Logout
-//     */
-//    public void logout() {
-//
-//        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-//        startActivity(intent);
-//
-//    }
+
 
 
 }
