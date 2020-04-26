@@ -1,49 +1,85 @@
 package com.example.myapplication;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
 import com.example.myapplication.ui.LoginActivity;
+import com.example.myapplication.ui.fragments.AccessibilityFragment;
+import com.example.myapplication.ui.fragments.ActivityFragment;
+import com.example.myapplication.ui.fragments.HomeFragment;
+import com.example.myapplication.ui.fragments.ProfileFragment;
 import com.example.myapplication.util.SaveSharedPreference;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button logoutBT;
+    BottomNavigationView bottom_navigation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        logoutBT = findViewById(R.id.logoutBT);
+        bottom_navigation = findViewById(R.id.bottom_navigation);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        Fragment fragment = new HomeFragment();
+        fragmentTransaction.add(R.id.fragment_container_view, fragment);
+        fragmentTransaction.commit();
 
-        logoutBT.setOnClickListener(new View.OnClickListener() {
+
+        bottom_navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onClick(View v) {
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                switch (item.getItemId()){
+                    case R.id.home:
+                        Log.i("home", "home inside1 home");
+                        Fragment fragment = new HomeFragment();
+                        fragmentTransaction.replace(R.id.fragment_container_view, fragment);
+                        fragmentTransaction.commit();
+                        return true;
 
-                // Set LoggedIn status to false
-                SaveSharedPreference.setLoggedIn(getApplicationContext(), false);
+                    case R.id.activity:
+                        Log.i("activity", "activity inside1 activity");
+                        fragment = new ActivityFragment();
+                        fragmentTransaction.replace(R.id.fragment_container_view, fragment);
+                        fragmentTransaction.commit();
+                        return true;
 
-                // Logout
-                logout();
+                    case R.id.profile:
+                        Log.i("profile", "profile inside1 profile");
 
+                        fragment = new ProfileFragment();
+                        fragmentTransaction.replace(R.id.fragment_container_view, fragment);
+                        fragmentTransaction.commit();
+                        return true;
+
+                    case R.id.Accessibility:
+                        Log.i("Accessibility", "Accessibility inside1 Accessibility");
+                        fragment = new AccessibilityFragment();
+                        fragmentTransaction.replace(R.id.fragment_container_view, fragment);
+                        fragmentTransaction.commit();
+                        return true;
+                }
+
+                return false;
             }
         });
     }
 
-    /**
-     * Logout
-     */
-    public void logout() {
 
-        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-        startActivity(intent);
-
-    }
 
 
 }

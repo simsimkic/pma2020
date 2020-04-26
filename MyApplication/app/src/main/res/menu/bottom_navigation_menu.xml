@@ -13,7 +13,7 @@
         android:icon="@drawable/baseline_person_black_24dp"
         android:title="Profile" />
     <item
-        android:id="@+id/help"
+        android:id="@+id/Accessibility"
         android:icon="@drawable/baseline_accessibility_new_black_24dp"
         android:title="Accessibility" />
 
