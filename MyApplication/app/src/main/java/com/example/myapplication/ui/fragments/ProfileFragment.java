@@ -3,6 +3,7 @@ package com.example.myapplication.ui.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -66,21 +67,21 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rooView = inflater.inflate(R.layout.fragment_profile, container, false);
+        View rooView = inflater.inflate(R.layout.activity_profile, container, false);
 
-        logoutBT = rooView.findViewById(R.id.logoutBT);
-        logoutBT.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                // Set LoggedIn status to false
-                SaveSharedPreference.setLoggedIn(getActivity().getApplicationContext(), false);
-
-                // Logout
-                logout();
-
-            }
-        });
+//        logoutBT = rooView.findViewById(R.id.logoutBT);
+//        logoutBT.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                // Set LoggedIn status to false
+//                SaveSharedPreference.setLoggedIn(getActivity().getApplicationContext(), false);
+//
+//                // Logout
+//                logout();
+//
+//            }
+//        });
 
         return rooView;
     }

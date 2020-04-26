@@ -10,6 +10,13 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/AppTheme">
+        <activity android:name=".ui.GroupActivitiesActivity"></activity>
+        <activity android:name=".ui.TrackingActivity" />
+        <activity android:name=".ui.HomeActivity" />
+        <activity
+            android:name=".ui.ProfileActivity"
+            android:label="@string/title_activity_profile"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.LoginActivity"
             android:excludeFromRecents="true"
