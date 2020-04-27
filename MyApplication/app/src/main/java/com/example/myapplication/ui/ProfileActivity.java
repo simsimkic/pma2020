@@ -1,10 +1,11 @@
 package com.example.myapplication.ui;
 
-import android.content.ClipData;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.example.myapplication.util.SaveSharedPreference;
+import com.example.myapplication.ui.fragments.ActivityFragment;
+import com.example.myapplication.ui.fragments.FriendsFragment;
+import com.example.myapplication.ui.fragments.GoalsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
@@ -12,15 +13,15 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 
 import com.example.myapplication.R;
-import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -75,19 +76,36 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        Fragment fragment = new ActivityFragment();
+        fragmentTransaction.replace(R.id.fragment_container_view, fragment);
+        fragmentTransaction.commit();
+
         tab = findViewById(R.id.tabs);
         tab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 switch(tab.getPosition()) {
                     case 0:
                         Log.i("Activities", "Activities inside1 Activities");
+                        Fragment fragment = new ActivityFragment();
+                        fragmentTransaction.replace(R.id.fragment_container_view, fragment);
+                        fragmentTransaction.commit();
                         break;
                     case 1:
                         Log.i("Friends", "Friends inside1 Friends");
+                        fragment = new FriendsFragment();
+                        fragmentTransaction.replace(R.id.fragment_container_view, fragment);
+                        fragmentTransaction.commit();
                         break;
                     case 2:
                         Log.i("Goals", "Goals inside1 Goals");
+                        fragment = new GoalsFragment();
+                        fragmentTransaction.replace(R.id.fragment_container_view, fragment);
+                        fragmentTransaction.commit();
                         break;
 
                 }

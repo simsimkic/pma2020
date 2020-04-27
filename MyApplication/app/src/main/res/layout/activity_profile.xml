@@ -103,6 +103,14 @@ xmlns:android="http://schemas.android.com/apk/res/android"
                         android:text="Goals"/>
 
                 </com.google.android.material.tabs.TabLayout>
+                <androidx.fragment.app.FragmentContainerView
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/fragment_container_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </androidx.fragment.app.FragmentContainerView>
             </LinearLayout>
 
         </ScrollView>
