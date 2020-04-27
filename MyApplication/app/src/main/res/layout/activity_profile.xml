@@ -21,19 +21,103 @@ xmlns:android="http://schemas.android.com/apk/res/android"
             android:background="@color/primary"
             android:id="@+id/toolbar"
             android:elevation="4dp"/>
-<!--        <FrameLayout-->
-<!--            android:id="@+id/fragment_container"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"/>-->
+
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginBottom="65dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:id="@+id/imageView5"
+                        android:layout_width="124dp"
+                        android:layout_height="124dp"
+                        app:srcCompat="@drawable/baseline_person_black_48" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/name"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="24dp"
+                            android:gravity="left"
+                            android:text="Pera Peric"/>
+                        <TextView
+                            android:id="@+id/email"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:gravity="left"
+                            android:text="peraperic@gmail.com"/>
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/location"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="24dp"
+                        android:gravity="left"
+                        android:text="Novi Sad, Serbia"/>
+                    <TextView
+                        android:id="@+id/bio"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="24dp"
+                        android:layout_marginTop="5dp"
+                        android:gravity="left"
+                        android:text="My bio"/>
+                </LinearLayout>
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tabs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:tabIndicatorColor="@android:color/black">
+
+                    <com.google.android.material.tabs.TabItem
+                        android:id="@+id/tab_activities"
+                        android:text="Activities"
+                        android:layout_height="match_parent"
+                        android:layout_width="match_parent"
+                        />
+                    <com.google.android.material.tabs.TabItem
+                        android:id="@+id/tab_friends"
+                        android:text="Friends"
+                        android:layout_height="match_parent"
+                        android:layout_width="match_parent" />
+                    <com.google.android.material.tabs.TabItem
+                        android:id="@+id/tab_goals"
+                        android:layout_height="match_parent"
+                        android:layout_width="match_parent"
+                        android:text="Goals"/>
+
+                </com.google.android.material.tabs.TabLayout>
+            </LinearLayout>
+
+        </ScrollView>
+
+
     </LinearLayout>
 
-    <com.google.android.material.navigation.NavigationView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/nav_view"
-        app:headerLayout="@layout/settings_nav_header"
-        app:menu="@menu/settings_navigation_drawer"
-        android:layout_gravity="start"/>
+<!--    ODKOMENTARISATI PO ZAVRSETKU PROFILA-->
+<!--    <com.google.android.material.navigation.NavigationView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:id="@+id/nav_view"-->
+<!--        app:headerLayout="@layout/settings_nav_header"-->
+<!--        app:menu="@menu/settings_navigation_drawer"-->
+<!--        android:layout_gravity="start"/>-->
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -41,15 +125,15 @@ xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_height="match_parent"
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/logoutBT"
-            android:layout_width="100dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="24dp"
-            android:layout_marginLeft="250dp"
-            android:padding="12dp"
-            android:text="Logout" />
+        <!--        <androidx.appcompat.widget.AppCompatButton-->
+<!--            android:id="@+id/logoutBT"-->
+<!--            android:layout_width="100dp"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            android:layout_marginBottom="24dp"-->
+<!--            android:layout_marginLeft="250dp"-->
+<!--            android:padding="12dp"-->
+<!--            android:text="Logout" />-->
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation"

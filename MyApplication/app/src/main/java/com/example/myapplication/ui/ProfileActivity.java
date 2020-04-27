@@ -21,6 +21,7 @@ import android.widget.Button;
 
 import com.example.myapplication.R;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.tabs.TabLayout;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -30,6 +31,7 @@ public class ProfileActivity extends AppCompatActivity {
     Toolbar toolbar;
 //    NavigationView navigationView;
     ActionBarDrawerToggle toggle;
+    TabLayout tab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,17 +75,46 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        Button logoutBT = findViewById(R.id.logoutBT);
-        logoutBT.setOnClickListener(new View.OnClickListener() {
+        tab = findViewById(R.id.tabs);
+        tab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void onClick(View v) {
-                // Set LoggedIn status to false
-                SaveSharedPreference.setLoggedIn(ProfileActivity.this, false);
-                // Logout
-                logout();
+            public void onTabSelected(TabLayout.Tab tab) {
+                switch(tab.getPosition()) {
+                    case 0:
+                        Log.i("Activities", "Activities inside1 Activities");
+                        break;
+                    case 1:
+                        Log.i("Friends", "Friends inside1 Friends");
+                        break;
+                    case 2:
+                        Log.i("Goals", "Goals inside1 Goals");
+                        break;
+
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
 
             }
         });
+
+//        Button logoutBT = findViewById(R.id.logoutBT);
+//        logoutBT.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // Set LoggedIn status to false
+//                SaveSharedPreference.setLoggedIn(ProfileActivity.this, false);
+//                // Logout
+//                logout();
+//
+//            }
+//        });
 
     }
 
