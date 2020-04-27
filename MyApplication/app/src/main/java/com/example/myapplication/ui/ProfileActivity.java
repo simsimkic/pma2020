@@ -1,26 +1,32 @@
 package com.example.myapplication.ui;
 
-import android.content.ClipData;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 
-import com.example.myapplication.util.SaveSharedPreference;
+import com.example.myapplication.ui.fragments.ActivityFragment;
+import com.example.myapplication.ui.fragments.FriendsFragment;
+import com.example.myapplication.ui.fragments.GoalsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.ActionMenuItemView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageView;
 
 import com.example.myapplication.R;
-import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.tabs.TabLayout;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -30,6 +36,8 @@ public class ProfileActivity extends AppCompatActivity {
     Toolbar toolbar;
 //    NavigationView navigationView;
     ActionBarDrawerToggle toggle;
+    TabLayout tab;
+    ActionMenuItemView edit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +46,10 @@ public class ProfileActivity extends AppCompatActivity {
 
         drawerLayout = findViewById(R.id.drawer_layout);
         toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("Profile");
+        toolbar.setTitleTextColor(Color.WHITE);
         toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.drawerOpen, R.string.drawerClose);
+        toggle.getDrawerArrowDrawable().setColor(Color.WHITE);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
@@ -73,17 +84,72 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        Button logoutBT = findViewById(R.id.logoutBT);
-        logoutBT.setOnClickListener(new View.OnClickListener() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        Fragment fragment = new ActivityFragment();
+        fragmentTransaction.replace(R.id.fragment_container_view, fragment);
+        fragmentTransaction.commit();
+
+        tab = findViewById(R.id.tabs);
+        tab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void onClick(View v) {
-                // Set LoggedIn status to false
-                SaveSharedPreference.setLoggedIn(ProfileActivity.this, false);
-                // Logout
-                logout();
+            public void onTabSelected(TabLayout.Tab tab) {
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                switch(tab.getPosition()) {
+                    case 0:
+                        Log.i("Activities", "Activities inside1 Activities");
+                        Fragment fragment = new ActivityFragment();
+                        fragmentTransaction.replace(R.id.fragment_container_view, fragment);
+                        fragmentTransaction.commit();
+                        break;
+                    case 1:
+                        Log.i("Friends", "Friends inside1 Friends");
+                        fragment = new FriendsFragment();
+                        fragmentTransaction.replace(R.id.fragment_container_view, fragment);
+                        fragmentTransaction.commit();
+                        break;
+                    case 2:
+                        Log.i("Goals", "Goals inside1 Goals");
+                        fragment = new GoalsFragment();
+                        fragmentTransaction.replace(R.id.fragment_container_view, fragment);
+                        fragmentTransaction.commit();
+                        break;
+
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
 
             }
         });
+
+        edit = findViewById(R.id.edit);
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProfileActivity.this, EditProfileActivity.class);
+                startActivity(intent);
+            }
+        });
+
+//        Button logoutBT = findViewById(R.id.logoutBT);
+//        logoutBT.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // Set LoggedIn status to false
+//                SaveSharedPreference.setLoggedIn(ProfileActivity.this, false);
+//                // Logout
+//                logout();
+//
+//            }
+//        });
 
     }
 
@@ -91,6 +157,16 @@ public class ProfileActivity extends AppCompatActivity {
     public void logout() {
         Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
         startActivity(intent);
+
+    }
+
+    // Menu icons are inflated just as they were with actionbar
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.profile_top_menu, menu);
+
+        return true;
     }
 
 
