@@ -13,6 +13,7 @@ xmlns:android="http://schemas.android.com/apk/res/android"
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
         android:orientation="vertical">
 
         <androidx.appcompat.widget.Toolbar
@@ -20,7 +21,10 @@ xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/primary"
             android:id="@+id/toolbar"
-            android:elevation="4dp"/>
+            android:elevation="4dp"
+            app:menu="@menu/profile_top_menu">
+
+        </androidx.appcompat.widget.Toolbar>
 
         <ScrollView
             android:layout_width="fill_parent"
@@ -118,14 +122,13 @@ xmlns:android="http://schemas.android.com/apk/res/android"
 
     </LinearLayout>
 
-<!--    ODKOMENTARISATI PO ZAVRSETKU PROFILA-->
-<!--    <com.google.android.material.navigation.NavigationView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:id="@+id/nav_view"-->
-<!--        app:headerLayout="@layout/settings_nav_header"-->
-<!--        app:menu="@menu/settings_navigation_drawer"-->
-<!--        android:layout_gravity="start"/>-->
+    <com.google.android.material.navigation.NavigationView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/nav_view"
+        app:headerLayout="@layout/settings_nav_header"
+        app:menu="@menu/settings_navigation_drawer"
+        android:layout_gravity="start"/>
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -133,15 +136,6 @@ xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_height="match_parent"
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
-        <!--        <androidx.appcompat.widget.AppCompatButton-->
-<!--            android:id="@+id/logoutBT"-->
-<!--            android:layout_width="100dp"-->
-<!--            android:layout_height="40dp"-->
-<!--            android:layout_marginTop="8dp"-->
-<!--            android:layout_marginBottom="24dp"-->
-<!--            android:layout_marginLeft="250dp"-->
-<!--            android:padding="12dp"-->
-<!--            android:text="Logout" />-->
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation"
