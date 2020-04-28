@@ -7,12 +7,38 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
-
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="logout">Logout</string>
+    <string name="save">Save</string>
+    <string name="home">Home</string>
+    <string name="tracking">Tracking</string>
+    <string name="profile">Profile</string>
+    <string name="activities">Activities</string>
 
     <string name="drawerOpen">drawerOpen</string>
     <string name="drawerClose">drawerClose</string>
+
+    <string name="settings_nav_header">Settings</string>
+    <string name="setting_theme">Theme</string>
+    <string name="setting_notifications">Notifications</string>
+    <string name="setting_privacy">Privacy</string>
+    <string name="setting_back_to_profile">Back to profile</string>
+    <string name="theme_header">Change app theme</string>
+    <string name="notifications_header">Change notification preferences</string>
+    <string name="privacy_header">Change privacy</string>
+    <string name="night_theme">Night theme</string>
+    <string name="new_comment">New comment</string>
+    <string name="new_like">New like</string>
+    <string name="friend_req">Friendship request</string>
+    <string name="accept_friend_req">Accepted friendship</string>
+    <string name="act_invite">Activity invitation</string>
+    <string name="accept_act_invite">Accepted activity invitation</string>
+    <string name="canceled_act">Canceled activity</string>
+    <string name="pers_info">Personal information</string>
+    <string name="shared_act">Shared activities</string>
+    <string name="goals">Goals</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
