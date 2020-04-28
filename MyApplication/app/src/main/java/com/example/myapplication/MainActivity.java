@@ -2,28 +2,16 @@ package com.example.myapplication;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-
 import com.example.myapplication.ui.GroupActivitiesActivity;
 import com.example.myapplication.ui.HomeActivity;
-import com.example.myapplication.ui.LoginActivity;
 import com.example.myapplication.ui.ProfileActivity;
 import com.example.myapplication.ui.TrackingActivity;
-import com.example.myapplication.ui.fragments.AccessibilityFragment;
-import com.example.myapplication.ui.fragments.ActivityFragment;
-import com.example.myapplication.ui.fragments.HomeFragment;
-import com.example.myapplication.ui.fragments.ProfileFragment;
-import com.example.myapplication.util.SaveSharedPreference;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -69,8 +57,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-
-
 
 }

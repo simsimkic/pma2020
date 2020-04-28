@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="fc4597ac-5812-4c01-90d0-6789d0d0531d" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../../java/com/example/myapplication/ui/SettingsThemeActivity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../java/com/example/myapplication/ui/fragments/SettingsNotificationsFragment.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../java/com/example/myapplication/ui/fragments/SettingsPrivacyFragment.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../java/com/example/myapplication/ui/fragments/SettingsThemeFragment.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/activity_settings_notifications.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/activity_settings_privacy.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/activity_settings_theme.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fragment_settings_notifications.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fragment_settings_privacy.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fragment_settings_theme.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../java/com/example/myapplication/ui/ProfileActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../java/com/example/myapplication/ui/ProfileActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/activity_profile.xml" beforeDir="false" afterPath="$PROJECT_DIR$/activity_profile.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings_nav_header.xml" beforeDir="false" afterPath="$PROJECT_DIR$/settings_nav_header.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../values/strings.xml" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../../../../.." />
+  </component>
+  <component name="ProjectId" id="1b8g8ab9M2MaQkJcT5i4l5CJK4p" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="PropertiesComponent">
+    <property name="last_opened_file_path" value="$USER_HOME$/Downloads/NavigationDrawerAndMasterDetail" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="fc4597ac-5812-4c01-90d0-6789d0d0531d" name="Default Changelist" comment="" />
+      <created>1588018975530</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1588018975530</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
