@@ -6,8 +6,8 @@
     tools:context="com.example.myapplication.ui.fragments.ThemeSettingsFragment">
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical">
         <TextView
             android:layout_width="wrap_content"
@@ -25,6 +25,7 @@
             android:layout_marginTop="10dp">
             <Switch
                 android:id="@+id/night_theme_switch"
+                android:theme="@style/SwitchTheme"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView
@@ -34,11 +35,18 @@
                 android:textSize="20sp"
                 android:layout_marginStart="20dp"/>
         </LinearLayout>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_gravity="end"
-            android:text="@string/save"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="bottom">
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/save"
+                android:background="@color/primary"
+                android:textColor="@color/white"/>
+        </LinearLayout>
     </LinearLayout>
 </FrameLayout>
