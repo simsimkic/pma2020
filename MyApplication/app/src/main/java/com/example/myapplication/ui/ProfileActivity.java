@@ -197,6 +197,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
                 startActivity(intent);
                 break;
             case R.id.profile_option:
+                findViewById(R.id.bottom_navigation).setVisibility(View.VISIBLE);
                 findViewById(R.id.fragment_container).setVisibility(View.GONE);
                 navigationView.getMenu().findItem(R.id.profile_option).setVisible(false);
                 intent = new Intent(this, ProfileActivity.class);
@@ -218,9 +219,9 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
     }
 
     private void adaptActivity() {
+        findViewById(R.id.bottom_navigation).setVisibility(View.GONE);
         findViewById(R.id.edit).setVisibility(View.GONE);
         findViewById(R.id.fragment_container).setVisibility(View.VISIBLE);
-        menu.clear();
         navigationView.getMenu().findItem(R.id.profile_option).setVisible(true);
     }
 

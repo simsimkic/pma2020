@@ -23,7 +23,7 @@ public class ThemeSettingsFragment extends Fragment {
 
     private void setHeader() {
         TextView textView = getActivity().findViewById(R.id.toolbar_header);
-        textView.setText("Theme settings");
+        textView.setText(R.string.setting_theme_header);
     }
 
 }
