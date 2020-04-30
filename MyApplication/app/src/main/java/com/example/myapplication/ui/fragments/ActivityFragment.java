@@ -7,8 +7,19 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.example.myapplication.R;
+import com.example.myapplication.adapter.ActivitieAdapter;
+import com.example.myapplication.model.Activitie;
+
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.MapController;
+import org.osmdroid.views.MapView;
+
+import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,6 +31,7 @@ public class ActivityFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -60,6 +72,24 @@ public class ActivityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_activity, container, false);
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_activity, container, false);
+
+        Date date = new Date();
+        Activitie activity1 = new Activitie("April goal", 3.0 , 1.0, date.toString());
+        Activitie activity2 = new Activitie("May goal", 3.0 , 1.0, date.toString());
+
+        // Construct the data source
+        ArrayList<Activitie> arrayOfActivity = new ArrayList<Activitie>();
+        arrayOfActivity.add(activity1);
+        arrayOfActivity.add(activity2);
+        // Create the adapter to convert the array to views
+        ActivitieAdapter adapter = new ActivitieAdapter(getActivity(), arrayOfActivity);
+
+        // Attach the adapter to a ListView
+        ListView listView = (ListView) view.findViewById(R.id.goals_list);
+        listView.setAdapter(adapter);
+
+        return view;
     }
 }
