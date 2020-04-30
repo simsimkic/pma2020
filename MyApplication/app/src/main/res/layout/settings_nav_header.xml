@@ -11,7 +11,6 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Settings"
-        android:textColor="@color/white"></TextView>
-
+        android:text="@string/settings_nav_header"
+        android:textColor="@color/white"/>
 </LinearLayout>

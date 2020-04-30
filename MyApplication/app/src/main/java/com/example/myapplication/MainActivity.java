@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import com.example.myapplication.ui.GroupActivitiesActivity;
 import com.example.myapplication.ui.HomeActivity;
 import com.example.myapplication.ui.ProfileActivity;
@@ -58,8 +57,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-
-
 
 }
