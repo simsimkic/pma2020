@@ -7,8 +7,15 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.example.myapplication.R;
+import com.example.myapplication.adapter.FriendAdapter;
+import com.example.myapplication.adapter.GoalAdapter;
+import com.example.myapplication.model.Friend;
+import com.example.myapplication.model.Goal;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -60,6 +67,24 @@ public class GoalsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_goals, container, false);
+        View view = inflater.inflate(R.layout.fragment_goals, container, false);
+
+        Goal goal1 = new Goal("April goal", null,1.0,true);
+        Goal goal2 = new Goal("May goal", 3.0,5.0,false);
+
+        // Construct the data source
+        ArrayList<Goal> arrayOfGoals = new ArrayList<Goal>();
+        arrayOfGoals.add(goal1);
+        arrayOfGoals.add(goal2);
+        // Create the adapter to convert the array to views
+        GoalAdapter adapter = new GoalAdapter(getActivity(), arrayOfGoals);
+
+
+
+        // Attach the adapter to a ListView
+        ListView listView = (ListView) view.findViewById(R.id.goals_list);
+        listView.setAdapter(adapter);
+
+        return view;
     }
 }

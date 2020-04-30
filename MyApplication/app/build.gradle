@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
-
+repositories {
+    maven { url "https://jitpack.io" }
+}
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
@@ -33,5 +35,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
     implementation 'com.google.android.material:material:1.1.0-alpha06'
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
+    compile 'com.github.MKergall:osmbonuspack:6.6.0'
 
 }

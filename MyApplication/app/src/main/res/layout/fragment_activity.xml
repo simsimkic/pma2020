@@ -3,12 +3,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragments.ActivityFragment">
+    tools:context=".ui.fragments.FriendsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Hello from activity fragment" />
-
+        android:orientation="vertical">
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/scrollView6">
+                <ListView
+                    android:id="@+id/goals_list"
+                    class="androidx.appcompat.app.AlertController$RecycleListView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fillViewport="true">
+                </ListView>
+        </ScrollView>
+    </LinearLayout>
 </FrameLayout>
