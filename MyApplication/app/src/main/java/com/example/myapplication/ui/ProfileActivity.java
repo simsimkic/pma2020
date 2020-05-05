@@ -32,6 +32,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import android.view.View;
+import android.widget.Button;
 
 import com.example.myapplication.R;
 import com.google.android.material.navigation.NavigationView;
@@ -59,6 +60,8 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         setBottomNavigation();
         setInitialTab();
         handleTabSelection();
+
+
     }
 
     private void handleTabSelection() {
