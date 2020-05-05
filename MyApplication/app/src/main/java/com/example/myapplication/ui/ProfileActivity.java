@@ -178,17 +178,17 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         switch (item.getItemId()) {
             case R.id.theme:
                 adaptActivity();
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view,
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new ThemeSettingsFragment()).commit();
                 break;
             case R.id.notifications:
                 adaptActivity();
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view,
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new NotificationsSettingsFragment()).commit();
                 break;
             case R.id.privacy:
                 adaptActivity();
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view,
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new PrivacySettingsFragment()).commit();
                 break;
             case R.id.logout:
@@ -198,7 +198,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
                 break;
             case R.id.profile_option:
                 findViewById(R.id.bottom_navigation).setVisibility(View.VISIBLE);
-                findViewById(R.id.fragment_container_view).setVisibility(View.GONE);
+                findViewById(R.id.fragment_container).setVisibility(View.GONE);
                 navigationView.getMenu().findItem(R.id.profile_option).setVisible(false);
                 intent = new Intent(this, ProfileActivity.class);
                 startActivity(intent);
@@ -221,7 +221,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
     private void adaptActivity() {
         findViewById(R.id.bottom_navigation).setVisibility(View.GONE);
         findViewById(R.id.edit).setVisibility(View.GONE);
-        findViewById(R.id.fragment_container_view).setVisibility(View.VISIBLE);
+        findViewById(R.id.fragment_container).setVisibility(View.VISIBLE);
         navigationView.getMenu().findItem(R.id.profile_option).setVisible(true);
     }
 
