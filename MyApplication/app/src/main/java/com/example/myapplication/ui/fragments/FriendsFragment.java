@@ -7,8 +7,13 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.example.myapplication.R;
+import com.example.myapplication.adapter.FriendAdapter;
+import com.example.myapplication.model.Friend;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -60,6 +65,37 @@ public class FriendsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_friends, container, false);
+        View view = inflater.inflate(R.layout.fragment_friends, container, false);
+
+        Friend friend1 = new Friend("Friend 1");
+        Friend friend2 = new Friend("Friend 2");
+        Friend friend3 = new Friend("Friend 3");
+        Friend friend4 = new Friend("Friend 4");
+        Friend friend5 = new Friend("Friend 5");
+        Friend friend6 = new Friend("Friend 6");
+        Friend friend7 = new Friend("Friend 7");
+        Friend friend8 = new Friend("Friend 8");
+        Friend friend9 = new Friend("Friend 9");
+        // Construct the data source
+        ArrayList<Friend> arrayOfUsers = new ArrayList<Friend>();
+        arrayOfUsers.add(friend1);
+        arrayOfUsers.add(friend2);
+        arrayOfUsers.add(friend3);
+        arrayOfUsers.add(friend4);
+        arrayOfUsers.add(friend5);
+        arrayOfUsers.add(friend6);
+        arrayOfUsers.add(friend7);
+        arrayOfUsers.add(friend8);
+        arrayOfUsers.add(friend9);
+        // Create the adapter to convert the array to views
+        FriendAdapter adapter = new FriendAdapter(getActivity(), arrayOfUsers);
+
+
+
+        // Attach the adapter to a ListView
+        ListView listView = (ListView) view.findViewById(R.id.fried_list);
+        listView.setAdapter(adapter);
+
+        return view;
     }
 }

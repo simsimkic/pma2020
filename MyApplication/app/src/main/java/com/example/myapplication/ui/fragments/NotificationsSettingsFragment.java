@@ -22,6 +22,7 @@ public class NotificationsSettingsFragment extends Fragment {
 
     private void setHeader() {
         TextView textView = getActivity().findViewById(R.id.toolbar_header);
-        textView.setText("Notifications settings");
+        textView.setText(R.string.setting_notifications_header);
     }
+
 }
