@@ -9,10 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/scrollView6">
                 <ListView
                     android:id="@+id/goals_list"
                     class="androidx.appcompat.app.AlertController$RecycleListView"
@@ -20,6 +16,5 @@
                     android:layout_height="wrap_content"
                     android:fillViewport="true">
                 </ListView>
-        </ScrollView>
     </LinearLayout>
 </FrameLayout>
