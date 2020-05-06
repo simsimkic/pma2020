@@ -4,22 +4,15 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 
-import com.example.myapplication.adapter.FriendAdapter;
-import com.example.myapplication.adapter.FriendListAdapter;
 import com.example.myapplication.model.Friend;
 import com.example.myapplication.mokap_data.Friends;
-import com.example.myapplication.ui.fragments.ActivityFragment;
-import com.example.myapplication.ui.fragments.FriendShowFragment;
-import com.example.myapplication.ui.fragments.FriendsFragment;
+import com.example.myapplication.ui.fragments.ShowFriendsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
@@ -51,9 +44,10 @@ public class FindFriendsActivity extends AppCompatActivity {
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
 
-        FriendListAdapter adapter =  new FriendListAdapter(this, Friends.getFriends());
-        list = findViewById(R.id.friend_list);
-        list.setAdapter(adapter);
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        Fragment fragment = new ShowFriendsFragment();
+        ft.replace(R.id.friends_show, fragment);
+        ft.commit();
 
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {

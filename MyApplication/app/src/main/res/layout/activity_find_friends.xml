@@ -29,10 +29,11 @@
 
 
 
-        <ListView
+        <FrameLayout
+            android:id="@+id/friends_show"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/friend_list"/>
+            android:layout_height="wrap_content"/>
+
 
 
 
