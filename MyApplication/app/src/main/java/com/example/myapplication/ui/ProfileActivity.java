@@ -1,8 +1,11 @@
 package com.example.myapplication.ui;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 
 import com.example.myapplication.ui.fragments.NotificationsSettingsFragment;
@@ -21,6 +24,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.ActionMenuItemView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -37,12 +41,13 @@ import com.example.myapplication.R;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 
+import org.osmdroid.config.Configuration;
+
 public class ProfileActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     BottomNavigationView bottom_navigation;
     Intent intent;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
-    Menu menu;
     Toolbar toolbar;
     TabLayout tab;
     ActionMenuItemView edit;
@@ -53,12 +58,27 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        setMapPermission();
+
         setToolbar();
         setDrawerLayout(this);
         setNavigationView();
         setBottomNavigation();
         setInitialTab();
         handleTabSelection();
+    }
+
+    private void setMapPermission() {
+        Configuration.getInstance().setUserAgentValue(getPackageName());
+
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                //
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+            }
+        }
+
     }
 
     private void handleTabSelection() {
@@ -141,7 +161,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
 
     private void setBottomNavigation() {
         bottom_navigation = findViewById(R.id.bottom_navigation);
-        menu = bottom_navigation.getMenu();
+        Menu menu = bottom_navigation.getMenu();
         MenuItem menuItem = menu.getItem(2);
         menuItem.setChecked(true);
         bottom_navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -149,20 +169,16 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.home:
-                        Log.i("home", "home inside1 home");
                         intent = new Intent(ProfileActivity.this, HomeActivity.class);
                         startActivity(intent);
                         return true;
                     case R.id.tracking:
-                        Log.i("tracking", "tracking inside1 tracking");
                         intent = new Intent(ProfileActivity.this, TrackingActivity.class);
                         startActivity(intent);
                         return true;
                     case R.id.profile:
-                        Log.i("profile", "profile activity");
                         return true;
                     case R.id.activities:
-                        Log.i("Activities", "Activities inside1 Activities");
                         intent = new Intent(ProfileActivity.this, GroupActivitiesActivity.class);
                         startActivity(intent);
                         return true;
@@ -209,10 +225,8 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
     }
 
 
-    // Menu icons are inflated just as they were with actionbar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.profile_top_menu, menu);
 
         return true;
