@@ -48,11 +48,9 @@ public class FriendListAdapter extends BaseAdapter {
 
         TextView name = (TextView) view.findViewById(R.id.friend_name);
         ImageView image = (ImageView)view.findViewById(R.id.friend_icon);
-        ImageView imageAdd = (ImageView)view.findViewById(R.id.addFriend);
 
         name.setText(friends.get(position).getName());
         image.setImageResource(R.drawable.baseline_person_black_24dp);
-        imageAdd.setImageResource(R.drawable.baseline_add_friend);
 
         return view;
     }

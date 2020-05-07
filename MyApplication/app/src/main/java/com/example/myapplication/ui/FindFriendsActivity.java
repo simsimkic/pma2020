@@ -4,16 +4,14 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import com.example.myapplication.adapter.FriendListAdapter;
 import com.example.myapplication.model.Friend;
 import com.example.myapplication.mokap_data.Friends;
-import com.example.myapplication.ui.fragments.ShowFriendsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.Menu;
@@ -44,11 +42,21 @@ public class FindFriendsActivity extends AppCompatActivity {
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
 
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        Fragment fragment = new ShowFriendsFragment();
-        ft.replace(R.id.friends_show, fragment);
-        ft.commit();
+        ListView list = findViewById(R.id.friends_show);
+        FriendListAdapter adapter = new FriendListAdapter(getApplicationContext(), Friends.getFriends());
+        list.setAdapter(adapter);
 
+
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Friend friend = Friends.getFriends().get(position);
+//                Toast.makeText(getApplicationContext(), "You click on friend " + friend.getName(), Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(FindFriendsActivity.this, FriendDetailActivity.class);
+                intent.putExtra("user_name", friend.getName());
+                startActivity(intent);
+            }
+        });
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
 
