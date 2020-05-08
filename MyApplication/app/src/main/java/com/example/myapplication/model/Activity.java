@@ -1,16 +1,18 @@
 package com.example.myapplication.model;
 
-public class Activity {
+import java.io.Serializable;
+
+public class Activity implements Serializable {
 
     private String description;
-    private boolean accept;
+    private State state;
     private String date;
     private String location;
 
     public Activity(){}
-    public Activity(String description, boolean accept, String date, String location) {
+    public Activity(String description, State state, String date, String location) {
         this.description = description;
-        this.accept = accept;
+        this.state  = state;
         this.date = date;
         this.location = location;
     }
@@ -23,12 +25,12 @@ public class Activity {
         this.description = description;
     }
 
-    public boolean isAccept() {
-        return accept;
+    public State getState() {
+        return state;
     }
 
-    public void setAccept(boolean accept) {
-        this.accept = accept;
+    public void setState(State state) {
+        this.state = state;
     }
 
     public String getDate() {

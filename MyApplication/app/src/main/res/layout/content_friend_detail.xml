@@ -56,7 +56,7 @@
                             android:layout_height="48dp"
                             android:layout_marginTop="5dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/baseline_person_black_48"/>
+                            android:id="@+id/icon_friend"/>
                         <Button
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

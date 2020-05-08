@@ -8,15 +8,8 @@ public class Friends {
 
     public static ArrayList<Friend> getFriends(){
         ArrayList<Friend> friends = new ArrayList<>();
-        friends.add(new Friend("Mika Mikic"));
-        friends.add(new Friend("Petar Petrovic"));
-        friends.add(new Friend("Mila Milic"));
-        friends.add(new Friend("Mika Mikic"));
-        friends.add(new Friend("Petar Petrovic"));
-        friends.add(new Friend("Mila Milic"));
-        friends.add(new Friend("Mika Mikic"));
-        friends.add(new Friend("Petar Petrovic"));
-        friends.add(new Friend("Mila Milic"));
+        friends.add(new Friend("Mika Mikic", true));
+        friends.add(new Friend("Petar Petrovic", false));
         return friends;
     }
 }

@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/black"
             android:hint="Search friend"
-            android:drawableRight="@drawable/ic_arrow_back24dp"/>
+            android:drawableRight="@drawable/ic_search_icon"/>
 
 
 

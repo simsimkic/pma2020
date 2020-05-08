@@ -21,6 +21,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.myapplication.R;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
@@ -46,14 +47,16 @@ public class FindFriendsActivity extends AppCompatActivity {
         FriendListAdapter adapter = new FriendListAdapter(getApplicationContext(), Friends.getFriends());
         list.setAdapter(adapter);
 
-
+        //klik na korisnika iz liste
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Friend friend = Friends.getFriends().get(position);
 //                Toast.makeText(getApplicationContext(), "You click on friend " + friend.getName(), Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(FindFriendsActivity.this, FriendDetailActivity.class);
-                intent.putExtra("user_name", friend.getName());
+
+                intent.putExtra("friend", friend);
+
                 startActivity(intent);
             }
         });
@@ -80,6 +83,8 @@ public class FindFriendsActivity extends AppCompatActivity {
                 switch (item.getItemId()){
                     case R.id.home:
                         Log.i("home", "home inside1 home");
+                        intent = new Intent(FindFriendsActivity.this, HomeActivity.class);
+                        startActivity(intent);
                         return true;
                     case R.id.tracking:
                         Log.i("tracking", "tracking inside1 tracking");
@@ -88,8 +93,7 @@ public class FindFriendsActivity extends AppCompatActivity {
                         return true;
                     case R.id.profile:
                         Log.i("profile", "profile activity");
-                        intent = new Intent(FindFriendsActivity.this, ProfileActivity.class);
-                        startActivity(intent);
+
                         return true;
                     case R.id.activities:
                         Log.i("activities", "activities inside1 activities");

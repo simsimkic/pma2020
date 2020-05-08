@@ -27,12 +27,12 @@ import com.example.myapplication.util.SaveSharedPreference;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
-public class GroupActivitiesActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class GroupActivitiesActivity extends AppCompatActivity {
 
     BottomNavigationView bottom_navigation;
     Intent intent;
     DrawerLayout drawerLayout;
-    NavigationView navigationView;
+
     Toolbar toolbar;
 
     @Override
@@ -41,11 +41,18 @@ public class GroupActivitiesActivity extends AppCompatActivity implements Naviga
         setContentView(R.layout.activity_group_activities);
 
         setToolbar();
-        setDrawerLayout(this);
-        setNavigationView();
+
+
+        setBottomNavigation();
+
 
         drawList();
 
+
+
+    }
+
+    private void setBottomNavigation() {
         bottom_navigation = findViewById(R.id.bottom_navigation);
         Menu menu = bottom_navigation.getMenu();
         MenuItem menuItem = menu.getItem(3);
@@ -84,65 +91,16 @@ public class GroupActivitiesActivity extends AppCompatActivity implements Naviga
         list.setAdapter(adapter);
     }
 
-    private void setNavigationView() {
-        navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-    }
 
     private void setToolbar() {
         toolbar = findViewById(R.id.toolbar);
+
+        toolbar.setTitle("Group activities");
+        toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
-    private void setDrawerLayout(GroupActivitiesActivity groupActivitiesActivity) {
-        drawerLayout = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.drawerOpen, R.string.drawerClose);
-        toggle.getDrawerArrowDrawable().setColor(Color.WHITE);
-        drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
-    }
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        Intent intent;
-        switch (item.getItemId()) {
-            case R.id.theme:
-                adaptActivity();
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new ThemeSettingsFragment()).commit();
-                break;
-            case R.id.notifications:
-                adaptActivity();
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new NotificationsSettingsFragment()).commit();
-                break;
-            case R.id.privacy:
-                adaptActivity();
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new PrivacySettingsFragment()).commit();
-                break;
-            case R.id.logout:
-                SaveSharedPreference.setLoggedIn(this, false);
-                intent = new Intent(this, LoginActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.profile_option:
-                findViewById(R.id.bottom_navigation).setVisibility(View.VISIBLE);
-                findViewById(R.id.fragment_container).setVisibility(View.GONE);
-                navigationView.getMenu().findItem(R.id.profile_option).setVisible(false);
-                intent = new Intent(this, ProfileActivity.class);
-                startActivity(intent);
-                break;
-        }
-        drawerLayout.closeDrawer(GravityCompat.START);
-        return true;
-    }
 
-    private void adaptActivity() {
-        findViewById(R.id.bottom_navigation).setVisibility(View.GONE);
-        findViewById(R.id.edit).setVisibility(View.GONE);
-//        findViewById(R.id.fragment_container).setVisibility(View.VISIBLE);
-        navigationView.getMenu().findItem(R.id.profile_option).setVisible(true);
-    }
+
 }

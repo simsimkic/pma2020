@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingTop="10dp"
-    android:paddingBottom="10dp">
+    android:paddingBottom="10dp"
+    >
     <ImageView
         android:layout_width="40dp"
         android:layout_height="40dp"
@@ -27,22 +29,23 @@
         android:layout_alignParentTop="true"
         android:textStyle="bold"/>
 
-    <RelativeLayout
-        android:layout_width="79dp"
-        android:layout_height="59dp"
-        android:layout_marginStart="214dp"
-        android:layout_marginLeft="214dp"
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_toEndOf="@id/friend_name"
-        android:layout_toRightOf="@id/friend_name">
+        android:layout_alignParentRight="true"
+        >
 
         <ImageView
-            android:id="@+id/addFriend"
+            android:id="@+id/add_friend_icon"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="right"
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
-            android:src="@drawable/baseline_add_friend"
-            android:gravity="right"
-           />
-    </RelativeLayout>
+            android:layout_marginRight="20dp"
+            android:scaleType="fitStart"/>
+    </FrameLayout>
 
 </RelativeLayout>

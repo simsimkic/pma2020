@@ -22,13 +22,6 @@
             android:background="@color/primary"
             android:id="@+id/toolbar"
             android:elevation="4dp">
-            <TextView
-                android:id="@+id/toolbar_header"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/group_activitie"
-                android:textColor="@color/white"
-                android:textSize="20sp"/>
         </androidx.appcompat.widget.Toolbar>
 
         <FrameLayout
@@ -66,11 +59,5 @@
             app:menu="@menu/bottom_navigation_menu"/>
     </FrameLayout>
 
-    <com.google.android.material.navigation.NavigationView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:id="@+id/nav_view"
-        app:headerLayout="@layout/settings_nav_header"
-        app:menu="@menu/settings_navigation_drawer"
-        android:layout_gravity="start"/>
+
 </androidx.drawerlayout.widget.DrawerLayout>
