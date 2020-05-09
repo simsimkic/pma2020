@@ -9,8 +9,17 @@
     <string name="previous">Previous</string>
     <string name="logout">Logout</string>
     <string name="save">Save</string>
+    <string name="write_some">Write something...</string>
+    <string name="cancel">Cancel</string>
+    <string name="share">Share</string>
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
+    <string name="distance">Distance</string>
+    <string name="duration">Duration</string>
+    <string name="steps">Steps</string>
     <string name="home">Home</string>
-    <string name="tracking">Tracking</string>
+    <string name="tracking">Tracking activity</string>
+    <string name="tracking_bottom_nav">Tracking</string>
     <string name="profile">Profile</string>
     <string name="activities">Activities</string>
 
@@ -28,6 +37,7 @@
     <string name="theme_header">Change app theme</string>
     <string name="notifications_header">Change notification preferences</string>
     <string name="privacy_header">Change privacy</string>
+    <string name="share_act_header">Share your activity</string>
     <string name="night_theme">Night theme</string>
     <string name="new_comment">New comment</string>
     <string name="new_like">New like</string>
