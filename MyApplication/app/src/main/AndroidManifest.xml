@@ -2,9 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.myapplication">
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"  />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission. ACCESS_COARSE_LOCATION" />
@@ -15,16 +15,23 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/AppTheme">
-
-        <activity android:name=".ui.EditProfileActivity"></activity>
+        <activity
+            android:name=".ui.FriendDetailActivity"
+            android:label="@string/title_activity_friend_detail"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".ui.FindFriendsActivity"
+            android:label="@string/title_activity_find_friends"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ui.EditProfileActivity" />
         <activity android:name=".ui.GroupActivitiesActivity" />
         <activity android:name=".ui.TrackingActivity" />
         <activity android:name=".ui.HomeActivity" />
         <activity
             android:name=".ui.ProfileActivity"
+            android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_profile"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:configChanges="orientation|screenSize"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.LoginActivity"
             android:excludeFromRecents="true"

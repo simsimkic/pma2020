@@ -8,6 +8,7 @@ public class Activitie {
     private Double distance;
     private Double duration;
     private String time;
+    private int likes;
 
     public Activitie(String name, Double distance, Double duration, String time) {
         this.name = name;

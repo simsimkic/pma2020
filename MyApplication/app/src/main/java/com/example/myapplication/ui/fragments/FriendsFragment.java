@@ -1,5 +1,7 @@
 package com.example.myapplication.ui.fragments;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,11 +9,14 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.myapplication.R;
 import com.example.myapplication.adapter.FriendAdapter;
 import com.example.myapplication.model.Friend;
+import com.example.myapplication.ui.FindFriendsActivity;
+import com.example.myapplication.ui.SingupActivity;
 
 import java.util.ArrayList;
 
@@ -59,6 +64,21 @@ public class FriendsFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
+    }
+
+    public void onStart() {
+
+        super.onStart();
+        Button btn = (Button)getActivity().findViewById(R.id.btn_addFriends);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity().getApplicationContext(), FindFriendsActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

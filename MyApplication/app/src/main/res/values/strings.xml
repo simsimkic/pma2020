@@ -55,5 +55,9 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_find_friends">Find Friends</string>
+    <string name="title_activity_view_friend">ViewFriend</string>
+    <string name="title_activity_friend_detail">FriendDetailActivity</string>
+    <string name="group_activitie">Group activities</string>
 
 </resources>
