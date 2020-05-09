@@ -25,7 +25,7 @@
                     android:layout_marginLeft="75dp"
                     android:layout_marginRight="75dp"
                     android:text="Add friend" />
-            </LinearLayout>
+            
 
 
 
