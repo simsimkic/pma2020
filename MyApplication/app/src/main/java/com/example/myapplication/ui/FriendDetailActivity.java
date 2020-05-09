@@ -1,40 +1,45 @@
 package com.example.myapplication.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.myapplication.model.Friend;
-import com.example.myapplication.mokap_data.Friends;
 import com.example.myapplication.ui.fragments.ActivityFragment;
-import com.example.myapplication.ui.fragments.ActivityInvitationFragment;
-import com.example.myapplication.ui.fragments.User_profile_details_1;
+import com.example.myapplication.ui.fragments.GoalsFragment;
+import com.example.myapplication.ui.fragments.UserFriendsList;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentContainer;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.myapplication.R;
-import com.google.gson.Gson;
+import com.google.android.material.tabs.TabLayout;
 
 public class FriendDetailActivity extends AppCompatActivity {
     BottomNavigationView bottom_navigation;
     Intent intent;
     Toolbar toolbar;
+    TabLayout tab;
 
 
     @Override
@@ -51,11 +56,6 @@ public class FriendDetailActivity extends AppCompatActivity {
 
 
         TextView tv = findViewById(R.id.name);
-//        String friend = getIntent().getStringExtra("friend");
-//        int position =  Integer.valueOf(friend);
-//        Toast.makeText(getApplicationContext(), "Position is: " + position, Toast.LENGTH_LONG).show();
-//        Friend user = Friends.getFriends().get(position);
-//        Toast.makeText(getApplicationContext(), "Name is: "+ user.getName(), Toast.LENGTH_LONG ).show();
         Friend user = (Friend) getIntent().getSerializableExtra("friend");
 
         tv.setText(user.getName());
@@ -67,27 +67,106 @@ public class FriendDetailActivity extends AppCompatActivity {
             imageView.setImageResource(R.drawable.ic_add_friend);
         }
 
-        final FragmentManager fragmentManager = getSupportFragmentManager();
-        final FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        Fragment fragment = new User_profile_details_1();
-        fragmentTransaction.replace(R.id.fragment_container_view, fragment);
-        fragmentTransaction.commit();
+        setHandleTabs();
+        setInitialTab();
 
 
 
+        clickInviteButton();
+
+
+    }
+
+    private void clickInviteButton() {
         Button invite_btn = findViewById(R.id.invite_btn);
         invite_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                Toast.makeText(getApplicationContext(), "Click on the button", Toast.LENGTH_LONG).show();
-                Fragment fragment = new ActivityInvitationFragment();
-                fragmentTransaction.replace(R.id.fragment_container_view, fragment);
-                fragmentTransaction.commit();
+                LayoutInflater inflater = (LayoutInflater)
+                        getSystemService(LAYOUT_INFLATER_SERVICE);
+                final View popupView = inflater.inflate(R.layout.invite_popup, null);
+
+                // create the popup window
+                int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+                int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+                boolean focusable = true; // lets taps outside the popup also dismiss it
+                final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+                // show the popup window
+                // which view you pass in doesn't matter, it is only used for the window tolken
+                RelativeLayout rl = (RelativeLayout)findViewById(R.id.detail_layout);
+//                rl.setAlpha(0.5F);
+
+//                ImageView remove = findViewById(R.id.remove);
+//                remove.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        popupWindow.dismiss();
+//                    }
+//                };
+                popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
+
+                ImageView remove = popupView.findViewById(R.id.remove);
+                remove.setOnClickListener(new View.OnClickListener() {
+                                              @Override
+                                              public void onClick(View v) {
+                                                  popupWindow.dismiss();
+                                              }
+                                          }
+                );
+
+
+
             }
         });
+    }
 
+    private void setHandleTabs() {
+        tab = findViewById(R.id.tabs);
+        tab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                switch(tab.getPosition()) {
+                    case 0:
+                        Log.i("Activities", "Activities inside1 Activities");
+                        Fragment fragment = new ActivityFragment();
+                        fragmentTransaction.replace(R.id.fragment_container_view, fragment);
+                        fragmentTransaction.commit();
+                        break;
+                    case 1:
+                        Log.i("Friends", "Friends inside1 Friends");
+                        fragment = new UserFriendsList();
+                        fragmentTransaction.replace(R.id.fragment_container_view, fragment);
+                        fragmentTransaction.commit();
+                        break;
+                    case 2:
+                        Log.i("Goals", "Goals inside1 Goals");
+                        fragment = new GoalsFragment();
+                        fragmentTransaction.replace(R.id.fragment_container_view, fragment);
+                        fragmentTransaction.commit();
+                        break;
 
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+    }
+    private void setInitialTab() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        Fragment fragment = new ActivityFragment();
+        fragmentTransaction.replace(R.id.fragment_container_view, fragment);
+        fragmentTransaction.commit();
     }
 
     private void setNavigationToolbar() {

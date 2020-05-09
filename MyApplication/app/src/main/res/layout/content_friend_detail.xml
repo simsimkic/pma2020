@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".ui.FriendDetailActivity"
-    tools:showIn="@layout/activity_friend_detail">
+    tools:showIn="@layout/activity_friend_detail"
+    android:id="@+id/detail_layout">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -62,7 +63,9 @@
                             android:layout_height="wrap_content"
                             android:text="Invite"
                             android:id="@+id/invite_btn"
-                            android:layout_gravity="center"/>
+                            android:layout_gravity="center"
+                            android:background="@color/violet"
+                            android:textColor="@color/white"/>
                     </LinearLayout>
                 </LinearLayout>
                 <LinearLayout
@@ -86,14 +89,44 @@
                         android:text="My bio"/>
                 </LinearLayout>
 
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tabs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:tabIndicatorColor="@android:color/black">
 
-                <androidx.fragment.app.FragmentContainerView
-                    class="androidx.navigation.fragment.NavHostFragment"
-                    android:id="@+id/fragment_container_view"
+                    <com.google.android.material.tabs.TabItem
+                        android:id="@+id/tab_activities"
+                        android:text="Activities"
+                        android:layout_height="match_parent"
+                        android:layout_width="match_parent"
+                        />
+                    <com.google.android.material.tabs.TabItem
+                        android:id="@+id/tab_friends"
+                        android:text="Friends"
+                        android:layout_height="match_parent"
+                        android:layout_width="match_parent" />
+                    <com.google.android.material.tabs.TabItem
+                        android:id="@+id/tab_goals"
+                        android:layout_height="match_parent"
+                        android:layout_width="match_parent"
+                        android:text="Goals"/>
+
+                </com.google.android.material.tabs.TabLayout>
+
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:defaultNavHost="true">
-                </androidx.fragment.app.FragmentContainerView>
+                    android:id="@id/fragment_layout">
+                    <androidx.fragment.app.FragmentContainerView
+                        class="androidx.navigation.fragment.NavHostFragment"
+                        android:id="@+id/fragment_container_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:defaultNavHost="true">
+                    </androidx.fragment.app.FragmentContainerView>
+                </FrameLayout>
+
 
             </LinearLayout>
 

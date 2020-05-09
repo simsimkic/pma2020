@@ -7,15 +7,18 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.example.myapplication.R;
+import com.example.myapplication.adapter.FriendAdapter;
+import com.example.myapplication.mokap_data.Friends;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link User_profile_details_1#newInstance} factory method to
+ * Use the {@link UserFriendsList#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class User_profile_details_1 extends Fragment {
+public class UserFriendsList extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -25,7 +28,7 @@ public class User_profile_details_1 extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public User_profile_details_1() {
+    public UserFriendsList() {
         // Required empty public constructor
     }
 
@@ -35,11 +38,11 @@ public class User_profile_details_1 extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment user_profile_details_1.
+     * @return A new instance of fragment UserFriendsList.
      */
     // TODO: Rename and change types and number of parameters
-    public static User_profile_details_1 newInstance(String param1, String param2) {
-        User_profile_details_1 fragment = new User_profile_details_1();
+    public static UserFriendsList newInstance(String param1, String param2) {
+        UserFriendsList fragment = new UserFriendsList();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -60,6 +63,16 @@ public class User_profile_details_1 extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_user_profile_details_1, container, false);
+        View view = inflater.inflate(R.layout.fragment_user_friends_list, container, false);
+
+        FriendAdapter adapter = new FriendAdapter(getActivity(), Friends.getFriends());
+
+
+
+        // Attach the adapter to a ListView
+        ListView listView = (ListView) view.findViewById(R.id.fried_list);
+        listView.setAdapter(adapter);
+
+        return view;
     }
 }
