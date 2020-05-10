@@ -59,5 +59,6 @@
     <string name="title_activity_view_friend">ViewFriend</string>
     <string name="title_activity_friend_detail">FriendDetailActivity</string>
     <string name="group_activitie">Group activities</string>
+    <string name="title_activity_notification">NotificationActivity</string>
 
 </resources>

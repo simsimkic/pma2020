@@ -4,10 +4,11 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 
-import com.example.myapplication.adapter.FriendListAdapter;
-import com.example.myapplication.model.Friend;
-import com.example.myapplication.mokap_data.Friends;
+import com.example.myapplication.adapter.NotificationAdapter;
+import com.example.myapplication.mokap_data.Notifications;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,47 +18,27 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.myapplication.R;
-import com.google.gson.Gson;
 
-import java.util.ArrayList;
-
-public class FindFriendsActivity extends AppCompatActivity {
-
+public class NotificationActivity extends AppCompatActivity {
     private BottomNavigationView bottom_navigation;
     private Intent intent;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_find_friends);
-
+        setContentView(R.layout.activity_notification);
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(R.drawable.baseline_arrow_back_white_36dp);
-        toolbar.setTitle("Find Friends");
+        toolbar.setTitle("Notifications");
         toolbar.setTitleTextColor(Color.WHITE);
+
         setSupportActionBar(toolbar);
 
-        ListView list = findViewById(R.id.friends_show);
-        FriendListAdapter adapter = new FriendListAdapter(getApplicationContext(), Friends.getFriends());
-        list.setAdapter(adapter);
+        ListView list = findViewById(R.id.notifications_list);
+        list.setAdapter(new NotificationAdapter(getApplicationContext(), Notifications.getNotifications()));
 
-        //klik na korisnika iz liste
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Friend friend = Friends.getFriends().get(position);
-//                Toast.makeText(getApplicationContext(), "You click on friend " + friend.getName(), Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(FindFriendsActivity.this, FriendDetailActivity.class);
-
-                intent.putExtra("friend", friend);
-
-                startActivity(intent);
-            }
-        });
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
 
@@ -65,15 +46,23 @@ public class FindFriendsActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 // Your code
-                Intent intent = new Intent(FindFriendsActivity.this, ProfileActivity.class);
+                Intent intent = new Intent(NotificationActivity.this, HomeActivity.class);
                 startActivity(intent);
 
             }
         });
 
+        setBottomNavigation();
+
+
+
+    }
+
+    private void setBottomNavigation() {
+
         bottom_navigation = findViewById(R.id.bottom_navigation);
         Menu menu = bottom_navigation.getMenu();
-        MenuItem menuItem = menu.getItem(2);
+        MenuItem menuItem = menu.getItem(0);
         menuItem.setChecked(true);
         bottom_navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -81,41 +70,28 @@ public class FindFriendsActivity extends AppCompatActivity {
                 switch (item.getItemId()){
                     case R.id.home:
                         Log.i("home", "home inside1 home");
-                        intent = new Intent(FindFriendsActivity.this, HomeActivity.class);
+                        intent = new Intent(NotificationActivity.this, HomeActivity.class);
                         startActivity(intent);
                         return true;
                     case R.id.tracking:
                         Log.i("tracking", "tracking inside1 tracking");
-                        intent = new Intent(FindFriendsActivity.this, TrackingActivity.class);
+                        intent = new Intent(NotificationActivity.this, TrackingActivity.class);
                         startActivity(intent);
                         return true;
                     case R.id.profile:
                         Log.i("profile", "profile activity");
-
+                        intent = new Intent(NotificationActivity.this, ProfileActivity.class);
+                        startActivity(intent);
                         return true;
                     case R.id.activities:
                         Log.i("activities", "activities inside1 activities");
-                        intent = new Intent(FindFriendsActivity.this, GroupActivitiesActivity.class);
+                        intent = new Intent(NotificationActivity.this, GroupActivitiesActivity.class);
                         startActivity(intent);
                         return true;
                 }
                 return false;
             }
         });
-    }
-
-    //klik na element u listi
-    private class DrawItemClickListener implements ListView.OnItemClickListener{
-
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            selectItemFromDrawer(position);
-        }
-
-
-    }
-    private void selectItemFromDrawer(int position) {
-
     }
 
 }
