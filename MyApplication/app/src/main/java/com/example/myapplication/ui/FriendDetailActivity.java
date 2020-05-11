@@ -8,6 +8,7 @@ import com.example.myapplication.model.Friend;
 import com.example.myapplication.ui.fragments.ActivityFragment;
 import com.example.myapplication.ui.fragments.GoalsFragment;
 import com.example.myapplication.ui.fragments.UserFriendsList;
+import com.example.myapplication.ui.fragments.UserGoalsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
@@ -142,7 +143,7 @@ public class FriendDetailActivity extends AppCompatActivity {
                         break;
                     case 2:
                         Log.i("Goals", "Goals inside1 Goals");
-                        fragment = new GoalsFragment();
+                        fragment = new UserGoalsFragment();
                         fragmentTransaction.replace(R.id.fragment_container_view, fragment);
                         fragmentTransaction.commit();
                         break;
