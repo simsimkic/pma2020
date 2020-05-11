@@ -16,7 +16,9 @@ import com.example.myapplication.R;
 import com.example.myapplication.adapter.FriendAdapter;
 import com.example.myapplication.model.Friend;
 import com.example.myapplication.ui.FindFriendsActivity;
+import com.example.myapplication.ui.ProfileActivity;
 import com.example.myapplication.ui.SingupActivity;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
@@ -66,12 +68,14 @@ public class FriendsFragment extends Fragment {
         }
 
 
+
+
     }
 
     public void onStart() {
 
         super.onStart();
-        Button btn = (Button)getActivity().findViewById(R.id.btn_addFriends);
+        FloatingActionButton btn = (FloatingActionButton) getActivity().findViewById(R.id.floating_action_button);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -8,7 +8,20 @@ public class Activitie {
     private Double distance;
     private Double duration;
     private String time;
-    private int likes;
+    private String likes;
+    private String comment;
+    private String user;
+
+
+    public Activitie(String name, Double distance, Double duration, String time, String likes, String comment, String user) {
+        this.name = name;
+        this.distance = distance;
+        this.duration = duration;
+        this.time = time;
+        this.likes = likes;
+        this.comment = comment;
+        this.user=user;
+    }
 
     public Activitie(String name, Double distance, Double duration, String time) {
         this.name = name;
@@ -47,5 +60,30 @@ public class Activitie {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public String getLikes() {
+        return likes;
+    }
+
+    public void setLikes(String likes) {
+        this.likes = likes;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
     }
 }

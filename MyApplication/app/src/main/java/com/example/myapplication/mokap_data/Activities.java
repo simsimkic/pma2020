@@ -1,5 +1,6 @@
 package com.example.myapplication.mokap_data;
 
+import com.example.myapplication.model.Activitie;
 import com.example.myapplication.model.Activity;
 import com.example.myapplication.model.State;
 
@@ -14,5 +15,13 @@ public class Activities {
         activities.add(new Activity("Waiting for Djura Djuric to accept your activity invitation.", State.SENT, "15.04.2020", "check location"));
 
         return activities;
+    }
+
+    public static ArrayList<Activitie> getActivitie(){
+        ArrayList<Activitie> activities = new ArrayList<>();
+        activities.add(new Activitie("Evening run", 3.6, 45.0, "10.04.2020. 19:35", "3", "0", "Mika Mikic"));
+        activities.add(new Activitie("Morning run", 3.6, 60.0, "10.04.2020. 07:35", "13", "2", "Pera Peric"));
+        return activities;
+
     }
 }
