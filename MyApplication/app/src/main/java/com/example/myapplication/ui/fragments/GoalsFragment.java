@@ -1,5 +1,6 @@
 package com.example.myapplication.ui.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -14,6 +15,9 @@ import com.example.myapplication.adapter.FriendAdapter;
 import com.example.myapplication.adapter.GoalAdapter;
 import com.example.myapplication.model.Friend;
 import com.example.myapplication.model.Goal;
+import com.example.myapplication.ui.FindFriendsActivity;
+import com.example.myapplication.ui.ProfileActivity;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
@@ -61,6 +65,19 @@ public class GoalsFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+    }
+
+    public void onStart() {
+
+        super.onStart();
+        FloatingActionButton btn = (FloatingActionButton) getActivity().findViewById(R.id.floating_action_button);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity().getApplicationContext(), ProfileActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
