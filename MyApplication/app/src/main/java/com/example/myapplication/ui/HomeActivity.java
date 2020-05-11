@@ -42,11 +42,12 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-
         bottom_navigation = findViewById(R.id.bottom_navigation);
         Menu menu = bottom_navigation.getMenu();
+
         MenuItem menuItem = menu.getItem(0);
         menuItem.setChecked(true);
+
         bottom_navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -54,6 +55,7 @@ public class HomeActivity extends AppCompatActivity {
                     case R.id.home:
                         Log.i("home", "home inside1 home");
                         intent = new Intent(HomeActivity.this, HomeActivity.class);
+                        startActivity(intent);
                         return true;
                     case R.id.tracking:
                         Log.i("tracking", "tracking inside1 tracking");
@@ -95,7 +97,6 @@ public class HomeActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Feed");
         toolbar.setTitleTextColor(Color.WHITE);
-
 
         ListView list = findViewById(R.id.feed_activities);
         FeedActivityAdapter adapter = new FeedActivityAdapter(getApplicationContext(), Activities.getActivitie());

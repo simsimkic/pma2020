@@ -64,7 +64,7 @@ public class LoginActivity extends AppCompatActivity {
         //potrebno odraditi login
 
         SaveSharedPreference.setLoggedIn(getApplicationContext(), true);
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
         startActivity(intent);
 
 
