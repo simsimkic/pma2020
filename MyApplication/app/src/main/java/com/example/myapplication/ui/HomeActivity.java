@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -21,23 +22,26 @@ import com.example.myapplication.mokap_data.Activities;
 import com.example.myapplication.mokap_data.Friends;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.MapController;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.Marker;
+
 public class HomeActivity extends AppCompatActivity {
 
     BottomNavigationView bottom_navigation;
     Intent intent;
+    MapView openMapView;
+    MapController mapController;
+    protected LocationManager locationManager;
+    GeoPoint currentLocation;
+    Marker marker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("Feed");
-        toolbar.setTitleTextColor(Color.WHITE);
 
-
-        ListView list = findViewById(R.id.feed_activities);
-        FeedActivityAdapter adapter = new FeedActivityAdapter(getApplicationContext(), Activities.getActivitie());
-        list.setAdapter(adapter);
 
         bottom_navigation = findViewById(R.id.bottom_navigation);
         Menu menu = bottom_navigation.getMenu();
@@ -80,6 +84,21 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+
     }
 
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("Feed");
+        toolbar.setTitleTextColor(Color.WHITE);
+
+
+        ListView list = findViewById(R.id.feed_activities);
+        FeedActivityAdapter adapter = new FeedActivityAdapter(getApplicationContext(), Activities.getActivitie());
+        list.setAdapter(adapter);
+    }
 }

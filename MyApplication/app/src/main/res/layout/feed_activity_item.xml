@@ -176,8 +176,9 @@
             android:layout_height="wrap_content">
             <EditText
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Write a comment"/>
+                android:layout_height="wrap_content"
+                android:hint="Write a comment"
+                android:backgroundTint="@color/black"/>
         </LinearLayout>
 
     </LinearLayout>

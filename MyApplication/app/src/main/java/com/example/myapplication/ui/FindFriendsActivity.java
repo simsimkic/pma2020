@@ -104,18 +104,6 @@ public class FindFriendsActivity extends AppCompatActivity {
         });
     }
 
-    //klik na element u listi
-    private class DrawItemClickListener implements ListView.OnItemClickListener{
 
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            selectItemFromDrawer(position);
-        }
-
-
-    }
-    private void selectItemFromDrawer(int position) {
-
-    }
 
 }
