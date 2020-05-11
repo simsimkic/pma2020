@@ -11,10 +11,11 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="60dp">
             <LinearLayout
                 android:layout_width="match_parent"
@@ -64,7 +65,7 @@
                             android:text="Invite"
                             android:id="@+id/invite_btn"
                             android:layout_gravity="center"
-                            android:background="@color/violet"
+                            android:background="@color/primary"
                             android:textColor="@color/white"/>
                     </LinearLayout>
                 </LinearLayout>
@@ -113,24 +114,18 @@
                         android:text="Goals"/>
 
                 </com.google.android.material.tabs.TabLayout>
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@id/fragment_layout">
-                    <androidx.fragment.app.FragmentContainerView
-                        class="androidx.navigation.fragment.NavHostFragment"
-                        android:id="@+id/fragment_container_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        app:defaultNavHost="true">
-                    </androidx.fragment.app.FragmentContainerView>
-                </FrameLayout>
-
-
             </LinearLayout>
 
         </ScrollView>
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragment_container_view"
+            class="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="60dp"
+            app:defaultNavHost="true" />
+
 
     </LinearLayout>
 

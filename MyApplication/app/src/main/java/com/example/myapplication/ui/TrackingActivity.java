@@ -169,10 +169,10 @@ public class TrackingActivity extends AppCompatActivity implements LocationListe
 
     @Override
     public void onLocationChanged(Location location) {
-        TextView txtLat = findViewById(R.id.textview1);
-        txtLat.setText("Latitude:" + location.getLatitude() + ", Longitude:" + location.getLongitude());
-        currentLocation = new GeoPoint(location.getLatitude(), location.getLongitude());
-        mapController.setCenter(currentLocation);
+//        TextView txtLat = findViewById(R.id.textview1);
+//        txtLat.setText("Latitude:" + location.getLatitude() + ", Longitude:" + location.getLongitude());
+//        currentLocation = new GeoPoint(location.getLatitude(), location.getLongitude());
+//        mapController.setCenter(currentLocation);
 
         openMapView.getOverlays().remove(marker);
         marker.setPosition(currentLocation);
