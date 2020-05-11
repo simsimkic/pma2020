@@ -4,22 +4,23 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.example.myapplication.R;
-import com.example.myapplication.adapter.FriendAdapter;
-import com.example.myapplication.adapter.UserFriendListAdapter;
-import com.example.myapplication.mokap_data.Friends;
+import com.example.myapplication.adapter.GoalAdapter;
+import com.example.myapplication.adapter.UserGoalAdapter;
+import com.example.myapplication.mokap_data.Goals;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link UserFriendsList#newInstance} factory method to
+ * Use the {@link UserGoalsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class UserFriendsList extends Fragment {
+public class UserGoalsFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -29,7 +30,7 @@ public class UserFriendsList extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public UserFriendsList() {
+    public UserGoalsFragment() {
         // Required empty public constructor
     }
 
@@ -39,11 +40,11 @@ public class UserFriendsList extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment UserFriendsList.
+     * @return A new instance of fragment UserGoalsFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static UserFriendsList newInstance(String param1, String param2) {
-        UserFriendsList fragment = new UserFriendsList();
+    public static UserGoalsFragment newInstance(String param1, String param2) {
+        UserGoalsFragment fragment = new UserGoalsFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -64,16 +65,15 @@ public class UserFriendsList extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_user_friends_list, container, false);
-
-        UserFriendListAdapter adapter = new UserFriendListAdapter(getActivity(), Friends.getFriends());
+        View view =  inflater.inflate(R.layout.fragment_user_goals, container, false);
+        UserGoalAdapter adapter = new UserGoalAdapter(getActivity(), Goals.getGolas());
 
 
 
         // Attach the adapter to a ListView
-        ListView listView = (ListView) view.findViewById(R.id.fried_list);
+        ListView listView = (ListView) view.findViewById(R.id.goals_list);
         listView.setAdapter(adapter);
 
-        return view;
+        return  view;
     }
 }
