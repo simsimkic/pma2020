@@ -1,6 +1,8 @@
 package com.example.myapplication.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +44,7 @@ public class ActivityListAdapter extends BaseAdapter {
         return 0;
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view;
@@ -60,11 +63,19 @@ public class ActivityListAdapter extends BaseAdapter {
         description.setText(activities.get(position).getDescription());
         location.setText(activities.get(position).getLocation());
 
+        GradientDrawable gradientDrawable = new GradientDrawable();
+        gradientDrawable.setColor(R.color.primary);
+        gradientDrawable.setCornerRadius(10);
+
         if (activities.get(position).getState() == State.ACCEPT){
             state.setImageResource(R.drawable.checkmark);
             Button cancel =  new Button(context);
             cancel.setText("Cancel");
             cancel.setTextSize(16);
+
+//            cancel.setBackground(gradientDrawable);
+
+//            cancel.setBackgroundColor(R.color.primary);
             btn_layout.addView(cancel);
 
         }else if(activities.get(position).getState() == State.SENT){
@@ -72,17 +83,26 @@ public class ActivityListAdapter extends BaseAdapter {
             Button cancel =  new Button(context);
             cancel.setText("Cancel");
             cancel.setTextSize(16);
+//            cancel.setBackground(gradientDrawable);
+//            cancel.setBackgroundColor(R.color.primary);
+
             btn_layout.addView(cancel);
         }else if(activities.get(position).getState() == State.RECEIVED){
             state.setImageResource(R.drawable.question_mark);
             Button accept =  new Button(context);
             accept.setText("Accept");
             accept.setTextSize(16);
+//            accept.setBackground(gradientDrawable);
+//            accept.setBackgroundColor(R.color.primary);
             btn_layout.addView(accept);
 
             Button cancel =  new Button(context);
             cancel.setText("Decline");
             cancel.setTextSize(16);
+//            cancel.setBackground(gradientDrawable);
+//            cancel.setBackgroundColor(R.color.primary);
+
+
             btn_layout.addView(cancel);
         }
         return view;

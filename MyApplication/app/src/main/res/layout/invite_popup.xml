@@ -117,7 +117,7 @@
         android:layout_toRightOf="@id/mapview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/primary"
+        android:background="@drawable/round_button"
         android:textColor="@color/white"
         android:text="Send"
         android:textSize="12dp"
