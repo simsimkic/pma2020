@@ -65,7 +65,7 @@
                             android:text="Invite"
                             android:id="@+id/invite_btn"
                             android:layout_gravity="center"
-                            android:background="@color/primary"
+                            android:background="@drawable/round_button"
                             android:textColor="@color/white"/>
                     </LinearLayout>
                 </LinearLayout>

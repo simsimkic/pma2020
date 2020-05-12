@@ -127,7 +127,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/start"
-                android:background="@color/primary"
+                android:background="@drawable/round_button"
                 android:textColor="@color/white"/>
 
             <Button
@@ -135,7 +135,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/stop"
-                android:background="@color/primary"
+                android:background="@drawable/round_button"
                 android:textColor="@color/white"
                 android:layout_marginStart="40dp"/>
         </LinearLayout>

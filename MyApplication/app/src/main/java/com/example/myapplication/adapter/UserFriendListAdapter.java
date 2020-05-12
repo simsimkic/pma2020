@@ -49,8 +49,10 @@ public class UserFriendListAdapter extends BaseAdapter {
         }
 
         TextView name = (TextView) view.findViewById(R.id.friend_name);
+        ImageView icon_view = view.findViewById(R.id.friend_icon);
 
         name.setText(friends.get(position).getName());
+        icon_view.setImageResource(R.drawable.baseline_person_black_48);
 
         return view;
 
