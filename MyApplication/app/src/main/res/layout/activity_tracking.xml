@@ -40,9 +40,10 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
                     android:text="@string/distance"
                     android:textSize="20sp"/>
                 <TextView
+                    android:id="@+id/distance_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0.02 km"
+                    android:text="0"
                     android:layout_marginTop="15dp"
                     android:textSize="20sp"
                     android:layout_gravity="center_horizontal"/>
@@ -66,9 +67,10 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
                     android:text="@string/duration"
                     android:textSize="20sp"/>
                 <TextView
+                    android:id="@+id/duration_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0.02 h"
+                    android:text="0"
                     android:layout_marginTop="15dp"
                     android:textSize="20sp"
                     android:layout_gravity="center_horizontal"/>
@@ -91,9 +93,10 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
                     android:text="@string/steps"
                     android:textSize="20sp"/>
                 <TextView
+                    android:id="@+id/steps_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="20"
+                    android:text="0"
                     android:layout_marginTop="15dp"
                     android:textSize="20sp"
                     android:layout_gravity="center_horizontal"/>
@@ -137,7 +140,8 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
                 android:text="@string/stop"
                 android:background="@drawable/round_button"
                 android:textColor="@color/white"
-                android:layout_marginStart="40dp"/>
+                android:layout_marginStart="40dp"
+                android:enabled="false"/>
         </LinearLayout>
     </LinearLayout>
 
