@@ -7,11 +7,17 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.Point;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -29,24 +35,22 @@ import org.osmdroid.config.Configuration;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapController;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.Projection;
 import org.osmdroid.views.overlay.Marker;
+import org.osmdroid.views.overlay.Overlay;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ShareActivityDialog extends AppCompatDialogFragment implements LocationListener {
 
-    private EditText shareActivityTextEdit;
     private TextView stepsTextView;
     private TextView durationTextView;
     private TextView distanceTextView;
     private MapView mapView;
-    private MapController mapController;
     private View view;
-    private Marker marker;
-    private LocationManager locationManager;
-    private GeoPoint currentLocation;
 
     @NonNull
     @Override
@@ -54,6 +58,13 @@ public class ShareActivityDialog extends AppCompatDialogFragment implements Loca
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AlertDialogTheme);
         LayoutInflater inflater = getActivity().getLayoutInflater();
         view = inflater.inflate(R.layout.share_activity_dialog, null);
+
+        if (android.os.Build.VERSION.SDK_INT > 9)
+        {
+            StrictMode.ThreadPolicy policy = new
+                    StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
 
         findAllViews();
         setMapPermission();
@@ -79,7 +90,7 @@ public class ShareActivityDialog extends AppCompatDialogFragment implements Loca
 
     private void findAllViews() {
         mapView = view.findViewById(R.id.share_act_map);
-        shareActivityTextEdit = view.findViewById(R.id.share_act_text_edit);
+        EditText shareActivityTextEdit = view.findViewById(R.id.share_act_text_edit);
         stepsTextView = view.findViewById(R.id.final_steps_text_view);
         durationTextView = view.findViewById(R.id.final_duration_text_view);
         distanceTextView = view.findViewById(R.id.final_distance_text_view);
@@ -87,7 +98,7 @@ public class ShareActivityDialog extends AppCompatDialogFragment implements Loca
 
     private void setMapPermission() {
         Configuration.getInstance().setUserAgentValue(getActivity().getPackageName());
-        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
 
         if (Build.VERSION.SDK_INT >= 23) {
             if (getActivity().checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -100,25 +111,15 @@ public class ShareActivityDialog extends AppCompatDialogFragment implements Loca
 
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-
-        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        if (location == null) {
-            location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-            if (location != null) {
-                currentLocation = new GeoPoint(location.getLatitude(), location.getLongitude());
-            }
-        }
-        else {
-            currentLocation = new GeoPoint(location.getLatitude(), location.getLongitude());
-        }
     }
 
     private void configureMap() {
+        showTrackingData();
         Marker startMarker = setStartMarkerOnMap();
         setEndMarkerOnMap();
 
         mapView.getZoomController().activate();
-        mapController = (MapController) mapView.getController();
+        MapController mapController = (MapController) mapView.getController();
         mapController.setZoom(18);
         mapController.setCenter(startMarker.getPosition());
     }
@@ -141,6 +142,12 @@ public class ShareActivityDialog extends AppCompatDialogFragment implements Loca
         distanceTextView.setText("Distance: " + formatDistance(data.get(0)));
         durationTextView.setText("Duration: " + formatTime(data.get(1)));
         stepsTextView.setText("Steps: " + data.get(2));
+        showRoute((ArrayList<GeoPoint>)data.get(3));
+    }
+
+    private void showRoute(ArrayList<GeoPoint> locations) {
+        List<Overlay> mapOverlayers = mapView.getOverlays();
+        mapOverlayers.add(new RouteOverlay(locations));
     }
 
     @SuppressLint("DefaultLocale")
@@ -170,4 +177,44 @@ public class ShareActivityDialog extends AppCompatDialogFragment implements Loca
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) { }
 
+}
+
+class RouteOverlay extends Overlay {
+    private ArrayList<GeoPoint> locations;
+
+    RouteOverlay(ArrayList<GeoPoint> locations){
+        this.locations = locations;
+    }
+
+    public void draw(Canvas canvas, MapView mapv, boolean shadow){
+        super.draw(canvas, mapv, shadow);
+
+        Paint mPaint = new Paint();
+        mPaint.setDither(true);
+        mPaint.setColor(Color.BLUE);
+        mPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+        mPaint.setStrokeJoin(Paint.Join.ROUND);
+        mPaint.setStrokeCap(Paint.Cap.ROUND);
+        mPaint.setStrokeWidth(4);
+
+        for (int i = 0; i < locations.size()-1; i++) {
+            Point p1 = new Point();
+            Point p2 = new Point();
+            Path path = new Path();
+
+            int nextLocation = 1;
+            if (locations.get(i).distanceToAsDouble(locations.get(i+1)) > 15) {
+                nextLocation = 2;
+            }
+
+            Projection projection = mapv.getProjection();
+            projection.toPixels(locations.get(i), p1);
+            projection.toPixels(locations.get(i + nextLocation), p2);
+
+            path.moveTo(p2.x, p2.y);
+            path.lineTo(p1.x,p1.y);
+
+            canvas.drawPath(path, mPaint);
+        }
+    }
 }

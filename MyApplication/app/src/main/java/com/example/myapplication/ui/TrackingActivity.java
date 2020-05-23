@@ -18,6 +18,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,7 +28,6 @@ import android.widget.TextView;
 import com.example.myapplication.R;
 import com.example.myapplication.ui.dialogs.ShareActivityDialog;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
 
 import org.osmdroid.config.Configuration;
 import org.osmdroid.util.GeoPoint;
@@ -69,6 +69,7 @@ public class TrackingActivity extends AppCompatActivity implements LocationListe
     private static double finalDistance;
     private int userHeight = 170;
     private double userStepLength = userHeight *  0.413;
+    private static ArrayList<GeoPoint> allLocations = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,6 +126,13 @@ public class TrackingActivity extends AppCompatActivity implements LocationListe
         Configuration.getInstance().setUserAgentValue(getPackageName());
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
+        if (android.os.Build.VERSION.SDK_INT > 9)
+        {
+            StrictMode.ThreadPolicy policy = new
+                    StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
+
         if (Build.VERSION.SDK_INT >= 23) {
             if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
@@ -134,8 +142,8 @@ public class TrackingActivity extends AppCompatActivity implements LocationListe
             }
         }
         if (locationManager != null) {
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 3*1000, 0, this);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3*1000, 0, this);
         }
     }
 
@@ -198,6 +206,7 @@ public class TrackingActivity extends AppCompatActivity implements LocationListe
                 startButton.setEnabled(false);
                 stopButton.setEnabled(true);
                 setTimer();
+                setTimerForSavingLocations();
                 setStepCounterSensor();
                 removeMarkerFromMap(currentLocationMarker);
                 setTrackingLocationMarkerOnMap();
@@ -220,6 +229,21 @@ public class TrackingActivity extends AppCompatActivity implements LocationListe
                 });
             }
         }, 0, 1000);
+    }
+
+    private void setTimerForSavingLocations() {
+        allLocations.clear();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        allLocations.add(currentLocation);
+                    }
+                });
+            }
+        }, 0, 3000);
     }
 
     @SuppressLint("DefaultLocale")
@@ -254,6 +278,7 @@ public class TrackingActivity extends AppCompatActivity implements LocationListe
         stopButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                allLocations.add(currentLocation);
                 finalSteps = calculatedSteps;
                 initialSteps = -1;
                 finalDistance = distance;
@@ -307,6 +332,7 @@ public class TrackingActivity extends AppCompatActivity implements LocationListe
             removeMarkerFromMap(currentLocationMarker);
             setCurrentLocationMarkerOnMap();
         }
+
     }
 
     private void setTrackingLocationMarkerOnMap() {
@@ -324,15 +350,17 @@ public class TrackingActivity extends AppCompatActivity implements LocationListe
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        if (initialSteps == -1) {
-            initialSteps = event.values[0];
-            calculatedSteps = 0;
-        } else {
-            calculatedSteps = event.values[0] - initialSteps;
-            distance = (calculatedSteps * userStepLength) / 100000;
+        if (trackingStarted) {
+            if (initialSteps == -1) {
+                initialSteps = event.values[0];
+                calculatedSteps = 0;
+            } else {
+                calculatedSteps = event.values[0] - initialSteps;
+                distance = (calculatedSteps * userStepLength) / 100000;
+            }
+            distanceTextView.setText(formatDistance(distance));
+            stepsTextView.setText(String.valueOf((int)calculatedSteps));
         }
-        distanceTextView.setText(formatDistance(distance));
-        stepsTextView.setText(String.valueOf((int)calculatedSteps));
     }
 
     private String formatDistance(double distance) {
@@ -346,6 +374,7 @@ public class TrackingActivity extends AppCompatActivity implements LocationListe
         data.add(finalDistance);
         data.add(finalDuration);
         data.add((int)finalSteps);
+        data.add(allLocations);
         return data;
     }
 
