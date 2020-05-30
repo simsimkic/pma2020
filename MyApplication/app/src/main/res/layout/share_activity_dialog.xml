@@ -8,14 +8,43 @@
         android:hint="@string/write_some"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"/>
+        android:layout_marginStart="20dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="8dp"/>
     <org.osmdroid.views.MapView
         android:id="@+id/share_act_map"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="250dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:clickable="true"
         android:focusable="true"
         android:layout_marginTop="50dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="320dp">
+        <TextView
+            android:id="@+id/final_distance_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginStart="20dp"
+            android:textSize="16dp"/>
+        <TextView
+            android:id="@+id/final_duration_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginStart="20dp"
+            android:textSize="16dp"/>
+        <TextView
+            android:id="@+id/final_steps_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginStart="20dp"
+            android:textSize="16dp"/>
+    </LinearLayout>
 </RelativeLayout>
