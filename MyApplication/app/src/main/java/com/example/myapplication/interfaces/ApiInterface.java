@@ -1,5 +1,6 @@
 package com.example.myapplication.interfaces;
 
+import com.example.myapplication.dto.request.UserLogin;
 import com.example.myapplication.dto.request.UserRequest;
 import com.example.myapplication.dto.response.UserResponse;
 
@@ -16,5 +17,13 @@ public interface ApiInterface {
     })
     @POST("registerUser")
     Call<UserResponse> registerUser(@Body UserRequest userinfo);
+
+
+    @Headers({
+            "User-Agent: Mobile-Android",
+            "Content-Type:application/json"
+    })
+    @POST("loginUser")
+    Call<Boolean> loginUser(@Body UserLogin userLogin);
 
 }
