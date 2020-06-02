@@ -1,13 +1,20 @@
 package com.example.myapplication.dto.request;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.sql.Date;
 
 public class UserRequest {
 
+    @SerializedName("name")
     private String name;
+    @SerializedName("username")
     private String username;
+    @SerializedName("address")
     private String address;
+    @SerializedName("email")
     private String email;
+    @SerializedName("password")
     private String password;
 
     public UserRequest(){

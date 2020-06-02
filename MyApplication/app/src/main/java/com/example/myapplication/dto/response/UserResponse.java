@@ -1,18 +1,30 @@
 package com.example.myapplication.dto.response;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.sql.Date;
 
 public class UserResponse {
 
+    @SerializedName("id")
     private Long id;
+    @SerializedName("name")
     private String name;
+    @SerializedName("surname")
     private String surname;
+    @SerializedName("username")
     private String username;
+    @SerializedName("dateOfBirth")
     private Date dateOfBirth;
+    @SerializedName("location")
     private String location;
+    @SerializedName("biography")
     private String biography;
+    @SerializedName("height")
     private double height;
+    @SerializedName("weight")
     private double weight;
+    @SerializedName("password")
     private String password;
 
     public UserResponse() {

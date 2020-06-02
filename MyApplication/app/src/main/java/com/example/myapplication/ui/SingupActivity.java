@@ -23,7 +23,7 @@ import retrofit2.Response;
 
 public class SingupActivity extends AppCompatActivity {
 
-    EditText name,address, username,password,confirmPassword;
+    EditText name,address,email, username,password,confirmPassword;
     Button submitBtn;
     TextView linkSingin;
 
@@ -34,6 +34,7 @@ public class SingupActivity extends AppCompatActivity {
 
         address = findViewById(R.id.input_address);
         name = findViewById(R.id.input_name);
+        email = findViewById(R.id.input_email);
         username = findViewById(R.id.username);
         password = findViewById(R.id.input_password);
         confirmPassword = findViewById(R.id.input_confirmPassword);
@@ -57,12 +58,14 @@ public class SingupActivity extends AppCompatActivity {
                     UserRequest userinfo = new UserRequest();
                     userinfo.setName(name.getText().toString());
                     userinfo.setAddress(address.getText().toString());
-                    userinfo.setEmail(address.getText().toString());
+                    userinfo.setEmail(email.getText().toString());
                     userinfo.setUsername(username.getText().toString());
                     userinfo.setPassword(password.getText().toString());
+
                     ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
                     Call<UserResponse> call = apiService.registerUser(userinfo);
                     call.enqueue(new Callback<UserResponse>() {
+
                         @Override
                         public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                             UserResponse user = response.body();
@@ -78,6 +81,7 @@ public class SingupActivity extends AppCompatActivity {
                             Log.e("tag","Usao sam nista nije okej" + t);
                             Log.e("tag","Usao sam nista nije okej" + call.getClass());
                         }
+
                     });
 
 
