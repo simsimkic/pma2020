@@ -16,7 +16,7 @@ public class UserService {
     public User save(User user) throws Exception {
 
 //        Submission submission = submissionRepository.findByCompanySecretId(client.getCompanyID()).orElseThrow(() -> (new BadRequestException("Bad company secret id")));
-
+        System.out.println("EVO USAO SAM JEBEM TI PLEME");
         User newClient = user;
         newClient.setPassword(Password.getSaltedHash(user.getPassword()));
 
@@ -38,12 +38,12 @@ public class UserService {
         }catch (Exception e){
 
         }
+
         if(temp){
             return true;
         }else{
             return false;
         }
-
     }
 
 }

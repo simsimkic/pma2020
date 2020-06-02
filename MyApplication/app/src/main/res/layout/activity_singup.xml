@@ -47,6 +47,23 @@
                 android:textColor="@color/white"/>
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- Name Label -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
+
+            <EditText
+                android:id="@+id/username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#FFFFFF"
+                android:hint="Username"
+                android:inputType="textPersonName"
+                android:textColor="@color/white"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
         <!-- Address Label -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -79,22 +96,6 @@
                 android:textColor="@color/white"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-
-        <!-- mobile number -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp">
-            <EditText android:id="@+id/input_mobile"
-                android:layout_width="match_parent"
-                android:backgroundTint="#FFFFFF"
-                android:layout_height="wrap_content"
-                android:inputType="number"
-                android:hint="Mobile Number"
-                android:textColor="@color/white"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
         <!-- Password Label -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -116,12 +117,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp">
-            <EditText android:id="@+id/input_reEnterPassword"
+            <EditText android:id="@+id/input_confirmPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#FFFFFF"
                 android:inputType="textPassword"
-                android:hint="Re-enter Password"
+                android:hint="Confirm Password"
                 android:textColor="@color/white"/>
         </com.google.android.material.textfield.TextInputLayout>
 
