@@ -14,13 +14,14 @@ public class UserService {
     private UserRepository userRepository;
 
     public User save(User user) throws Exception {
+
         User newClient = user;
         newClient.setPassword(Password.getSaltedHash(user.getPassword()));
 
         try {
             newClient = userRepository.save(newClient);
         } catch (Exception e) {
-            // TODO: handle exception
+            newClient = null;
         }
         return newClient;
     }
@@ -33,7 +34,7 @@ public class UserService {
             temp = Password.check(request.getPassword(),newClient.getPassword());
 
         }catch (Exception e){
-
+            
         }
 
         if(temp){
