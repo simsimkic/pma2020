@@ -10,32 +10,35 @@ public class UserResponse {
     private Long id;
     @SerializedName("name")
     private String name;
-    @SerializedName("surname")
-    private String surname;
+    @SerializedName("email")
+    private String email;
     @SerializedName("username")
     private String username;
     @SerializedName("dateOfBirth")
     private Date dateOfBirth;
+    @SerializedName("address")
+    private String address;
     @SerializedName("location")
     private String location;
     @SerializedName("biography")
     private String biography;
     @SerializedName("height")
-    private double height;
+    private String height;
     @SerializedName("weight")
-    private double weight;
+    private String weight;
     @SerializedName("password")
     private String password;
 
     public UserResponse() {
     }
 
-    public UserResponse(Long id, String name, String surname, String username, Date dateOfBirth, String location, String biography, double height, double weight, String password) {
+    public UserResponse(Long id, String name, String email, String username, Date dateOfBirth, String address, String location, String biography, String height, String weight, String password) {
         this.id = id;
         this.name = name;
-        this.surname = surname;
+        this.email = email;
         this.username = username;
         this.dateOfBirth = dateOfBirth;
+        this.address = address;
         this.location = location;
         this.biography = biography;
         this.height = height;
@@ -59,12 +62,12 @@ public class UserResponse {
         this.name = name;
     }
 
-    public String getSurname() {
-        return surname;
+    public String getEmail() {
+        return email;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getUsername() {
@@ -83,6 +86,14 @@ public class UserResponse {
         this.dateOfBirth = dateOfBirth;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     public String getLocation() {
         return location;
     }
@@ -99,19 +110,19 @@ public class UserResponse {
         this.biography = biography;
     }
 
-    public double getHeight() {
+    public String getHeight() {
         return height;
     }
 
-    public void setHeight(double height) {
+    public void setHeight(String height) {
         this.height = height;
     }
 
-    public double getWeight() {
+    public String getWeight() {
         return weight;
     }
 
-    public void setWeight(double weight) {
+    public void setWeight(String weight) {
         this.weight = weight;
     }
 

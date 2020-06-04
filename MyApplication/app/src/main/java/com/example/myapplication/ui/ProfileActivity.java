@@ -36,16 +36,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import android.view.View;
-import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.myapplication.R;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 
 import org.osmdroid.config.Configuration;
 
 public class ProfileActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    TextView address,email,name,bio;
     BottomNavigationView bottom_navigation;
     Intent intent;
     DrawerLayout drawerLayout;
@@ -59,6 +60,15 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        name = findViewById(R.id.name);
+        name.setText(SaveSharedPreference.getLoggedObject(getApplicationContext()).getName());
+        email = findViewById(R.id.email);
+        email.setText(SaveSharedPreference.getLoggedObject(getApplicationContext()).getEmail());
+        address = findViewById(R.id.address);
+        address.setText(SaveSharedPreference.getLoggedObject(getApplicationContext()).getAddress());
+        bio = findViewById(R.id.bio);
+        bio.setText(SaveSharedPreference.getLoggedObject(getApplicationContext()).getBiography());
 
         setMapPermission();
 
@@ -215,7 +225,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
                         new PrivacySettingsFragment()).commit();
                 break;
             case R.id.logout:
-                SaveSharedPreference.setLoggedIn(this, false);
+                SaveSharedPreference.setLoggedIn(this, false, null);
                 intent = new Intent(this, LoginActivity.class);
                 startActivity(intent);
                 break;

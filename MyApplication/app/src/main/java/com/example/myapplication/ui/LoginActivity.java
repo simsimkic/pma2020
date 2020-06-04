@@ -20,6 +20,7 @@ import com.example.myapplication.dto.response.UserResponse;
 import com.example.myapplication.interfaces.ApiInterface;
 import com.example.myapplication.util.ApiClient;
 import com.example.myapplication.util.SaveSharedPreference;
+import com.google.gson.JsonObject;
 
 import org.w3c.dom.Text;
 
@@ -57,30 +58,7 @@ public class LoginActivity extends AppCompatActivity {
                 }if( TextUtils.isEmpty(password.getText())){
                     password.setError( "Password is required!" );
                 }else{
-
-                    UserLogin userLogin = new UserLogin();
-                    userLogin.setUsername(username.getText().toString());
-                    userLogin.setPassword(password.getText().toString());
-
-                    ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-                    Call<Boolean> call = apiService.loginUser(userLogin);
-                    call.enqueue(new Callback<Boolean>() {
-
-                        @Override
-                        public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                            Boolean user = response.body();
-                            Log.e("tag","Usao sam u login sve okej" + user);
-
-                            userLogin(username.getText().toString(), password.getText().toString());
-                        }
-
-                        @Override
-                        public void onFailure(Call<Boolean> call, Throwable t) {
-                            Log.e("tag","Usao sam  u login nista nije okej" + t);
-                            Log.e("tag","Usao sam  u login nista nije okej" + call.getClass());
-                        }
-
-                    });
+                    userLogin(username, password);
                 }
 
             }
@@ -100,16 +78,44 @@ public class LoginActivity extends AppCompatActivity {
      * @param username
      * @param password
      */
-    private void userLogin(String username, String password) {
+    private void userLogin(EditText username, EditText password) {
 
         //potrebno odraditi login
 
-        SaveSharedPreference.setLoggedIn(getApplicationContext(), true);
-        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-        startActivity(intent);
+        UserLogin userLogin = new UserLogin();
+        userLogin.setUsername(username.getText().toString());
+        userLogin.setPassword(password.getText().toString());
 
+        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        Call<UserResponse> call = apiService.loginUser(userLogin);
+        call.enqueue(new Callback<UserResponse>() {
 
+            @Override
+            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                UserResponse user = response.body();
 
+                Log.e("tag","PRovera emaila: " + user.getEmail());
+                if(user != null){
+                    Log.e("tag","Usao sam u login sve okej" + user);
+                    SaveSharedPreference.setLoggedIn(getApplicationContext(), true, user);
+                    Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                    startActivity(intent);
+                }else{
+                    username.setError("Username or password is incorect!");
+                    password.setError("Username or password is incorect!");
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<UserResponse> call, Throwable t) {
+                Log.e("tag","Usao sam  u login nista nije okej" + t);
+                Log.e("tag","Usao sam  u login nista nije okej" + call.getClass());
+                username.setError("Username or password is incorect!");
+                password.setError("Username or password is incorect!");
+            }
+
+        });
     }
 
     /**

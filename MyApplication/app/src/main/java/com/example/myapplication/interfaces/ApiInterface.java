@@ -1,5 +1,6 @@
 package com.example.myapplication.interfaces;
 
+import com.example.myapplication.dto.request.EditUserRequest;
 import com.example.myapplication.dto.request.UserLogin;
 import com.example.myapplication.dto.request.UserRequest;
 import com.example.myapplication.dto.response.UserResponse;
@@ -24,6 +25,13 @@ public interface ApiInterface {
             "Content-Type:application/json"
     })
     @POST("loginUser")
-    Call<Boolean> loginUser(@Body UserLogin userLogin);
+    Call<UserResponse> loginUser(@Body UserLogin userLogin);
+
+    @Headers({
+            "User-Agent: Mobile-Android",
+            "Content-Type:application/json"
+    })
+    @POST("editUser")
+    Call<UserResponse> editUser(@Body EditUserRequest userLogin);
 
 }

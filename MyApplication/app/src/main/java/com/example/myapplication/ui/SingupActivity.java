@@ -71,8 +71,6 @@ public class SingupActivity extends AppCompatActivity {
                             UserResponse user = response.body();
                             Log.e("tag","Usao sam sve okej" + user);
 
-                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                            startActivity(intent);
                             login();
                         }
 
