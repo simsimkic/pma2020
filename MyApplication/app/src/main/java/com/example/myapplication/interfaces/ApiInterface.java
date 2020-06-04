@@ -24,6 +24,6 @@ public interface ApiInterface {
             "Content-Type:application/json"
     })
     @POST("loginUser")
-    Call<Boolean> loginUser(@Body UserLogin userLogin);
+    Call<UserResponse> loginUser(@Body UserLogin userLogin);
 
 }

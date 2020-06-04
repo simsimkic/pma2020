@@ -13,7 +13,7 @@ import com.example.myapplication.R;
 
 public class EditProfileActivity extends AppCompatActivity {
 
-    Button logoutBT;
+    Button save;
     Toolbar toolbar;
 
     @Override
@@ -21,8 +21,8 @@ public class EditProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
 
-        Button logoutBT = findViewById(R.id.save);
-        logoutBT.setOnClickListener(new View.OnClickListener() {
+        save = findViewById(R.id.save);
+        save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Set LoggedIn status to false

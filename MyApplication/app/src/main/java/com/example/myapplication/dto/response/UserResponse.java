@@ -10,12 +10,14 @@ public class UserResponse {
     private Long id;
     @SerializedName("name")
     private String name;
-    @SerializedName("surname")
-    private String surname;
+    @SerializedName("email")
+    private String email;
     @SerializedName("username")
     private String username;
     @SerializedName("dateOfBirth")
     private Date dateOfBirth;
+    @SerializedName("address")
+    private String address;
     @SerializedName("location")
     private String location;
     @SerializedName("biography")
@@ -30,12 +32,13 @@ public class UserResponse {
     public UserResponse() {
     }
 
-    public UserResponse(Long id, String name, String surname, String username, Date dateOfBirth, String location, String biography, double height, double weight, String password) {
+    public UserResponse(Long id, String name, String email, String username, Date dateOfBirth, String address, String location, String biography, double height, double weight, String password) {
         this.id = id;
         this.name = name;
-        this.surname = surname;
+        this.email = email;
         this.username = username;
         this.dateOfBirth = dateOfBirth;
+        this.address = address;
         this.location = location;
         this.biography = biography;
         this.height = height;
@@ -59,12 +62,12 @@ public class UserResponse {
         this.name = name;
     }
 
-    public String getSurname() {
-        return surname;
+    public String getEmail() {
+        return email;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getUsername() {
@@ -81,6 +84,14 @@ public class UserResponse {
 
     public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getLocation() {

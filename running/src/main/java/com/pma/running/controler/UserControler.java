@@ -23,7 +23,7 @@ public class UserControler {
     }
 
     @RequestMapping(value = "/loginUser", method = RequestMethod.POST)
-    public ResponseEntity<Boolean> login(@RequestBody LoginRequest loginDTO) throws Exception {
-        return new ResponseEntity<Boolean>(userService.login(loginDTO), HttpStatus.OK);
+    public ResponseEntity<User> login(@RequestBody LoginRequest loginDTO) throws Exception {
+        return new ResponseEntity<User>(userService.login(loginDTO), HttpStatus.OK);
     }
 }

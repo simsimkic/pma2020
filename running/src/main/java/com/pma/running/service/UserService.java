@@ -26,22 +26,27 @@ public class UserService {
         return newClient;
     }
 
-    public Boolean login(LoginRequest request) throws Exception {
+    public User login(LoginRequest request) throws Exception {
+        if(userRepository.findByUsername(request.getUsername()) != null){
+            User newClient = userRepository.findByUsername(request.getUsername());
+            System.out.println(newClient.getEmail());
+            boolean temp = false;
+            try {
+                temp = Password.check(request.getPassword(),newClient.getPassword());
 
-        User newClient = userRepository.findByUsername(request.getUsername());
-        boolean temp = false;
-        try {
-            temp = Password.check(request.getPassword(),newClient.getPassword());
+            }catch (Exception e){
 
-        }catch (Exception e){
-            
-        }
+            }
 
-        if(temp){
-            return true;
+            if(temp){
+                return newClient;
+            }else{
+                return null;
+            }
         }else{
-            return false;
+            return null;
         }
+
     }
 
 }
