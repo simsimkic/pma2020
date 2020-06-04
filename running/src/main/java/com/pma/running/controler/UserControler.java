@@ -1,5 +1,6 @@
 package com.pma.running.controler;
 
+import com.pma.running.dto.EditUserRequest;
 import com.pma.running.dto.LoginRequest;
 import com.pma.running.model.User;
 import com.pma.running.service.UserService;
@@ -25,5 +26,10 @@ public class UserControler {
     @RequestMapping(value = "/loginUser", method = RequestMethod.POST)
     public ResponseEntity<User> login(@RequestBody LoginRequest loginDTO) throws Exception {
         return new ResponseEntity<User>(userService.login(loginDTO), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/editUser", method = RequestMethod.POST)
+    public ResponseEntity<User> login(@RequestBody EditUserRequest editUserRequest) throws Exception {
+        return new ResponseEntity<User>(userService.editUser(editUserRequest), HttpStatus.OK);
     }
 }

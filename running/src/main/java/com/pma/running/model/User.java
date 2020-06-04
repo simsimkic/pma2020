@@ -20,8 +20,8 @@ public class User implements Serializable {
     private Date dateOfBirth;
     private String location;
     private String biography;
-    private double height;
-    private double weight;
+    private String height;
+    private String weight;
     private String password;
 
     @OneToMany(mappedBy = "friendshipRequestor", cascade = CascadeType.ALL)

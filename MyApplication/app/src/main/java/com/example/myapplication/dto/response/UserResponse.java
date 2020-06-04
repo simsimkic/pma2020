@@ -23,16 +23,16 @@ public class UserResponse {
     @SerializedName("biography")
     private String biography;
     @SerializedName("height")
-    private double height;
+    private String height;
     @SerializedName("weight")
-    private double weight;
+    private String weight;
     @SerializedName("password")
     private String password;
 
     public UserResponse() {
     }
 
-    public UserResponse(Long id, String name, String email, String username, Date dateOfBirth, String address, String location, String biography, double height, double weight, String password) {
+    public UserResponse(Long id, String name, String email, String username, Date dateOfBirth, String address, String location, String biography, String height, String weight, String password) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -110,19 +110,19 @@ public class UserResponse {
         this.biography = biography;
     }
 
-    public double getHeight() {
+    public String getHeight() {
         return height;
     }
 
-    public void setHeight(double height) {
+    public void setHeight(String height) {
         this.height = height;
     }
 
-    public double getWeight() {
+    public String getWeight() {
         return weight;
     }
 
-    public void setWeight(double weight) {
+    public void setWeight(String weight) {
         this.weight = weight;
     }
 

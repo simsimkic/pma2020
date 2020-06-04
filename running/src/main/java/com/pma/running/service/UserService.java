@@ -1,6 +1,7 @@
 package com.pma.running.service;
 
 import com.pma.running.config.Password;
+import com.pma.running.dto.EditUserRequest;
 import com.pma.running.dto.LoginRequest;
 import com.pma.running.model.User;
 import com.pma.running.repository.UserRepository;
@@ -48,5 +49,46 @@ public class UserService {
         }
 
     }
+
+    public User editUser(EditUserRequest editUserRequest) throws Exception {
+        if(userRepository.findByUsername(editUserRequest.getUsername()) != null){
+            User newClient = userRepository.findByUsername(editUserRequest.getUsername());
+            if(editUserRequest.getName() != ""){
+                newClient.setName(editUserRequest.getName());
+            }
+            if(editUserRequest.getEmail() != ""){
+                newClient.setEmail(editUserRequest.getEmail());
+            }
+            if(editUserRequest.getAddress() != ""){
+                newClient.setAddress(editUserRequest.getAddress());
+            }
+            newClient.setDateOfBirth(editUserRequest.getDateOfBirth());
+            if(editUserRequest.getBiography() != ""){
+                newClient.setBiography(editUserRequest.getBiography());
+            }
+            if(editUserRequest.getHeight() != ""){
+                newClient.setHeight(editUserRequest.getHeight());
+            }
+            if(editUserRequest.getWeight() != ""){
+                newClient.setWeight(editUserRequest.getWeight());
+            }
+
+
+
+            try {
+                newClient = userRepository.save(newClient);
+            } catch (Exception e) {
+                newClient = null;
+            }
+            return newClient;
+        }else{
+            return null;
+        }
+
+
+
+    }
+
+
 
 }

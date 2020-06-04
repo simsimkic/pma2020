@@ -118,7 +118,7 @@
                             android:layout_span="2">
 
                             <EditText
-                                android:id="@+id/bio"
+                                android:id="@+id/biography"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
