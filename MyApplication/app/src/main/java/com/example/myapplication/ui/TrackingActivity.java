@@ -27,13 +27,19 @@ import android.widget.TextView;
 
 import com.example.myapplication.R;
 import com.example.myapplication.ui.dialogs.ShareActivityDialog;
+import com.example.myapplication.util.SaveSharedPreference;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import org.osmdroid.config.Configuration;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapController;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
+import org.threeten.bp.Clock;
+import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.ZoneId;
+import org.threeten.bp.format.DateTimeFormatter;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -70,12 +76,15 @@ public class TrackingActivity extends AppCompatActivity implements LocationListe
     private int userHeight = 170;
     private double userStepLength = userHeight *  0.413;
     private static ArrayList<GeoPoint> allLocations = new ArrayList<>();
+    private static String dateTime;
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy. HH:mm");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tracking);
 
+        AndroidThreeTen.init(this);
         findAllViews();
         setBottomNavigation();
         setMapPermission();
@@ -205,6 +214,7 @@ public class TrackingActivity extends AppCompatActivity implements LocationListe
                 trackingStarted = true;
                 startButton.setEnabled(false);
                 stopButton.setEnabled(true);
+                dateTime = formatter.format(LocalDateTime.now());
                 setTimer();
                 setTimerForSavingLocations();
                 setStepCounterSensor();
@@ -376,6 +386,10 @@ public class TrackingActivity extends AppCompatActivity implements LocationListe
         data.add((int)finalSteps);
         data.add(allLocations);
         return data;
+    }
+
+    public static String getDateTime() {
+        return dateTime;
     }
 
     @Override

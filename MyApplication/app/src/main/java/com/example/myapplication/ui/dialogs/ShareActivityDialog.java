@@ -18,6 +18,7 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -29,7 +30,12 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.core.app.ActivityCompat;
 
 import com.example.myapplication.R;
+import com.example.myapplication.dto.request.ActivityDto;
+import com.example.myapplication.dto.response.PostResponse;
+import com.example.myapplication.interfaces.ApiInterface;
 import com.example.myapplication.ui.TrackingActivity;
+import com.example.myapplication.util.ApiClient;
+import com.example.myapplication.util.SaveSharedPreference;
 
 import org.osmdroid.config.Configuration;
 import org.osmdroid.util.GeoPoint;
@@ -44,6 +50,10 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class ShareActivityDialog extends AppCompatDialogFragment implements LocationListener {
 
     private TextView stepsTextView;
@@ -51,6 +61,7 @@ public class ShareActivityDialog extends AppCompatDialogFragment implements Loca
     private TextView distanceTextView;
     private MapView mapView;
     private View view;
+    EditText shareActivityTextEdit;
 
     @NonNull
     @Override
@@ -82,7 +93,7 @@ public class ShareActivityDialog extends AppCompatDialogFragment implements Loca
                 .setPositiveButton(R.string.share, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        // TODO
+                        shareActivity();
                     }
                 });
         return builder.create();
@@ -90,7 +101,7 @@ public class ShareActivityDialog extends AppCompatDialogFragment implements Loca
 
     private void findAllViews() {
         mapView = view.findViewById(R.id.share_act_map);
-        EditText shareActivityTextEdit = view.findViewById(R.id.share_act_text_edit);
+        shareActivityTextEdit = view.findViewById(R.id.share_act_text_edit);
         stepsTextView = view.findViewById(R.id.final_steps_text_view);
         durationTextView = view.findViewById(R.id.final_duration_text_view);
         distanceTextView = view.findViewById(R.id.final_distance_text_view);
@@ -163,6 +174,38 @@ public class ShareActivityDialog extends AppCompatDialogFragment implements Loca
         DecimalFormat df = new DecimalFormat("#.##");
         df.setRoundingMode(RoundingMode.CEILING);
         return df.format((double)distance);
+    }
+
+    private void shareActivity() {
+        ActivityDto activityDto = new ActivityDto();
+        activityDto.setDescription(shareActivityTextEdit.getText().toString());
+        String distanceText = (distanceTextView.getText().toString().split(":"))[1].trim();
+        activityDto.setDistance(Double.parseDouble(distanceText));
+        String[] durationData = durationTextView.getText().toString().split(":");
+        Double seconds = Double.parseDouble(durationData[3]) + Double.parseDouble(durationData[2])*60
+                + Double.parseDouble(durationData[1])*3600;
+        activityDto.setDuration(seconds);
+        String stepsText = (stepsTextView.getText().toString().split(":"))[1].trim();
+        activityDto.setSteps(Integer.parseInt(stepsText));
+        activityDto.setDateTime(TrackingActivity.getDateTime());
+        activityDto.setUsername(SaveSharedPreference.getLoggedObject(getContext()).getUsername());
+
+        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        Call<PostResponse> call = apiService.shareActivity(activityDto);
+        call.enqueue(new Callback<PostResponse>() {
+            @Override
+            public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
+                Log.e("tag","Shared");
+
+            }
+            @Override
+            public void onFailure(Call<PostResponse> call, Throwable t) {
+                Log.e("tag","Shared failure: " + t);
+                Log.e("tag","Shared failure: " + call.getClass());
+            }
+
+        });
+
     }
 
     @Override

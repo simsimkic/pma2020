@@ -1,8 +1,10 @@
 package com.example.myapplication.interfaces;
 
+import com.example.myapplication.dto.request.ActivityDto;
 import com.example.myapplication.dto.request.EditUserRequest;
 import com.example.myapplication.dto.request.UserLogin;
 import com.example.myapplication.dto.request.UserRequest;
+import com.example.myapplication.dto.response.PostResponse;
 import com.example.myapplication.dto.response.UserResponse;
 
 import retrofit2.Call;
@@ -33,5 +35,12 @@ public interface ApiInterface {
     })
     @POST("editUser")
     Call<UserResponse> editUser(@Body EditUserRequest userLogin);
+
+    @Headers({
+            "User-Agent: Mobile-Android",
+            "Content-Type:application/json"
+    })
+    @POST("activities/share")
+    Call<PostResponse> shareActivity(@Body ActivityDto activityDto);
 
 }

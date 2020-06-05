@@ -4,6 +4,7 @@ import com.pma.running.config.Password;
 import com.pma.running.dto.EditUserRequest;
 import com.pma.running.dto.LoginRequest;
 import com.pma.running.model.User;
+import com.pma.running.model.UserSettings;
 import com.pma.running.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,8 +12,18 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
 
+    private final UserRepository userRepository;
+    private final UserSettingsService userSettingsService;
+
     @Autowired
-    private UserRepository userRepository;
+    public UserService(UserRepository userRepository, UserSettingsService userSettingsService) {
+        this.userRepository = userRepository;
+        this.userSettingsService = userSettingsService;
+    }
+
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
 
     public User save(User user) throws Exception {
 
@@ -21,9 +32,12 @@ public class UserService {
 
         try {
             newClient = userRepository.save(newClient);
+            UserSettings userSettings = new UserSettings(newClient);
+            userSettingsService.save(userSettings);
         } catch (Exception e) {
             newClient = null;
         }
+
         return newClient;
     }
 

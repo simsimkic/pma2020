@@ -12,7 +12,6 @@ public class Post implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-//
     private String description;
     @Enumerated(EnumType.ORDINAL)
     private Visibility visibility;
@@ -29,4 +28,5 @@ public class Post implements Serializable {
     @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
+
 }
