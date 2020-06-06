@@ -9,20 +9,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.myapplication.MainActivity;
 import com.example.myapplication.R;
 import com.example.myapplication.dto.request.UserLogin;
-import com.example.myapplication.dto.request.UserRequest;
 import com.example.myapplication.dto.response.UserResponse;
+import com.example.myapplication.dto.response.UserSettingsResponse;
 import com.example.myapplication.interfaces.ApiInterface;
 import com.example.myapplication.util.ApiClient;
 import com.example.myapplication.util.SaveSharedPreference;
-import com.google.gson.JsonObject;
-
-import org.w3c.dom.Text;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -97,6 +93,7 @@ public class LoginActivity extends AppCompatActivity {
                 Log.e("tag","PRovera emaila: " + user.getEmail());
                 if(user != null){
                     Log.e("tag","Usao sam u login sve okej" + user);
+                    loadUserSettings(user.getUsername());
                     SaveSharedPreference.setLoggedIn(getApplicationContext(), true, user);
                     Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                     startActivity(intent);
@@ -129,5 +126,23 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), SingupActivity.class);
         startActivity(intent);
 
+    }
+
+    private void loadUserSettings(String username) {
+        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        Call<UserSettingsResponse> call = apiService.getUserSettings(username);
+        call.enqueue(new Callback<UserSettingsResponse>() {
+            @Override
+            public void onResponse(Call<UserSettingsResponse> call, Response<UserSettingsResponse> response) {
+                Log.e("tag","Settings loaded ");
+                SaveSharedPreference.setSettings(getApplicationContext(), response.body());
+            }
+            @Override
+            public void onFailure(Call<UserSettingsResponse> call, Throwable t) {
+                Log.e("tag","Settings loading failure: " + t);
+                Log.e("tag","Settings loading failure: " + call.getClass());
+            }
+
+        });
     }
 }
