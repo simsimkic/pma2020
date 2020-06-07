@@ -3,9 +3,13 @@ package com.pma.running.service;
 import com.pma.running.dto.ActivityDto;
 import com.pma.running.model.Activity;
 import com.pma.running.model.Post;
+import com.pma.running.model.User;
 import com.pma.running.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class PostService {
@@ -30,5 +34,9 @@ public class PostService {
         post.setUser(activity.getUser());
         post.setVisibility(userSettingsService.findByUser(activity.getUser()).getPostPrivacy());
         return postRepository.save(post);
+    }
+
+    public List<Post> findAllByUser(User user) {
+        return postRepository.findAllByUser(user);
     }
 }

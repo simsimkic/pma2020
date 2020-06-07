@@ -32,6 +32,11 @@ public class ThemeSettingsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+//        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+//        } else {
+//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+//        }
         View view = inflater.inflate(R.layout.fragment_theme_settings, container, false);
         setHeader();
         setSwitch(view);
@@ -66,6 +71,12 @@ public class ThemeSettingsFragment extends Fragment {
                         Toast.makeText(getActivity(), "Saved!",
                                 Toast.LENGTH_SHORT).show();
                         SaveSharedPreference.setSettings(getContext(), response.body());
+//                        if (nightThemeSwitch.isChecked()) {
+//                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+//                        } else {
+//                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+//                        }
+//                        getActivity().recreate();
                     }
                     @Override
                     public void onFailure(Call<UserSettingsResponse> call, Throwable t) {

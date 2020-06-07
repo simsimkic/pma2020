@@ -1,6 +1,7 @@
 package com.pma.running.controler;
 
 import com.pma.running.dto.ActivityDto;
+import com.pma.running.dto.BitmapResponseDto;
 import com.pma.running.model.Activity;
 import com.pma.running.model.Post;
 import com.pma.running.service.ActivityService;
@@ -29,6 +30,18 @@ public class ActivityController {
     public ResponseEntity<Post> shareActivity(@RequestBody ActivityDto activityDto) {
         Activity activity = activityService.save(activityDto);
         return new ResponseEntity<>(postService.save(activityDto, activity.getId()), HttpStatus.OK);
+    }
+
+    @GetMapping("/proba")
+    public ResponseEntity<BitmapResponseDto> proba() {
+        Activity activity = activityService.findById(Long.parseLong("1"));
+        if (activity == null) {
+            return new ResponseEntity<>(new BitmapResponseDto(), HttpStatus.OK);
+        }
+        String encodedMap = activity.getEncodedMap();
+        BitmapResponseDto response = new BitmapResponseDto();
+        response.setEncodedMap(encodedMap);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 }

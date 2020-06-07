@@ -28,6 +28,7 @@ public class ActivityService {
         activity.setDateTime(LocalDateTime.parse(activityDto.getDateTime(), DateTimeFormatter.ofPattern("dd.MM.yyyy. HH:mm")));
         activity.setSteps(activityDto.getSteps());
         activity.setUser(userService.findByUsername(activityDto.getUsername()));
+        activity.setEncodedMap(activityDto.getEncodedMap());
         return activityRepository.save(activity);
     }
 

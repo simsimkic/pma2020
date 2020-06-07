@@ -7,6 +7,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -18,6 +19,7 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +35,7 @@ import com.example.myapplication.R;
 import com.example.myapplication.dto.request.ActivityDto;
 import com.example.myapplication.dto.response.PostResponse;
 import com.example.myapplication.interfaces.ApiInterface;
+import com.example.myapplication.model.Activity;
 import com.example.myapplication.ui.TrackingActivity;
 import com.example.myapplication.util.ApiClient;
 import com.example.myapplication.util.SaveSharedPreference;
@@ -45,6 +48,7 @@ import org.osmdroid.views.Projection;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Overlay;
 
+import java.io.ByteArrayOutputStream;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -177,19 +181,7 @@ public class ShareActivityDialog extends AppCompatDialogFragment implements Loca
     }
 
     private void shareActivity() {
-        ActivityDto activityDto = new ActivityDto();
-        activityDto.setDescription(shareActivityTextEdit.getText().toString());
-        String distanceText = (distanceTextView.getText().toString().split(":"))[1].trim();
-        activityDto.setDistance(Double.parseDouble(distanceText));
-        String[] durationData = durationTextView.getText().toString().split(":");
-        Double seconds = Double.parseDouble(durationData[3]) + Double.parseDouble(durationData[2])*60
-                + Double.parseDouble(durationData[1])*3600;
-        activityDto.setDuration(seconds);
-        String stepsText = (stepsTextView.getText().toString().split(":"))[1].trim();
-        activityDto.setSteps(Integer.parseInt(stepsText));
-        activityDto.setDateTime(TrackingActivity.getDateTime());
-        activityDto.setUsername(SaveSharedPreference.getLoggedObject(getContext()).getUsername());
-
+        ActivityDto activityDto = createActivityDto();
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
         Call<PostResponse> call = apiService.shareActivity(activityDto);
         call.enqueue(new Callback<PostResponse>() {
@@ -205,7 +197,38 @@ public class ShareActivityDialog extends AppCompatDialogFragment implements Loca
             }
 
         });
+    }
 
+    private ActivityDto createActivityDto() {
+        ActivityDto activityDto = new ActivityDto();
+        activityDto.setDescription(shareActivityTextEdit.getText().toString());
+        String distanceText = (distanceTextView.getText().toString().split(":"))[1].trim();
+        activityDto.setDistance(Double.parseDouble(distanceText));
+        String[] durationData = durationTextView.getText().toString().split(":");
+        Double seconds = Double.parseDouble(durationData[3]) + Double.parseDouble(durationData[2])*60
+                + Double.parseDouble(durationData[1])*3600;
+        activityDto.setDuration(seconds);
+        String stepsText = (stepsTextView.getText().toString().split(":"))[1].trim();
+        activityDto.setSteps(Integer.parseInt(stepsText));
+        activityDto.setDateTime(TrackingActivity.getDateTime());
+        activityDto.setUsername(SaveSharedPreference.getLoggedObject(getContext()).getUsername());
+        activityDto.setEncodedMap(getMapScreenshot());
+        return activityDto;
+    }
+
+    private String getMapScreenshot() {
+        mapView.buildDrawingCache(true);
+        Bitmap bitmap = mapView.getDrawingCache(true).copy(Bitmap.Config.RGB_565, false);
+        mapView.destroyDrawingCache();
+        return encodeTobase64(bitmap);
+    }
+
+    private String encodeTobase64(Bitmap image) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        image.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+        byte[] bytes = byteArrayOutputStream.toByteArray();
+        String imageEncoded = Base64.encodeToString(bytes, Base64.DEFAULT);
+        return imageEncoded;
     }
 
     @Override

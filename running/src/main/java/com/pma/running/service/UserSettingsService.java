@@ -7,22 +7,28 @@ import com.pma.running.dto.UserSettingsResponseDto;
 import com.pma.running.model.User;
 import com.pma.running.model.UserSettings;
 import com.pma.running.model.Visibility;
+import com.pma.running.model.Post;
+import com.pma.running.repository.PostRepository;
 import com.pma.running.repository.UserRepository;
 import com.pma.running.repository.UserSettingsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UserSettingsService {
 
     private final UserSettingsRepository userSettingsRepository;
     private final UserRepository userRepository;
+    private final PostRepository postRepository;
 
     @Autowired
     public UserSettingsService(UserSettingsRepository userSettingsRepository,
-                               UserRepository userRepository) {
+                               UserRepository userRepository, PostRepository postRepository) {
         this.userSettingsRepository = userSettingsRepository;
         this.userRepository = userRepository;
+        this.postRepository = postRepository;
     }
 
     public UserSettings findByUser(User user) {
@@ -34,10 +40,19 @@ public class UserSettingsService {
     }
 
     public UserSettingsResponseDto updatePrivacySettings(PrivacySettingsDto dto) {
-        UserSettings userSettings = findByUser(userRepository.findByUsername(dto.getUsername()));
+        User user = userRepository.findByUsername(dto.getUsername());
+        UserSettings userSettings = findByUser(user);
         userSettings.setUserInfoPrivacy(Visibility.valueOf(dto.getUserInfoPrivacy().toUpperCase()));
-        userSettings.setPostPrivacy(Visibility.valueOf(dto.getPostPrivacy().toUpperCase()));
+        Visibility postVisibility = Visibility.valueOf(dto.getPostPrivacy().toUpperCase());
+        userSettings.setPostPrivacy(postVisibility);
         userSettings.setGoalPrivacy(Visibility.valueOf(dto.getGoalPrivacy().toUpperCase()));
+
+        List<Post> posts = postRepository.findAllByUser(user);
+        for (Post post : posts) {
+            post.setVisibility(postVisibility);
+            postRepository.save(post);
+        }
+
         return convertUserSettingsToDto(save(userSettings));
     }
 

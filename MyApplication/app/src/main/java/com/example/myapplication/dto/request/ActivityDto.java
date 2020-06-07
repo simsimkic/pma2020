@@ -17,6 +17,8 @@ public class ActivityDto {
     private String dateTime;
     @SerializedName("username")
     private String username;
+    @SerializedName("encodedMap")
+    private String encodedMap;
 
     public ActivityDto() { }
 
@@ -50,5 +52,9 @@ public class ActivityDto {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public void setEncodedMap(String encodedMap) {
+        this.encodedMap = encodedMap;
     }
 }
