@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,13 +15,21 @@ import android.widget.ListView;
 
 import com.example.myapplication.R;
 import com.example.myapplication.adapter.FriendAdapter;
+import com.example.myapplication.dto.response.FriendResponse;
+import com.example.myapplication.interfaces.ApiInterface;
 import com.example.myapplication.model.Friend;
 import com.example.myapplication.ui.FindFriendsActivity;
 import com.example.myapplication.ui.ProfileActivity;
 import com.example.myapplication.ui.SingupActivity;
+import com.example.myapplication.util.ApiClient;
+import com.example.myapplication.util.SaveSharedPreference;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -91,34 +100,45 @@ public class FriendsFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_friends, container, false);
 
-        Friend friend1 = new Friend("Friend 1");
-        Friend friend2 = new Friend("Friend 2");
-        Friend friend3 = new Friend("Friend 3");
-        Friend friend4 = new Friend("Friend 4");
-        Friend friend5 = new Friend("Friend 5");
-        Friend friend6 = new Friend("Friend 6");
-        Friend friend7 = new Friend("Friend 7");
-        Friend friend8 = new Friend("Friend 8");
-        Friend friend9 = new Friend("Friend 9");
-        // Construct the data source
-        ArrayList<Friend> arrayOfUsers = new ArrayList<Friend>();
-        arrayOfUsers.add(friend1);
-        arrayOfUsers.add(friend2);
-        arrayOfUsers.add(friend3);
-        arrayOfUsers.add(friend4);
-        arrayOfUsers.add(friend5);
-        arrayOfUsers.add(friend6);
-        arrayOfUsers.add(friend7);
-        arrayOfUsers.add(friend8);
-        arrayOfUsers.add(friend9);
-        // Create the adapter to convert the array to views
-        FriendAdapter adapter = new FriendAdapter(getActivity(), arrayOfUsers);
+        //dobavljanje svih prijatelja iz baze
+
+        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        Call<ArrayList<FriendResponse>> call = apiService.getFriends(SaveSharedPreference.getLoggedObject(getActivity().getApplicationContext()).getUsername());
+        call.enqueue(new Callback() {
+
+            @Override
+            public void onResponse(Call call, Response response) {
+                if(response.body() != null){
+                    ArrayList<FriendResponse> friends = (ArrayList<FriendResponse>) response.body();
+                    ArrayList<FriendResponse> friends1 = friends;
+                    Log.e("tag", "Dobavili smo prijatelje, ima ih: " + friends.size());
+
+                    ListView listView = (ListView) view.findViewById(R.id.fried_list);
+                    // Create the adapter to convert the array to views
+                    FriendAdapter adapter = new FriendAdapter(getActivity(), friends1);
+                    // Attach the adapter to a ListView
+
+                    listView.setAdapter(adapter);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                Log.e("tag","Greska prilikom dobavljanja prijatelja!!!");
+
+            }
 
 
 
-        // Attach the adapter to a ListView
-        ListView listView = (ListView) view.findViewById(R.id.fried_list);
-        listView.setAdapter(adapter);
+
+
+        });
+
+
+
+
+
 
         return view;
     }

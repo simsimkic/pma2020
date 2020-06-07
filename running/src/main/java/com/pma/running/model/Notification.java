@@ -20,4 +20,17 @@ public class Notification implements Serializable {
     @Enumerated(EnumType.STRING)
     private NotificationType notificationType;
     private String description;
+
+    public Notification(Date timestamp, NotificationType notificationType, String description) {
+        this.timestamp = timestamp;
+        this.notificationType = notificationType;
+        this.description = description;
+    }
+    public Notification(Long id, Date timestamp, NotificationType notificationType, String description) {
+        this.id = id;
+        this.timestamp = timestamp;
+        this.notificationType = notificationType;
+        this.description = description;
+    }
+
 }
