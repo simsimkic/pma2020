@@ -16,6 +16,8 @@ public class Activity implements Serializable {
     private double distance;
     private LocalDateTime dateTime;
     private int steps;
+    @Column(name="encodedMap", length=999999)
+    private String encodedMap;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

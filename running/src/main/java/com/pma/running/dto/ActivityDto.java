@@ -11,6 +11,7 @@ public class ActivityDto {
     private int steps;
     private String dateTime;
     private String username;
+    private String encodedMap;
 
     public String getDescription() {
         return description;
@@ -34,5 +35,9 @@ public class ActivityDto {
 
     public String getUsername() {
         return username;
+    }
+
+    public String getEncodedMap() {
+        return encodedMap;
     }
 }
