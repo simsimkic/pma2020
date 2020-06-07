@@ -1,9 +1,11 @@
 package com.example.myapplication.ui.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +14,20 @@ import android.widget.ListView;
 import com.example.myapplication.R;
 import com.example.myapplication.adapter.FriendAdapter;
 import com.example.myapplication.adapter.UserFriendListAdapter;
+import com.example.myapplication.dto.response.FriendResponse;
+import com.example.myapplication.dto.response.UserResponse;
+import com.example.myapplication.interfaces.ApiInterface;
 import com.example.myapplication.mokap_data.Friends;
+import com.example.myapplication.ui.EditProfileActivity;
+import com.example.myapplication.ui.ProfileActivity;
+import com.example.myapplication.util.ApiClient;
+import com.example.myapplication.util.SaveSharedPreference;
+
+import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,6 +43,8 @@ public class UserFriendsList extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    public ArrayList<FriendResponse> friends;
 
     public UserFriendsList() {
         // Required empty public constructor
@@ -66,7 +83,29 @@ public class UserFriendsList extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_user_friends_list, container, false);
 
-        UserFriendListAdapter adapter = new UserFriendListAdapter(getActivity(), Friends.getFriends());
+        //dobavljanje svih prijatelja iz baze
+
+        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        Call<ArrayList<FriendResponse>> call = apiService.getFriends("pera");
+        call.enqueue(new Callback<ArrayList<FriendResponse>>() {
+
+            @Override
+            public void onResponse(Call<ArrayList<FriendResponse>> call, Response<ArrayList<FriendResponse>> response) {
+                friends = response.body();
+               Log.e("tag", "OK dobavljanje prijatelja: "  + friends.size());
+
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<FriendResponse>> call, Throwable t) {
+                Log.e("tag","Usao sam nista nije okej" + t);
+                Log.e("tag","Usao sam nista nije okej" + call.getClass());
+            }
+
+
+
+        });
+        UserFriendListAdapter adapter = new UserFriendListAdapter(getActivity(),friends);
 
 
 

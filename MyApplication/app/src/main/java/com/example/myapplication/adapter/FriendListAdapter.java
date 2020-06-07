@@ -9,14 +9,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.myapplication.R;
+import com.example.myapplication.dto.response.FriendResponse;
 import com.example.myapplication.model.Friend;
 
 import java.util.ArrayList;
 
 public class FriendListAdapter extends BaseAdapter {
     Context context;
-    ArrayList<Friend> friends;
-    public FriendListAdapter(Context applicationContext, ArrayList<Friend> friendsList){
+    ArrayList<FriendResponse> friends;
+    public FriendListAdapter(Context applicationContext, ArrayList<FriendResponse> friendsList){
         this.context = applicationContext;
         this.friends = friendsList;
     }
@@ -53,11 +54,20 @@ public class FriendListAdapter extends BaseAdapter {
         name.setText(friends.get(position).getName());
         image.setImageResource(R.drawable.baseline_person_black_24dp);
 
-        if(friends.get(position).isFriends()){
+        if(friends.get(position).getFriend()==1){
             image_add.setImageResource(R.drawable.ic_group);
-        }else {
+        }else if(friends.get(position).getFriend()==0){
             image_add.setImageResource(R.drawable.ic_add_friend);
+        }else if(friends.get(position).getFriend()==2) {
+            //poslat zahtev
+            image_add.setImageResource(R.drawable.ic_send_request);
         }
+         else
+        {
+            //zahtev primljen, treba da odgovori
+            image_add.setImageResource(R.drawable.ic_accept_request);
+        }
+
         return view;
     }
 }

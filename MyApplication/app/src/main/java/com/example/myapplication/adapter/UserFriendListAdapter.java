@@ -9,15 +9,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.myapplication.R;
+import com.example.myapplication.dto.response.FriendResponse;
 import com.example.myapplication.model.Friend;
 
 import java.util.ArrayList;
 
 public class UserFriendListAdapter extends BaseAdapter {
     Context context;
-    ArrayList<Friend> friends;
+    ArrayList<FriendResponse> friends;
 
-    public UserFriendListAdapter(Context context, ArrayList<Friend> friends) {
+    public UserFriendListAdapter(Context context, ArrayList<FriendResponse> friends) {
         this.context = context;
         this.friends = friends;
     }

@@ -4,9 +4,14 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import com.example.myapplication.adapter.FriendAdapter;
 import com.example.myapplication.adapter.FriendListAdapter;
+import com.example.myapplication.dto.response.FriendResponse;
+import com.example.myapplication.interfaces.ApiInterface;
 import com.example.myapplication.model.Friend;
 import com.example.myapplication.mokap_data.Friends;
+import com.example.myapplication.util.ApiClient;
+import com.example.myapplication.util.SaveSharedPreference;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
@@ -14,9 +19,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -25,10 +32,15 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class FindFriendsActivity extends AppCompatActivity {
 
     private BottomNavigationView bottom_navigation;
     private Intent intent;
+    private ArrayList<FriendResponse> friends;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,15 +53,14 @@ public class FindFriendsActivity extends AppCompatActivity {
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
 
-        ListView list = findViewById(R.id.friends_show);
-        FriendListAdapter adapter = new FriendListAdapter(getApplicationContext(), Friends.getFriends());
-        list.setAdapter(adapter);
+        setUserList();
 
+        ListView list = findViewById(R.id.friends_show);
         //klik na korisnika iz liste
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Friend friend = Friends.getFriends().get(position);
+                FriendResponse friend = friends.get(position);
 //                Toast.makeText(getApplicationContext(), "You click on friend " + friend.getName(), Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(FindFriendsActivity.this, FriendDetailActivity.class);
 
@@ -104,6 +115,43 @@ public class FindFriendsActivity extends AppCompatActivity {
         });
     }
 
+    private void setUserList() {
+
+            //dobavljanje svih prijatelja iz baze
+
+            ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+            Call<ArrayList<FriendResponse>> call = apiService.getUsers(SaveSharedPreference.getLoggedObject(getApplicationContext()).getUsername());
+            call.enqueue(new Callback() {
+
+                @Override
+                public void onResponse(Call call, Response response) {
+                    if(response.body() != null){
+                        friends = (ArrayList<FriendResponse>) response.body();
+
+                        Log.e("tag", "Dobavili smo prijatelje, ima ih: " + friends.size());
+
+                        ListView list = findViewById(R.id.friends_show);
+                        //ovde treba da dobavimo sve korisnike sistema i da ih prikazemo
+                        FriendListAdapter adapter = new FriendListAdapter(getApplicationContext(), friends);
+                        list.setAdapter(adapter);
+
+                        list.setAdapter(adapter);
+                    }
+
+                }
+
+                @Override
+                public void onFailure(Call call, Throwable t) {
+                    Log.e("tag","Greska prilikom dobavljanja prijatelja!!!");
+
+                }
+
+
+
+
+
+            });
+    }
 
 
 }
