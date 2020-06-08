@@ -6,8 +6,20 @@ insert into user(id, name, password, email, address , username) values (4, 'Mili
 
 
 --add friendship
-insert into friendship(id, approved, send_request, requestor_id, requestee_id, delete) values (1, true, '2019-12-12', 1, 2 , false);
-insert into friendship(id, approved, send_request, requestor_id, requestee_id, delete) values (2, true, '2019-12-12', 1, 4 , false);
-insert into friendship(id, approved, send_request, requestor_id, requestee_id, delete) values (3, false , '2020-05-06', 3, 1, false );
-insert into friendship(id, approved, send_request, requestor_id, requestee_id, delete) values (4, true, '2019-12-12', 2, 3, false );
-insert into friendship(id, approved, send_request, requestor_id, requestee_id, delete) values (5, true, '2019-12-12', 3, 4, false );
+insert into friendship(id, status, send_request, requestor_id, requestee_id) values (3, 'SEND_REQUEST' , '2020-05-06', 3, 1);
+
+--add friends
+insert into friends(id, user1_id, user2_id) values (1, 1, 2);
+insert into friends(id, user1_id, user2_id) values (2, 3, 2);
+insert into friends(id, user1_id, user2_id) values (3, 4, 1);
+insert into friends(id, user1_id, user2_id) values (4, 4, 3);
+
+--USER SETTINGS
+insert into user_settings (id, accepted_activity, accepted_friendship, activity_request, canceled_activity, friendship_request, goal_privacy, new_comments, new_likes, night_theme, post_privacy, user_info_privacy, user_id)
+                values (1, true, true, true, true, true, 0, true, true, false, 0, 0, 1);
+insert into user_settings (id, accepted_activity, accepted_friendship, activity_request, canceled_activity, friendship_request, goal_privacy, new_comments, new_likes, night_theme, post_privacy, user_info_privacy, user_id)
+                values (2, true, true, true, true, true, 0, true, true, false, 0, 0, 2);
+insert into user_settings (id, accepted_activity, accepted_friendship, activity_request, canceled_activity, friendship_request, goal_privacy, new_comments, new_likes, night_theme, post_privacy, user_info_privacy, user_id)
+                values (3, true, true, true, true, true, 0, true, true, false, 0, 0, 3);
+insert into user_settings (id, accepted_activity, accepted_friendship, activity_request, canceled_activity, friendship_request, goal_privacy, new_comments, new_likes, night_theme, post_privacy, user_info_privacy, user_id)
+                values (4, true, true, true, true, true, 0, true, true, false, 0, 0, 4);
