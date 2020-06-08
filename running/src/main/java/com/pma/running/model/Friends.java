@@ -18,4 +18,18 @@ public class Friends implements Serializable {
     @ManyToOne
     @JoinColumn(name = "user2_id", nullable = false)
     private User user2;
+
+    public Friends() {
+    }
+
+    public Friends(User user1, User user2) {
+        this.user1 = user1;
+        this.user2 = user2;
+    }
+    public Friends(Long id, User user1, User user2) {
+        this.id = id;
+        this.user1 = user1;
+        this.user2 = user2;
+    }
+
 }

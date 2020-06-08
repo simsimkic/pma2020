@@ -122,4 +122,11 @@ public interface ApiInterface {
     })
     @GET("proba")
     Call<BitmapDtoResponse> proba();
+
+    @Headers({
+            "User-Agent: Mobile-Android",
+            "Content-Type:application/json"
+    })
+    @POST("friends/deleteFriends")
+    Call<ResponseBody> deleteFriends(@Body FriendshipRequest fr);
 }
