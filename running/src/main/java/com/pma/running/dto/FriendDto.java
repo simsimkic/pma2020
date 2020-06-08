@@ -1,6 +1,5 @@
 package com.pma.running.dto;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import lombok.Data;
 
 import javax.swing.text.StyledEditorKit;

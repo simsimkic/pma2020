@@ -18,6 +18,7 @@ import com.example.myapplication.dto.response.UserResponse;
 import com.example.myapplication.dto.response.UserSettingsResponse;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -120,6 +121,6 @@ public interface ApiInterface {
             "User-Agent: Mobile-Android",
             "Content-Type:application/json"
     })
-    @GET("proba")
-    Call<BitmapDtoResponse> proba();
+    @GET("getActivitiesByUser/{userId}")
+    Call<Set<BitmapDtoResponse>> getActivitiesByUser(@Path("userId") Long userId);
 }

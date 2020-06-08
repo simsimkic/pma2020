@@ -4,7 +4,6 @@ import com.pma.running.dto.FriendDto;
 import com.pma.running.dto.FriendshipRequestDto;
 import com.pma.running.model.FriendshipRequest;
 import com.pma.running.service.FriendService;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
