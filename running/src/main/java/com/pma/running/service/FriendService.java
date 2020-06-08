@@ -129,7 +129,12 @@ public class FriendService {
 
         //pronadjem zahtev u prijateljima i izbrisem ga
         Friends friends = this.friendsRepository.findByUser1AndUser2OrUser2AndUser1(requestee, requestor, requestee, requestor);
-
+        //treba da se promeni i zahtev u decline
+        List<FriendshipRequest> request = friendshipRepository.findByStatusAndFriendshipRequestorAndFriendshipRequesteeOrStatusAndFriendshipRequesteeAndFriendshipRequestor(FriendshipStatus.APPROVED_REQUEST, requestor, requestee, FriendshipStatus.APPROVED_REQUEST, requestor, requestee);
+        for (FriendshipRequest r: request) {
+            r.setStatus(FriendshipStatus.DECLINE_REQUEST);
+            this.friendshipRepository.save(r);
+        }
         if(friends!= null)
             this.friendsRepository.delete(friends);
 
