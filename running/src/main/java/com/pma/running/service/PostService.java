@@ -8,7 +8,6 @@ import com.pma.running.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -38,5 +37,14 @@ public class PostService {
 
     public List<Post> findAllByUser(User user) {
         return postRepository.findAllByUser(user);
+    }
+
+    public Activity delete(Long userId, Long activityId) {
+        Post post = postRepository.findByUserIdAndActivityId(userId, activityId);
+        if (post == null) {
+            return null;
+        }
+        postRepository.delete(post);
+        return activityService.delete(userId, activityId);
     }
 }

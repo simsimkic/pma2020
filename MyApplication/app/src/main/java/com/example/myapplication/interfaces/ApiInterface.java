@@ -16,12 +16,14 @@ import com.example.myapplication.dto.response.BitmapDtoResponse;
 import com.example.myapplication.dto.response.PostResponse;
 import com.example.myapplication.dto.response.UserResponse;
 import com.example.myapplication.dto.response.UserSettingsResponse;
+import com.example.myapplication.model.Activity;
 
 import java.util.ArrayList;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
@@ -129,4 +131,12 @@ public interface ApiInterface {
     })
     @POST("friends/deleteFriends")
     Call<ResponseBody> deleteFriends(@Body FriendshipRequest fr);
+
+    @Headers({
+            "User-Agent: Mobile-Android",
+            "Content-Type:application/json"
+    })
+    @DELETE("activities/{UserId}/{ActivityId}")
+    Call<Activity> deleteActivity(@Path("UserId") Long userId, @Path("ActivityId") Long activityId);
+
 }
