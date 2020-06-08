@@ -61,13 +61,13 @@ public class ActivitieAdapter extends ArrayAdapter<Activitie> {
         TextView duration = convertView.findViewById(R.id.duration);
         TextView time = convertView.findViewById(R.id.time);
 
-        mMapView = convertView.findViewById(R.id.mapview);
-        mMapView.setTileSource(TileSourceFactory.DEFAULT_TILE_SOURCE);
-        mMapView.getZoomController().activate();
-        mMapController = (MapController) mMapView.getController();
-        mMapController.setZoom(13);
-        GeoPoint gPt = new GeoPoint(51500000, -150000);
-        mMapController.setCenter(gPt);
+//        mMapView = convertView.findViewById(R.id.mapview);
+//        mMapView.setTileSource(TileSourceFactory.DEFAULT_TILE_SOURCE);
+//        mMapView.getZoomController().activate();
+//        mMapController = (MapController) mMapView.getController();
+//        mMapController.setZoom(13);
+//        GeoPoint gPt = new GeoPoint(51500000, -150000);
+//        mMapController.setCenter(gPt);
 
         name.setText(activitie.getName());
         distance.setText(activitie.getDistance() + " km" );
@@ -93,7 +93,7 @@ public class ActivitieAdapter extends ArrayAdapter<Activitie> {
                 Log.e("tag","Bitmap failure: " + t);
             }
         });
-        /////////////////////////////////////////
+//        /////////////////////////////////////////
 
         return  convertView;
     }
