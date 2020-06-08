@@ -138,5 +138,10 @@ public interface ApiInterface {
     })
     @DELETE("activities/{UserId}/{ActivityId}")
     Call<Activity> deleteActivity(@Path("UserId") Long userId, @Path("ActivityId") Long activityId);
-
+    @Headers({
+            "User-Agent: Mobile-Android",
+            "Content-Type:application/json"
+    })
+    @GET("post/get/{username}")
+    Call<ArrayList<PostResponse>> getAllPosts(@Path("username") String username);
 }

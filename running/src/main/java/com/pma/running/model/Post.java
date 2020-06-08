@@ -4,6 +4,8 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Data
@@ -16,6 +18,8 @@ public class Post implements Serializable {
     @Enumerated(EnumType.ORDINAL)
     private Visibility visibility;
     private int like_num;
+
+    private LocalDateTime date;
 
     @OneToOne
     @JoinColumn(name = "activity_id", referencedColumnName = "id")

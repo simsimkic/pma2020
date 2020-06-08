@@ -18,14 +18,25 @@ import androidx.appcompat.widget.Toolbar;
 import com.example.myapplication.R;
 import com.example.myapplication.adapter.FeedActivityAdapter;
 import com.example.myapplication.adapter.FriendListAdapter;
+import com.example.myapplication.dto.response.FriendResponse;
+import com.example.myapplication.dto.response.PostResponse;
+import com.example.myapplication.interfaces.ApiInterface;
 import com.example.myapplication.mokap_data.Activities;
 import com.example.myapplication.mokap_data.Friends;
+import com.example.myapplication.util.ApiClient;
+import com.example.myapplication.util.SaveSharedPreference;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapController;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
+
+import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -87,8 +98,44 @@ public class HomeActivity extends AppCompatActivity {
         });
 
 
+        showPost();
+
     }
 
+    private void showPost() {
+        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        Call<ArrayList<PostResponse>> call = apiService.getAllPosts(SaveSharedPreference.getLoggedObject(getApplicationContext()).getUsername());
+        call.enqueue(new Callback() {
+
+            @Override
+            public void onResponse(Call call, Response response) {
+                if(response.body() != null){
+                    ArrayList<PostResponse>posts = (ArrayList<PostResponse>) response.body();
+
+                    Log.e("tag", "Dobavili smo postove, ima ih: " + posts.size());
+
+                    ListView list = findViewById(R.id.feed_activities);
+                    FeedActivityAdapter adapter = new FeedActivityAdapter(getApplicationContext(), posts);
+                    list.setAdapter(adapter);
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                Log.e("tag", t.getMessage());
+                Log.e("tag","Greska prilikom dobavljanja postova!!!");
+
+            }
+
+
+
+
+
+        });
+
+    }
 
 
     @Override
@@ -98,8 +145,8 @@ public class HomeActivity extends AppCompatActivity {
         toolbar.setTitle("Feed");
         toolbar.setTitleTextColor(Color.WHITE);
 
-        ListView list = findViewById(R.id.feed_activities);
-        FeedActivityAdapter adapter = new FeedActivityAdapter(getApplicationContext(), Activities.getActivitie());
-        list.setAdapter(adapter);
+        //preuzeti sve postove
+
+
     }
 }

@@ -84,16 +84,12 @@
                 android:text="10.04.2020, 19:35" />
         </LinearLayout>
     </LinearLayout>
-    <org.osmdroid.views.MapView
-        android:id="@+id/mapview"
+
+    <ImageView
+        android:id="@+id/map_image"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:clickable="true"
         android:layout_marginBottom="10dp"/>
-    <ImageView
-        android:id="@+id/map_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
 </LinearLayout>
