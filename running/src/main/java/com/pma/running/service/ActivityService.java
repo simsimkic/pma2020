@@ -24,6 +24,7 @@ public class ActivityService {
     }
 
     public Activity save(ActivityDto activityDto) {
+        System.out.println(activityDto.getDateTime());
         Activity activity = new Activity();
         activity.setDuration(activityDto.getDuration());
         activity.setDistance(activityDto.getDistance());

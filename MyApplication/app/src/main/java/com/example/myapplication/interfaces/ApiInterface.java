@@ -13,6 +13,7 @@ import com.example.myapplication.dto.request.UserLogin;
 import com.example.myapplication.dto.request.UserRequest;
 import com.example.myapplication.dto.response.FriendResponse;
 import com.example.myapplication.dto.response.BitmapDtoResponse;
+import com.example.myapplication.dto.response.GoalResponse;
 import com.example.myapplication.dto.response.PostResponse;
 import com.example.myapplication.dto.response.UserResponse;
 import com.example.myapplication.dto.response.UserSettingsResponse;
@@ -123,4 +124,11 @@ public interface ApiInterface {
     })
     @GET("getActivitiesByUser/{userId}")
     Call<Set<BitmapDtoResponse>> getActivitiesByUser(@Path("userId") Long userId);
+
+    @Headers({
+            "User-Agent: Mobile-Android",
+            "Content-Type:application/json"
+    })
+    @GET("getGoalsByUser/{userId}")
+    Call<Set<GoalResponse>> getGoalsByUser(@Path("userId") Long userId);
 }

@@ -11,3 +11,5 @@ insert into friendship(id, approved, send_request, requestor_id, requestee_id, d
 insert into friendship(id, approved, send_request, requestor_id, requestee_id, delete) values (3, false , '2020-05-06', 3, 1, false );
 insert into friendship(id, approved, send_request, requestor_id, requestee_id, delete) values (4, true, '2019-12-12', 2, 3, false );
 insert into friendship(id, approved, send_request, requestor_id, requestee_id, delete) values (5, true, '2019-12-12', 3, 4, false );
+
+insert into goal(id, distance, duration, end_time, timestampe, title, user_id) values (1, 2.0, 5.0, '2019-12-12', '2020-12-12', 'Naziv', 1);

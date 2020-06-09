@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.myapplication.R;
@@ -30,6 +31,15 @@ public class GoalAdapter extends ArrayAdapter<Goal> {
         TextView distance = convertView.findViewById(R.id.distance);
         TextView duration = convertView.findViewById(R.id.duration);
         TextView archived = convertView.findViewById(R.id.achieved);
+        ImageView delete = convertView.findViewById(R.id.remove);
+        TextView end_time = convertView.findViewById(R.id.end_time);
+
+//        delete.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
 
 
         name.setText(goal.getName());
@@ -49,6 +59,7 @@ public class GoalAdapter extends ArrayAdapter<Goal> {
         }else{
             archived.setText("No");
         }
+        end_time.setText(goal.getEnd_time());
 
         return  convertView;
     }
