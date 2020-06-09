@@ -17,6 +17,14 @@ public class FriendshipRequestNotification extends Notification {
     @JoinColumn(name = "friendship_id")
     private FriendshipRequest friendshipRequest;
 
+    public FriendshipRequestNotification() {
+    }
+
+    public FriendshipRequestNotification(Date timestamp, NotificationType notificationType, String description, User user, FriendshipRequest friendshipRequest) {
+        super(timestamp, notificationType, description, user);
+        this.friendshipRequest = friendshipRequest;
+    }
+
     public FriendshipRequestNotification(Date timestamp, NotificationType notificationType, String description, FriendshipRequest friendshipRequest) {
         super(timestamp, notificationType, description);
         this.friendshipRequest = friendshipRequest;

@@ -13,6 +13,7 @@ import com.example.myapplication.dto.request.UserLogin;
 import com.example.myapplication.dto.request.UserRequest;
 import com.example.myapplication.dto.response.FriendResponse;
 import com.example.myapplication.dto.response.BitmapDtoResponse;
+import com.example.myapplication.dto.response.NotificationResponse;
 import com.example.myapplication.dto.response.PostResponse;
 import com.example.myapplication.dto.response.UserResponse;
 import com.example.myapplication.dto.response.UserSettingsResponse;
@@ -144,4 +145,10 @@ public interface ApiInterface {
     })
     @GET("post/get/{username}")
     Call<ArrayList<PostResponse>> getAllPosts(@Path("username") String username);
+    @Headers({
+            "User-Agent: Mobile-Android",
+            "Content-Type:application/json"
+    })
+    @GET("notification/get/{username}")
+    Call<ArrayList<NotificationResponse>> getNotifications(@Path("username") String username);
 }

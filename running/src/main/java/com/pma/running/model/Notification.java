@@ -21,6 +21,20 @@ public class Notification implements Serializable {
     private NotificationType notificationType;
     private String description;
 
+    @OneToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
+
+    public Notification() {
+    }
+
+    public Notification(Date timestamp, NotificationType notificationType, String description, User user) {
+        this.timestamp = timestamp;
+        this.notificationType = notificationType;
+        this.description = description;
+        this.user = user;
+    }
+
     public Notification(Date timestamp, NotificationType notificationType, String description) {
         this.timestamp = timestamp;
         this.notificationType = notificationType;

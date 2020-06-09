@@ -4,8 +4,14 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import com.example.myapplication.adapter.FeedActivityAdapter;
 import com.example.myapplication.adapter.NotificationAdapter;
+import com.example.myapplication.dto.response.NotificationResponse;
+import com.example.myapplication.dto.response.PostResponse;
+import com.example.myapplication.interfaces.ApiInterface;
 import com.example.myapplication.mokap_data.Notifications;
+import com.example.myapplication.util.ApiClient;
+import com.example.myapplication.util.SaveSharedPreference;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -22,6 +28,12 @@ import android.widget.ListView;
 
 import com.example.myapplication.R;
 
+import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class NotificationActivity extends AppCompatActivity {
     private BottomNavigationView bottom_navigation;
     private Intent intent;
@@ -37,7 +49,7 @@ public class NotificationActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         ListView list = findViewById(R.id.notifications_list);
-        list.setAdapter(new NotificationAdapter(getApplicationContext(), Notifications.getNotifications()));
+        getNotifications(list);
 
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -55,6 +67,41 @@ public class NotificationActivity extends AppCompatActivity {
         setBottomNavigation();
 
 
+
+    }
+
+    private void getNotifications(ListView list) {
+
+        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        Call<ArrayList<NotificationResponse>> call = apiService.getNotifications(SaveSharedPreference.getLoggedObject(getApplicationContext()).getUsername());
+        call.enqueue(new Callback() {
+
+            @Override
+            public void onResponse(Call call, Response response) {
+                if(response.body() != null){
+                    ArrayList<NotificationResponse>notifications = (ArrayList<NotificationResponse>) response.body();
+
+                    Log.e("tag", "Dobavili smo notifikacije, ima ih: " + notifications.size());
+
+                    ;
+                    list.setAdapter(new NotificationAdapter(getApplicationContext(), notifications));
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                Log.e("tag", t.getMessage());
+                Log.e("tag","Greska prilikom dobavljanja notifikacija!!!");
+
+            }
+
+
+
+
+
+        });
 
     }
 
