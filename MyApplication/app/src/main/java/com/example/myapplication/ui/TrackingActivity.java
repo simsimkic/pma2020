@@ -195,6 +195,7 @@ public class TrackingActivity extends AppCompatActivity implements LocationListe
     }
 
     private void setCurrentLocationMarkerOnMap() {
+        // dodati proveru za null
         currentLocationMarker.setPosition(currentLocation);
         currentLocationMarker.setIcon(this.getResources().getDrawable(R.drawable.ic_my_location_orange_24dp));
         currentLocationMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);

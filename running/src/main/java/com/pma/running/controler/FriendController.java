@@ -30,6 +30,8 @@ public class FriendController {
 
     @PostMapping(value = "/sendRequest")
     public String sendRequest(@RequestBody FriendshipRequestDto friendship_dto) {return friendService.sendRequest(friendship_dto);}
+    @PostMapping(value = "/deleteFriends")
+    public String deleteFriends(@RequestBody FriendshipRequestDto friendship_dto) {return friendService.deleteFriends(friendship_dto);}
 
     @PostMapping(value = "/acceptOrDeclineRequest")
     public String acceptOrDeclineRequest(@RequestBody FriendshipRequestDto friendshipRequestDto) {return  this.friendService.acceptOrDeclineRequest(friendshipRequestDto);}

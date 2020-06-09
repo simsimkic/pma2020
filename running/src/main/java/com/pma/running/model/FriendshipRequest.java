@@ -15,8 +15,8 @@ public class FriendshipRequest implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
-    private boolean approved;
+    @Enumerated(EnumType.STRING)
+    private FriendshipStatus status;
 
     @Column
     private Date sendRequest;
@@ -29,23 +29,14 @@ public class FriendshipRequest implements Serializable {
     @JoinColumn(name = "requestor_id", nullable = false)
     private User friendshipRequestor;
 
-    private boolean delete;
 
 
-    public FriendshipRequest(boolean approved, Date sendRequest, User friendshipRequestee, User friendshipRequestor, boolean delete) {
-        this.approved = approved;
-        this.sendRequest = sendRequest;
-        this.friendshipRequestee = friendshipRequestee;
-        this.friendshipRequestor = friendshipRequestor;
-        this.delete = delete;
-    }
 
-    public FriendshipRequest(User requestee, User requestor, Date date, boolean approved) {
+    public FriendshipRequest(User requestee, User requestor, Date date, FriendshipStatus status) {
         this.friendshipRequestee = requestee;
         this.friendshipRequestor = requestor;
         this.sendRequest = date;
-        this.approved = approved;
-        this.delete = false;
+        this.status = status;
 
 
     }
@@ -53,12 +44,11 @@ public class FriendshipRequest implements Serializable {
     public FriendshipRequest() {
     }
 
-    public FriendshipRequest(Long id, boolean approved, Date sendRequest, User friendshipRequestee, User friendshipRequestor, boolean delete) {
+    public FriendshipRequest(Long id, FriendshipStatus status, Date sendRequest, User friendshipRequestee, User friendshipRequestor) {
         this.id = id;
-        this.approved = approved;
+        this.status = status;
         this.sendRequest = sendRequest;
         this.friendshipRequestee = friendshipRequestee;
         this.friendshipRequestor = friendshipRequestor;
-        this.delete = delete;
     }
 }

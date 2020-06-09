@@ -107,19 +107,19 @@ public class FriendDetailActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(user.getFriend()==0){
                     //moze da mu posalje zahtev, samo mu iskoci obavestenje da je zahtev za prijateljstvo poslato
-                    sendFriendshipRequest(user);
+                    sendFriendshipRequest(user, imageView);
 
                 }else if(user.getFriend()==1){
                     //nista, prijatelji su moze da ga ukloni
-                    declineOrRemoveFriends(user, 0);
-                    Toast.makeText(getApplicationContext(), "Successfully remove friend", Toast.LENGTH_LONG).show();
+                    removeFriends(user, imageView);
+//                    Toast.makeText(getApplicationContext(), "Successfully remove friend", Toast.LENGTH_LONG).show();
 
                 }else if (user.getFriend()==2){
                     //zahtev poslat
                     Toast.makeText(getApplicationContext(), "Wait response to frienship request", Toast.LENGTH_LONG).show();
                 }else{
                     //primljen yahtev, otvara se popup za prihavatanje prijateljstva
-                    drawingPopup(v, user);
+                    drawingPopup(v, user, imageView);
 
 
                 }
@@ -131,7 +131,7 @@ public class FriendDetailActivity extends AppCompatActivity {
 //        startActivity(getIntent());
     }
 
-    private void drawingPopup(View v, FriendResponse user) {
+    private void drawingPopup(View v, FriendResponse user, ImageView imageView) {
         LayoutInflater inflater = (LayoutInflater)
                 getSystemService(LAYOUT_INFLATER_SERVICE);
         final View popupView = inflater.inflate(R.layout.accept_friendship_popup, null);
@@ -157,8 +157,9 @@ public class FriendDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //obratimo se api-ju da prihvati zahtev za prijateljstvo
-                acceptFriendship(user);
+                acceptFriendship(user, imageView);
                 popupWindow.dismiss();
+
             }
         });
 
@@ -167,7 +168,7 @@ public class FriendDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //obratimo se api-ju da prihvati zahtev za prijateljstvo
-                declineOrRemoveFriends(user, 1);
+                declineFriends(user,imageView);
                 popupWindow.dismiss();
 
             }
@@ -175,7 +176,7 @@ public class FriendDetailActivity extends AppCompatActivity {
 
     }
 
-    private void acceptFriendship(FriendResponse user) {
+    private void acceptFriendship(FriendResponse user, ImageView imageView) {
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
 
         FriendshipRequest accept = new FriendshipRequest(user.getUsername(), SaveSharedPreference.getLoggedObject(getApplicationContext()).getUsername(), true );
@@ -189,7 +190,13 @@ public class FriendDetailActivity extends AppCompatActivity {
 
                     Log.e("tag", "Prihvatili ste zahtev za prijateljstvo");
                     Toast.makeText(getApplicationContext(), "Successfully accept friendship request", Toast.LENGTH_LONG).show();
-
+                    imageView.setImageResource(R.drawable.ic_group);
+                    imageView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            removeFriends(user, imageView);
+                        }
+                    });
 
                 }
 
@@ -208,7 +215,49 @@ public class FriendDetailActivity extends AppCompatActivity {
         });
     }
 
-    private void declineOrRemoveFriends(FriendResponse user, int remove) {
+    private void  removeFriends(FriendResponse user, ImageView imageView){
+        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+
+        FriendshipRequest decline = new FriendshipRequest(user.getUsername(), SaveSharedPreference.getLoggedObject(getApplicationContext()).getUsername(), false );
+        Call<ResponseBody> call = apiService.deleteFriends(decline);
+        call.enqueue(new Callback() {
+
+            @Override
+            public void onResponse(Call call, Response response) {
+                if(response.body() != null){
+
+
+                    Log.e("tag", "Obrisali ste  prijatelja");
+
+                    Toast.makeText(getApplicationContext(), "Successfully remove friend", Toast.LENGTH_LONG).show();
+                    imageView.setImageResource(R.drawable.ic_add_friend);
+                    imageView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            sendFriendshipRequest(user, imageView);
+                        }
+                    });
+
+
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                Log.e("tag","Greska prilikom brisanja prijatelja!!!");
+
+            }
+
+
+
+
+
+        });
+    }
+
+    private void declineFriends(FriendResponse user, ImageView imageView) {
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
 
         FriendshipRequest decline = new FriendshipRequest(user.getUsername(), SaveSharedPreference.getLoggedObject(getApplicationContext()).getUsername(), false );
@@ -220,12 +269,17 @@ public class FriendDetailActivity extends AppCompatActivity {
                 if(response.body() != null){
 
 
-                    Log.e("tag", "Niste prihvatili ili ste obrisali prijatelja");
-                    if (remove==1)
-                        Toast.makeText(getApplicationContext(), "Successfully decline friendship request", Toast.LENGTH_LONG).show();
-                    else
-                        Toast.makeText(getApplicationContext(), "Successfully remove friend", Toast.LENGTH_LONG).show();
+                    Log.e("tag", "Niste prihvatili zahtev za  prijateljstvo");
 
+                        Toast.makeText(getApplicationContext(), "Successfully decline friendship request", Toast.LENGTH_LONG).show();
+
+                    imageView.setImageResource(R.drawable.ic_add_friend);
+                    imageView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            sendFriendshipRequest(user, imageView);
+                        }
+                    });
 
 
                 }
@@ -246,7 +300,7 @@ public class FriendDetailActivity extends AppCompatActivity {
     }
 
 
-    private void sendFriendshipRequest(FriendResponse requestee) {
+    private void sendFriendshipRequest(FriendResponse requestee, ImageView imageView) {
 
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
         FriendshipRequest fr = new FriendshipRequest(SaveSharedPreference.getLoggedObject(getApplicationContext()).getUsername(), requestee.getUsername());
@@ -260,7 +314,14 @@ public class FriendDetailActivity extends AppCompatActivity {
 
                     Log.e("tag", "Uspesno je poslat zahtev za prijateljstvo");
                     Toast.makeText(getApplicationContext(), "Successfully send friendship request", Toast.LENGTH_LONG).show();
+                    imageView.setImageResource(R.drawable.ic_send_request);
+                    imageView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Toast.makeText(getApplicationContext(), "Wait response to frienship request", Toast.LENGTH_LONG).show();
 
+                        }
+                    });
 
                 }
 

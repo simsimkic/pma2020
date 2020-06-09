@@ -54,4 +54,13 @@ public class ActivityController {
         return new ResponseEntity<Set<ActivityResponseDto>>(response, HttpStatus.OK);
     }
 
+    @DeleteMapping("/activities/{userId}/{activityId}")
+    public ResponseEntity<Activity> deleteActivity(@PathVariable Long userId, @PathVariable Long activityId) {
+        Activity deletedActivity = postService.delete(userId, activityId);
+        if (deletedActivity != null) {
+            return new ResponseEntity<Activity>(deletedActivity, HttpStatus.OK);
+        }
+        return new ResponseEntity<Activity>(deletedActivity, HttpStatus.NOT_FOUND);
+    }
+
 }

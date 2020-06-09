@@ -11,4 +11,5 @@ import java.util.Set;
 @Repository
 public interface ActivityRepository extends JpaRepository<Activity, Long> {
     Set<Activity> findByUserId(Long id);
+    Activity findByUserIdAndId(Long userId, Long activityId);
 }

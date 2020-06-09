@@ -17,6 +17,7 @@ import com.example.myapplication.dto.response.GoalResponse;
 import com.example.myapplication.dto.response.PostResponse;
 import com.example.myapplication.dto.response.UserResponse;
 import com.example.myapplication.dto.response.UserSettingsResponse;
+import com.example.myapplication.model.Activity;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -24,6 +25,7 @@ import java.util.Set;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
@@ -129,6 +131,23 @@ public interface ApiInterface {
             "User-Agent: Mobile-Android",
             "Content-Type:application/json"
     })
+
     @GET("getGoalsByUser/{userId}")
     Call<Set<GoalResponse>> getGoalsByUser(@Path("userId") Long userId);
+
+    @POST("friends/deleteFriends")
+    Call<ResponseBody> deleteFriends(@Body FriendshipRequest fr);
+
+    @Headers({
+            "User-Agent: Mobile-Android",
+            "Content-Type:application/json"
+    })
+    @DELETE("activities/{UserId}/{ActivityId}")
+    Call<Activity> deleteActivity(@Path("UserId") Long userId, @Path("ActivityId") Long activityId);
+    @Headers({
+            "User-Agent: Mobile-Android",
+            "Content-Type:application/json"
+    })
+    @GET("post/get/{username}")
+    Call<ArrayList<PostResponse>> getAllPosts(@Path("username") String username);
 }

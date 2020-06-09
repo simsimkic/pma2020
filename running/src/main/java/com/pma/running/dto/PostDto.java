@@ -1,34 +1,37 @@
-package com.example.myapplication.dto.response;
+package com.pma.running.dto;
 
-import com.google.gson.annotations.SerializedName;
+import org.apache.tomcat.jni.Local;
+
+import java.io.Serializable;
 
 
-public class PostResponse {
-
-    @SerializedName("id")
+public class PostDto implements Serializable {
     private Long id;
-    @SerializedName("description")
     private String description;
-    @SerializedName("visibility")
     private int visibility;
-    @SerializedName("like_num")
     private int like_num;
-    @SerializedName("comment_num")
     private int comment_num;
-    @SerializedName("date")
     private String date;
-    @SerializedName("bitmap")
     private String bitmap;
-    @SerializedName("user")
     private String user;
-
-    @SerializedName("distance")
     private double distance;
-
-    @SerializedName("duration")
     private double duration;
 
-    public PostResponse() { }
+    public PostDto() {
+    }
+
+    public PostDto(Long id, String description, int visibility, int like_num, int comment_num, String date, String bitmap, String user, double distance, double duration) {
+        this.id = id;
+        this.description = description;
+        this.visibility = visibility;
+        this.like_num = like_num;
+        this.comment_num = comment_num;
+        this.date = date;
+        this.bitmap = bitmap;
+        this.user = user;
+        this.distance = distance;
+        this.duration = duration;
+    }
 
     public Long getId() {
         return id;
@@ -52,22 +55,6 @@ public class PostResponse {
 
     public void setVisibility(int visibility) {
         this.visibility = visibility;
-    }
-
-    public double getDistance() {
-        return distance;
-    }
-
-    public void setDistance(double distance) {
-        this.distance = distance;
-    }
-
-    public double getDuration() {
-        return duration;
-    }
-
-    public void setDuration(double duration) {
-        this.duration = duration;
     }
 
     public int getLike_num() {
@@ -108,5 +95,21 @@ public class PostResponse {
 
     public void setUser(String user) {
         this.user = user;
+    }
+
+    public double getDistance() {
+        return distance;
+    }
+
+    public void setDistance(double distance) {
+        this.distance = distance;
+    }
+
+    public double getDuration() {
+        return duration;
+    }
+
+    public void setDuration(double duration) {
+        this.duration = duration;
     }
 }

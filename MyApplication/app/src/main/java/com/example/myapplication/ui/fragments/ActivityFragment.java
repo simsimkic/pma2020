@@ -23,11 +23,6 @@ import com.example.myapplication.model.Activitie;
 import com.example.myapplication.util.ApiClient;
 import com.example.myapplication.util.SaveSharedPreference;
 
-import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
-import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.MapController;
-import org.osmdroid.views.MapView;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Set;
@@ -47,10 +42,6 @@ public class ActivityFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     public ActivityFragment() {
         // Required empty public constructor
@@ -77,10 +68,6 @@ public class ActivityFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override

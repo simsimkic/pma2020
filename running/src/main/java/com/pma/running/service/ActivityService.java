@@ -42,4 +42,11 @@ public class ActivityService {
     public Activity findById(Long id) {
         return activityRepository.findById(id).orElse(null);
     }
+
+    public Activity delete(Long userId, Long activityId) {
+        Activity activity = activityRepository.findByUserIdAndId(userId, activityId);
+        activityRepository.delete(activity);
+        return activity;
+    }
+
 }
