@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.myapplication.R;
+import com.example.myapplication.dto.response.NotificationResponse;
 import com.example.myapplication.model.Notification;
 import com.example.myapplication.model.NotificationType;
 import com.example.myapplication.mokap_data.Notifications;
@@ -22,9 +23,9 @@ import java.util.ArrayList;
 
 public class NotificationAdapter extends BaseAdapter {
     Context context;
-    ArrayList<Notification> notifications;
+    ArrayList<NotificationResponse> notifications;
 
-    public NotificationAdapter(Context context, ArrayList<Notification> notifications) {
+    public NotificationAdapter(Context context, ArrayList<NotificationResponse> notifications) {
         this.context = context;
         this.notifications = notifications;
     }
@@ -55,7 +56,7 @@ public class NotificationAdapter extends BaseAdapter {
             view = convertView;
         }
 
-        Notification n = Notifications.getNotifications().get(position);
+        NotificationResponse n = this.notifications.get(position);
 
         ImageView icon = view.findViewById(R.id.notification_icon);
         TextView description= view.findViewById(R.id.description);
@@ -88,15 +89,15 @@ public class NotificationAdapter extends BaseAdapter {
             btn_layout.addView(cancel);
         }else if (n.getType() ==  NotificationType.SEND_INVITATION){
             icon.setImageResource(R.drawable.question_mark);
-            description.setText(n.getActivity().getDescription());
+            description.setText(n.getDescription());
 
 
-
-            TextView locationView = view.findViewById(R.id.location);
-            locationView.setText(n.getActivity().getLocation());
-
-            TextView time = view.findViewById(R.id.date);
-            time.setText(n.getActivity().getDate());
+//
+//            TextView locationView = view.findViewById(R.id.location);
+//            locationView.setText(n.getActivity().getLocation());
+//
+//            TextView time = view.findViewById(R.id.date);
+//            time.setText(n.getActivity().getDate());
 
 
             Button accept =  new Button(context);

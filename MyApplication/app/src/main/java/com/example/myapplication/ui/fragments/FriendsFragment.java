@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -19,6 +20,7 @@ import com.example.myapplication.dto.response.FriendResponse;
 import com.example.myapplication.interfaces.ApiInterface;
 import com.example.myapplication.model.Friend;
 import com.example.myapplication.ui.FindFriendsActivity;
+import com.example.myapplication.ui.FriendDetailActivity;
 import com.example.myapplication.ui.ProfileActivity;
 import com.example.myapplication.ui.SingupActivity;
 import com.example.myapplication.util.ApiClient;
@@ -119,6 +121,19 @@ public class FriendsFragment extends Fragment {
                     // Attach the adapter to a ListView
 
                     listView.setAdapter(adapter);
+                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            FriendResponse friend = friends.get(position);
+//                Toast.makeText(getApplicationContext(), "You click on friend " + friend.getName(), Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(getActivity(), FriendDetailActivity.class);
+
+                            intent.putExtra("friend", friend);
+
+                            startActivity(intent);
+                        }
+                    });
+
                 }
 
             }
@@ -134,8 +149,6 @@ public class FriendsFragment extends Fragment {
 
 
         });
-
-
 
 
 

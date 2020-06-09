@@ -88,7 +88,7 @@ public class FriendService {
         FriendshipRequest newFriendshipRequest = new FriendshipRequest(requestee, requestor, new Date(new java.util.Date().getTime()), FriendshipStatus.SEND_REQUEST);
         newFriendshipRequest = this.friendshipRepository.save(newFriendshipRequest);
 
-        FriendshipRequestNotification notification = new FriendshipRequestNotification(new Date(new java.util.Date().getTime()), NotificationType.FRIENDSHIP_REQUEST, requestor.getName() + " sent you a friendship request", newFriendshipRequest);
+        FriendshipRequestNotification notification = new FriendshipRequestNotification(new Date(new java.util.Date().getTime()), NotificationType.FRIENDSHIP_REQUEST, requestor.getName() + " sent you a friendship request", requestee, newFriendshipRequest);
 
         this.notificationRepository.save(notification);
         return "Successfully send friendship request";
@@ -106,7 +106,7 @@ public class FriendService {
             if (friendshipRequestDto.getAccept()){
                 foundRequest.setStatus(FriendshipStatus.APPROVED_REQUEST);
                 foundRequest = this.friendshipRepository.save(foundRequest);
-                FriendshipRequestNotification notification = new FriendshipRequestNotification(new Date(new java.util.Date().getTime()), NotificationType.APPROVED_FRIENDSHIP, requestee.getUsername() + " accepted your friend request", foundRequest);
+                FriendshipRequestNotification notification = new FriendshipRequestNotification(new Date(new java.util.Date().getTime()), NotificationType.APPROVED_FRIENDSHIP, requestee.getUsername() + " accepted your friend request", requestor ,foundRequest);
                 this.notificationRepository.save(notification);
                 Friends friends = new Friends(foundRequest.getFriendshipRequestee(), foundRequest.getFriendshipRequestor());
                 this.friendsRepository.save(friends);
