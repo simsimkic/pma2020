@@ -1,10 +1,13 @@
 package com.example.myapplication.model;
 
+import android.graphics.Bitmap;
+
 import java.sql.Time;
 import java.util.Date;
 
 public class Activitie {
     private String name;
+    private Bitmap encodedMap;
     private Double distance;
     private Double duration;
     private String time;
@@ -23,11 +26,11 @@ public class Activitie {
         this.user=user;
     }
 
-    public Activitie(String name, Double distance, Double duration, String time) {
-        this.name = name;
+    public Activitie(Double distance, Double duration, String time, Bitmap encodedMap) {
         this.distance = distance;
         this.duration = duration;
         this.time = time;
+        this.encodedMap = encodedMap;
     }
 
     public String getName() {
@@ -36,6 +39,14 @@ public class Activitie {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Bitmap getEncodedMap() {
+        return encodedMap;
+    }
+
+    public void setEncodedMap(Bitmap encodedMap) {
+        this.encodedMap = encodedMap;
     }
 
     public Double getDistance() {
@@ -76,7 +87,6 @@ public class Activitie {
 
     public void setComment(String comment) {
         this.comment = comment;
-
     }
 
     public String getUser() {

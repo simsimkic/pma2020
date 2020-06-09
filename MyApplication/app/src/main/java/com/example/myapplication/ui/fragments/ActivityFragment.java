@@ -1,20 +1,35 @@
 package com.example.myapplication.ui.fragments;
 
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.example.myapplication.R;
 import com.example.myapplication.adapter.ActivitieAdapter;
+import com.example.myapplication.dto.response.BitmapDtoResponse;
+import com.example.myapplication.interfaces.ApiInterface;
 import com.example.myapplication.model.Activitie;
+import com.example.myapplication.util.ApiClient;
+import com.example.myapplication.util.SaveSharedPreference;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Set;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -59,24 +74,44 @@ public class ActivityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_activity, container, false);
 
-        Date date = new Date();
-        Activitie activity1 = new Activitie("April goal", 3.0 , 1.0, date.toString());
-        Activitie activity2 = new Activitie("May goal", 3.0 , 1.0, date.toString());
+        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        Call<Set<BitmapDtoResponse>> call = apiService.getActivitiesByUser(SaveSharedPreference.getLoggedObject(getContext()).getId());
+        call.enqueue(new Callback<Set<BitmapDtoResponse>>() {
+            @Override
+            public void onResponse(Call<Set<BitmapDtoResponse>> call, Response<Set<BitmapDtoResponse>> response) {
 
-        // Construct the data source
-        ArrayList<Activitie> arrayOfActivity = new ArrayList<Activitie>();
-        arrayOfActivity.add(activity1);
-        arrayOfActivity.add(activity2);
-        // Create the adapter to convert the array to views
-        ActivitieAdapter adapter = new ActivitieAdapter(getActivity(), arrayOfActivity);
+                Log.e("tag","Bitmap here!");
+                Set<BitmapDtoResponse> data = response.body();
+                ArrayList<Activitie> arrayOfActivity = new ArrayList<Activitie>();
+                if (data != null){
+                    for (BitmapDtoResponse activitie: data) {
+                        Log.e("tag","Proba : " + activitie.getDateTime());
+                        Activitie activity = new Activitie(activitie.getDistance(),activitie.getDuration(),activitie.getDateTime(),decodeBase64(activitie.getEncodedMap()));
+                        arrayOfActivity.add(activity);
+                    }
+                }
 
-        // Attach the adapter to a ListView
-        ListView listView = (ListView) view.findViewById(R.id.goals_list);
-        listView.setAdapter(adapter);
+                // Create the adapter to convert the array to views
+                ActivitieAdapter adapter = new ActivitieAdapter(getActivity(), arrayOfActivity);
+                // Attach the adapter to a ListView
+                ListView listView = (ListView) view.findViewById(R.id.goals_list);
+                listView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onFailure(Call<Set<BitmapDtoResponse>> call, Throwable t) {
+                Log.e("tag","Bitmap failure: " + t);
+            }
+        });
 
         return view;
+    }
+
+
+    public static Bitmap decodeBase64(String input) {
+        byte[] decodedByte = Base64.decode(input, 0);
+        return BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
     }
 }

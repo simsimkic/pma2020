@@ -13,12 +13,14 @@ import com.example.myapplication.dto.request.UserLogin;
 import com.example.myapplication.dto.request.UserRequest;
 import com.example.myapplication.dto.response.FriendResponse;
 import com.example.myapplication.dto.response.BitmapDtoResponse;
+import com.example.myapplication.dto.response.GoalResponse;
 import com.example.myapplication.dto.response.PostResponse;
 import com.example.myapplication.dto.response.UserResponse;
 import com.example.myapplication.dto.response.UserSettingsResponse;
 import com.example.myapplication.model.Activity;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -122,13 +124,17 @@ public interface ApiInterface {
             "User-Agent: Mobile-Android",
             "Content-Type:application/json"
     })
-    @GET("proba")
-    Call<BitmapDtoResponse> proba();
+    @GET("getActivitiesByUser/{userId}")
+    Call<Set<BitmapDtoResponse>> getActivitiesByUser(@Path("userId") Long userId);
 
     @Headers({
             "User-Agent: Mobile-Android",
             "Content-Type:application/json"
     })
+
+    @GET("getGoalsByUser/{userId}")
+    Call<Set<GoalResponse>> getGoalsByUser(@Path("userId") Long userId);
+
     @POST("friends/deleteFriends")
     Call<ResponseBody> deleteFriends(@Body FriendshipRequest fr);
 

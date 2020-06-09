@@ -5,7 +5,9 @@ insert into user(id, name, password, email, address , username) values (3, 'Mila
 insert into user(id, name, password, email, address , username) values (4, 'Milica Tadic', 'DQawLrwajQ9APpZsw+Lcqyody9+LT4O73xLwwQns7fM=$uo4jiQlGuiXH3pRpWpk9zAsZ0PDUBEotcwUWui/5r08=', 'milica.t@gmail.com', 'Nikole Tesle 10', 'milica');
 
 
---add friendship
+
+insert into goal(id, distance, duration, end_time, timestampe, title, user_id) values (1, 2.0, 5.0, '2019-12-12', '2020-12-12', 'Naziv', 1);
+
 insert into friendship(id, status, send_request, requestor_id, requestee_id) values (3, 'SEND_REQUEST' , '2020-05-06', 3, 1);
 
 --add friends
@@ -36,3 +38,4 @@ insert into user_settings (id, accepted_activity, accepted_friendship, activity_
 -- insert into post(id, date, description, like_num, visibility, activity_id, user_id ) values (1, '2020-06-06 12:23', 'Running is cool!!', 3, 2, 1, 4);
 -- insert into post(id, date, description, like_num, visibility, activity_id, user_id ) values (2, '2020-06-06 12:23', 'Running is cool!!', 13, 0, 2, 1);
 -- insert into post(id, date, description, like_num, visibility, activity_id, user_id ) values (3, '2020-06-06 12:23', 'Running is cool!!', 23, 1, 3, 2);
+
