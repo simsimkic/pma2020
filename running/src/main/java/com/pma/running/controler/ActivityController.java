@@ -1,7 +1,7 @@
 package com.pma.running.controler;
 
 import com.pma.running.dto.ActivityDto;
-import com.pma.running.dto.BitmapResponseDto;
+import com.pma.running.dto.ActivityResponseDto;
 import com.pma.running.model.Activity;
 import com.pma.running.model.Post;
 import com.pma.running.service.ActivityService;
@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.*;
 
 @RestController
 @CrossOrigin(origins = "", allowedHeaders = "", maxAge = 3600)
@@ -32,16 +34,24 @@ public class ActivityController {
         return new ResponseEntity<>(postService.save(activityDto, activity.getId()), HttpStatus.OK);
     }
 
-    @GetMapping("/proba")
-    public ResponseEntity<BitmapResponseDto> proba() {
-        Activity activity = activityService.findById(Long.parseLong("1"));
+    @GetMapping("/getActivitiesByUser/{userId}")
+    public ResponseEntity<Set<ActivityResponseDto>> getActivitiesByUser(@PathVariable Long userId) {
+        Set<Activity> activity = activityService.findActivityByUserId(userId);
+        Set<ActivityResponseDto> response = new HashSet<>();
         if (activity == null) {
-            return new ResponseEntity<>(new BitmapResponseDto(), HttpStatus.OK);
+            return new ResponseEntity<Set<ActivityResponseDto>>(response, HttpStatus.OK);
         }
-        String encodedMap = activity.getEncodedMap();
-        BitmapResponseDto response = new BitmapResponseDto();
-        response.setEncodedMap(encodedMap);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        for (Activity act: activity) {
+            ActivityResponseDto responseO = new ActivityResponseDto();
+            responseO.setDistance(act.getDistance());
+            responseO.setDuration(act.getDuration());
+            responseO.setEncodedMap(act.getEncodedMap());
+            responseO.setDateTime(act.getDateTime().toString());
+            responseO.setId(act.getId());
+            response.add(responseO);
+        }
+
+        return new ResponseEntity<Set<ActivityResponseDto>>(response, HttpStatus.OK);
     }
 
     @DeleteMapping("/activities/{userId}/{activityId}")

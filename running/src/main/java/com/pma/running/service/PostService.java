@@ -6,7 +6,6 @@ import com.pma.running.model.*;
 import com.pma.running.repository.FriendsRepository;
 import com.pma.running.repository.PostRepository;
 import com.pma.running.repository.UserRepository;
-import javafx.geometry.Pos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

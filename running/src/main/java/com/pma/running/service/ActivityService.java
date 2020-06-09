@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Set;
 
 @Service
 public class ActivityService {
@@ -22,6 +24,7 @@ public class ActivityService {
     }
 
     public Activity save(ActivityDto activityDto) {
+        System.out.println(activityDto.getDateTime());
         Activity activity = new Activity();
         activity.setDuration(activityDto.getDuration());
         activity.setDistance(activityDto.getDistance());
@@ -30,6 +33,10 @@ public class ActivityService {
         activity.setUser(userService.findByUsername(activityDto.getUsername()));
         activity.setEncodedMap(activityDto.getEncodedMap());
         return activityRepository.save(activity);
+    }
+
+    public Set<Activity> findActivityByUserId(Long id) {
+        return activityRepository.findByUserId(id);
     }
 
     public Activity findById(Long id) {

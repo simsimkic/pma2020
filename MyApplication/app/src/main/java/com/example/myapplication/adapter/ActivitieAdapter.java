@@ -13,6 +13,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.myapplication.R;
+import com.example.myapplication.model.Activitie;
+
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
@@ -29,10 +32,6 @@ import org.osmdroid.views.MapController;
 import org.osmdroid.views.MapView;
 
 import java.util.ArrayList;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class ActivitieAdapter extends ArrayAdapter<Activitie> {
 
@@ -60,40 +59,17 @@ public class ActivitieAdapter extends ArrayAdapter<Activitie> {
         TextView distance = convertView.findViewById(R.id.distance);
         TextView duration = convertView.findViewById(R.id.duration);
         TextView time = convertView.findViewById(R.id.time);
-
-//        mMapView = convertView.findViewById(R.id.mapview);
-//        mMapView.setTileSource(TileSourceFactory.DEFAULT_TILE_SOURCE);
-//        mMapView.getZoomController().activate();
-//        mMapController = (MapController) mMapView.getController();
-//        mMapController.setZoom(13);
-//        GeoPoint gPt = new GeoPoint(51500000, -150000);
-//        mMapController.setCenter(gPt);
-
-        name.setText(activitie.getName());
-        distance.setText(activitie.getDistance() + " km" );
-        duration.setText(activitie.getDuration() + " h");
-        time.setText(activitie.getTime().toString());
-
-        // SAMO ZA TESTIRANJE///////////////////
         ImageView imageView = convertView.findViewById(R.id.map_image);
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        Call<BitmapDtoResponse> call = apiService.proba();
-        call.enqueue(new Callback<BitmapDtoResponse>() {
-            @Override
-            public void onResponse(Call<BitmapDtoResponse> call, Response<BitmapDtoResponse> response) {
-                Log.e("tag","Bitmap here!");
-                if (response.body().getEncodedMap() != null) {
-                    String encodedMap = response.body().getEncodedMap();
-                    Bitmap bitmap = decodeBase64(encodedMap);
-                    imageView.setImageBitmap(bitmap);
-                }
-            }
-            @Override
-            public void onFailure(Call<BitmapDtoResponse> call, Throwable t) {
-                Log.e("tag","Bitmap failure: " + t);
-            }
-        });
-//        /////////////////////////////////////////
+
+
+
+        imageView.setImageBitmap(activitie.getEncodedMap());
+        distance.setText(activitie.getDistance() + " km" );
+        duration.setText(activitie.getDuration() + " sec");
+        time.setText(activitie.getTime());
+
+
+
 
         return  convertView;
     }

@@ -7,12 +7,14 @@ public class Goal {
     private Double distance;
     private Double duration;
     private Boolean archived;
+    private String end_time;
 
-    public Goal(String name, Double distance, Double duration, Boolean archived) {
+    public Goal(String name, Double distance, Double duration, Boolean archived, String end_time) {
         this.name = name;
         this.distance = distance;
         this.duration = duration;
         this.archived = archived;
+        this.end_time = end_time;
     }
 
     public String getName() {
@@ -45,5 +47,13 @@ public class Goal {
 
     public void setArchived(Boolean archived) {
         this.archived = archived;
+    }
+
+    public String getEnd_time() {
+        return end_time;
+    }
+
+    public void setEnd_time(String end_time) {
+        this.end_time = end_time;
     }
 }

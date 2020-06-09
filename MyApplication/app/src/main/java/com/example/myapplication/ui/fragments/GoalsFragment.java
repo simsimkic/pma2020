@@ -5,21 +5,34 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.example.myapplication.R;
+import com.example.myapplication.adapter.ActivitieAdapter;
 import com.example.myapplication.adapter.FriendAdapter;
 import com.example.myapplication.adapter.GoalAdapter;
+import com.example.myapplication.dto.response.BitmapDtoResponse;
+import com.example.myapplication.dto.response.GoalResponse;
+import com.example.myapplication.interfaces.ApiInterface;
+import com.example.myapplication.model.Activitie;
 import com.example.myapplication.model.Friend;
 import com.example.myapplication.model.Goal;
 import com.example.myapplication.ui.FindFriendsActivity;
 import com.example.myapplication.ui.ProfileActivity;
+import com.example.myapplication.util.ApiClient;
+import com.example.myapplication.util.SaveSharedPreference;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Set;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -86,21 +99,35 @@ public class GoalsFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_goals, container, false);
 
-        Goal goal1 = new Goal("April goal", null,1.0,true);
-        Goal goal2 = new Goal("May goal", 3.0,5.0,false);
+        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        Call<Set<GoalResponse>> call = apiService.getGoalsByUser(SaveSharedPreference.getLoggedObject(getContext()).getId());
+        call.enqueue(new Callback<Set<GoalResponse>>() {
+            @Override
+            public void onResponse(Call<Set<GoalResponse>> call, Response<Set<GoalResponse>> response) {
 
-        // Construct the data source
-        ArrayList<Goal> arrayOfGoals = new ArrayList<Goal>();
-        arrayOfGoals.add(goal1);
-        arrayOfGoals.add(goal2);
-        // Create the adapter to convert the array to views
-        GoalAdapter adapter = new GoalAdapter(getActivity(), arrayOfGoals);
+                Log.e("tag","Bitmap here!");
+                Set<GoalResponse> data = response.body();
+                ArrayList<Goal> arrayOfGoal = new ArrayList<Goal>();
+                if (data != null){
+                    for (GoalResponse goal: data) {
+                        Log.e("tag","Proba : " + goal.getTimestamp());
+                        Goal activity = new Goal(goal.getTitle(),goal.getDistance(),goal.getDuration(),true,goal.getEnd_time());
+                        arrayOfGoal.add(activity);
+                    }
+                }
 
+                // Create the adapter to convert the array to views
+                GoalAdapter adapter = new GoalAdapter(getActivity(), arrayOfGoal);
+                // Attach the adapter to a ListView
+                ListView listView = (ListView) view.findViewById(R.id.goals_list);
+                listView.setAdapter(adapter);
+            }
 
-
-        // Attach the adapter to a ListView
-        ListView listView = (ListView) view.findViewById(R.id.goals_list);
-        listView.setAdapter(adapter);
+            @Override
+            public void onFailure(Call<Set<GoalResponse>> call, Throwable t) {
+                Log.e("tag","Bitmap failure: " + t);
+            }
+        });
 
         return view;
     }
