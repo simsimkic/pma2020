@@ -32,15 +32,15 @@ public class GoalController {
     }
 
     @GetMapping("/getGoalsByUser/{userId}")
-    public ResponseEntity<Set<GoalDtoResponse>> getActivitiesByUser(@PathVariable Long userId) {
+    public ResponseEntity<Set<GoalDtoResponse>> getGoalsByUser(@PathVariable Long userId) {
         Set<GoalDtoResponse> goals = goalService.getAllGoalsByUser(userId);
         return new ResponseEntity<Set<GoalDtoResponse>>(goals, HttpStatus.OK);
     }
 
     @PostMapping("/saveGoal")
-    public ResponseEntity<Goal> shareActivity(@RequestBody GoalDtoRequest activityDto) throws Exception {
-        Goal goal = goalService.saveGoal(activityDto);
-        return new ResponseEntity<Goal>(goal, HttpStatus.OK);
+    public ResponseEntity<GoalDtoResponse> saveGoal(@RequestBody GoalDtoRequest activityDto) throws Exception {
+        GoalDtoResponse goal = goalService.saveGoal(activityDto);
+        return new ResponseEntity<GoalDtoResponse>(goal, HttpStatus.OK);
     }
 
 }

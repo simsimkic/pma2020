@@ -1,6 +1,7 @@
 package com.example.myapplication.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.myapplication.R;
 import com.example.myapplication.model.Goal;
+import com.example.myapplication.ui.ProfileActivity;
 
 import java.util.ArrayList;
 
@@ -31,15 +33,21 @@ public class GoalAdapter extends ArrayAdapter<Goal> {
         TextView distance = convertView.findViewById(R.id.distance);
         TextView duration = convertView.findViewById(R.id.duration);
         TextView archived = convertView.findViewById(R.id.achieved);
-        ImageView delete = convertView.findViewById(R.id.remove);
         TextView end_time = convertView.findViewById(R.id.end_time);
+        ImageView btn_remove = (ImageView) convertView.findViewById(R.id.remove);
+        btn_remove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-//        delete.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        });
+            }
+        });
+        ImageView btn_edit = (ImageView) convertView.findViewById(R.id.edit);
+        btn_remove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
 
         name.setText(goal.getName());

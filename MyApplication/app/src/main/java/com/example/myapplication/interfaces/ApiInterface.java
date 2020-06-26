@@ -7,6 +7,7 @@ import com.example.myapplication.dto.request.FriendshipRequest;
 
 import com.example.myapplication.dto.request.NotificationSettingsDto;
 import com.example.myapplication.dto.request.PrivacySettingsDto;
+import com.example.myapplication.dto.request.SaveGoalRequest;
 import com.example.myapplication.dto.request.ThemeSettingsDto;
 
 import com.example.myapplication.dto.request.UserLogin;
@@ -58,6 +59,13 @@ public interface ApiInterface {
     })
     @POST("editUser")
     Call<UserResponse> editUser(@Body EditUserRequest userLogin);
+
+    @Headers({
+            "User-Agent: Mobile-Android",
+            "Content-Type:application/json"
+    })
+    @POST("saveGoal")
+    Call<GoalResponse> saveGoal(@Body SaveGoalRequest saveGoalRequest);
 
     @Headers({
             "User-Agent: Mobile-Android",

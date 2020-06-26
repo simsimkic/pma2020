@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.example.myapplication.R;
@@ -22,6 +24,7 @@ import com.example.myapplication.model.Activitie;
 import com.example.myapplication.model.Friend;
 import com.example.myapplication.model.Goal;
 import com.example.myapplication.ui.FindFriendsActivity;
+import com.example.myapplication.ui.MenageGoals;
 import com.example.myapplication.ui.ProfileActivity;
 import com.example.myapplication.util.ApiClient;
 import com.example.myapplication.util.SaveSharedPreference;
@@ -87,10 +90,11 @@ public class GoalsFragment extends Fragment {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity().getApplicationContext(), ProfileActivity.class);
+                Intent intent = new Intent(getActivity().getApplicationContext(), MenageGoals.class);
                 startActivity(intent);
             }
         });
+
     }
 
     @Override

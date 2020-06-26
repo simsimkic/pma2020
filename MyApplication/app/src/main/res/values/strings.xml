@@ -61,5 +61,6 @@
     <string name="group_activitie">Group activities</string>
     <string name="title_activity_notification">NotificationActivity</string>
     <string name="delete">Delete</string>
+    <string name="title_activity_menage_goals">MenageGoals</string>
 
 </resources>

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 @Service
@@ -42,22 +43,33 @@ public class GoalService {
         return response;
     }
 
-    public Goal saveGoal(GoalDtoRequest goalDtoRequest) throws Exception {
+    public GoalDtoResponse saveGoal(GoalDtoRequest goalDtoRequest) throws Exception {
 
         Goal goal = new Goal();
 
         goal.setDistance(goalDtoRequest.getDistance());
         goal.setDuration(goalDtoRequest.getDuration());
-        goal.setEndTime(LocalDateTime.parse(goalDtoRequest.getEnd_time(), DateTimeFormatter.ofPattern("dd.MM.yyyy. HH:mm")));
-        goal.setTimestampe(LocalDateTime.parse(goalDtoRequest.getTimestampe(), DateTimeFormatter.ofPattern("dd.MM.yyyy. HH:mm")));
+        System.out.println(goalDtoRequest.getEnd_time() + " <<<<<<<<<<ISPISUJEM RADI PROVERE ");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy. HH:mm");
+        LocalDateTime dateTime = LocalDateTime.parse(goalDtoRequest.getEnd_time(), formatter);
+        goal.setEndTime(dateTime);
+        LocalDateTime dateTime1 = LocalDateTime.parse(goalDtoRequest.getTimestampe(), formatter);
+        goal.setTimestampe(dateTime1);
         goal.setUser(userRepository.findById(goalDtoRequest.getUser_id()).orElse(null));
         goal.setTitle(goalDtoRequest.getTitle());
+        GoalDtoResponse goalResponse = new GoalDtoResponse();
         try{
             goalRepository.save(goal);
+
+            goalResponse.setDistance(goal.getDistance());
+            goalResponse.setDuration(goal.getDuration());
+            goalResponse.setEnd_time(goal.getEndTime().toString());
+            goalResponse.setTimestamp(goal.getTimestampe().toString());
+            goalResponse.setTitle(goal.getTitle());
         }catch (Exception e) {
             return null;
         }
-        return goal;
+        return goalResponse;
     }
 
 }
