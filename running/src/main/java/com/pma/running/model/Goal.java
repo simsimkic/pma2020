@@ -19,6 +19,7 @@ public class Goal implements Serializable {
     private double distance;
     private LocalDateTime timestampe;
     private LocalDateTime endTime; //vremensko ogranicenje
+    private Boolean archived;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

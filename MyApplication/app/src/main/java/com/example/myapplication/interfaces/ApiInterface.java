@@ -7,6 +7,7 @@ import com.example.myapplication.dto.request.FriendshipRequest;
 
 import com.example.myapplication.dto.request.NotificationSettingsDto;
 import com.example.myapplication.dto.request.PrivacySettingsDto;
+import com.example.myapplication.dto.request.SaveGoalRequest;
 import com.example.myapplication.dto.request.ThemeSettingsDto;
 
 import com.example.myapplication.dto.request.UserLogin;
@@ -63,6 +64,23 @@ public interface ApiInterface {
             "User-Agent: Mobile-Android",
             "Content-Type:application/json"
     })
+    @POST("saveGoal")
+    Call<GoalResponse> saveGoal(@Body SaveGoalRequest saveGoalRequest);
+
+    @DELETE("deleteGoal/{goalId}")
+    Call<Boolean> deleteGoal(@Path("goalId") Long goalId);
+
+    @Headers({
+            "User-Agent: Mobile-Android",
+            "Content-Type:application/json"
+    })
+    @PUT("updateGoal")
+    Call<GoalResponse> updateGoal(@Body SaveGoalRequest saveGoalRequest);
+
+    @Headers({
+            "User-Agent: Mobile-Android",
+            "Content-Type:application/json"
+    })
     @POST("activities/share")
     Call<PostResponse> shareActivity(@Body ActivityDto activityDto);
 
@@ -70,6 +88,7 @@ public interface ApiInterface {
             "User-Agent: Mobile-Android",
             "Content-Type:application/json"
     })
+
     @GET("friends/get/{username}")
     Call<ArrayList<FriendResponse>> getFriends(@Path("username") String username);
 

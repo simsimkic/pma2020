@@ -7,11 +7,13 @@ import java.sql.Date;
 @Data
 public class GoalDtoRequest {
 
+    private Long id;
     private String title;
     private double duration;
     private double distance;
     private String timestampe;
     private String end_time;
     private Long user_id;
+    private Boolean archived;
 
 }

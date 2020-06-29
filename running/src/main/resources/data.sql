@@ -6,7 +6,7 @@ insert into user(id, name, password, email, address , username) values (4, 'Mili
 
 
 
-insert into goal(id, distance, duration, end_time, timestampe, title, user_id) values (1, 2.0, 5.0, '2019-12-12', '2020-12-12', 'Naziv', 1);
+insert into goal(id, archived, distance, duration, end_time, timestampe, title, user_id) values (1, true, 2.0, 5.0, '2019-12-12', '2020-12-12', 'Naziv', 1);
 
 insert into friendship(id, status, send_request, requestor_id, requestee_id) values (3, 'SEND_REQUEST' , '2020-05-06', 3, 1);
 

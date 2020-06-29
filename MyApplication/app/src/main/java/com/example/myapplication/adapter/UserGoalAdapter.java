@@ -51,7 +51,7 @@ public class UserGoalAdapter extends BaseAdapter {
         TextView name = view.findViewById(R.id.name);
         TextView distance = view.findViewById(R.id.distance);
         TextView duration = view.findViewById(R.id.duration);
-        TextView archived = view.findViewById(R.id.achieved);
+//        TextView archived = view.findViewById(R.id.achieved);
 
 
         name.setText(goal.getName());
