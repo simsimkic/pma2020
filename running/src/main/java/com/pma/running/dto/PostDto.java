@@ -1,10 +1,12 @@
 package com.pma.running.dto;
 
+import lombok.Data;
 import org.apache.tomcat.jni.Local;
 
 import java.io.Serializable;
+import java.util.List;
 
-
+@Data
 public class PostDto implements Serializable {
     private Long id;
     private String description;
@@ -16,6 +18,7 @@ public class PostDto implements Serializable {
     private String user;
     private double distance;
     private double duration;
+    private List<CommentDto> comments;
 
     public PostDto() {
     }
@@ -33,83 +36,17 @@ public class PostDto implements Serializable {
         this.duration = duration;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
+    public PostDto(Long id, String description, int visibility, int like_num, int comment_num, String date, String bitmap, String user, double distance, double duration, List<CommentDto> comments) {
         this.id = id;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
         this.description = description;
-    }
-
-    public int getVisibility() {
-        return visibility;
-    }
-
-    public void setVisibility(int visibility) {
         this.visibility = visibility;
-    }
-
-    public int getLike_num() {
-        return like_num;
-    }
-
-    public void setLike_num(int like_num) {
         this.like_num = like_num;
-    }
-
-    public int getComment_num() {
-        return comment_num;
-    }
-
-    public void setComment_num(int comment_num) {
         this.comment_num = comment_num;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
         this.date = date;
-    }
-
-    public String getBitmap() {
-        return bitmap;
-    }
-
-    public void setBitmap(String bitmap) {
         this.bitmap = bitmap;
-    }
-
-    public String getUser() {
-        return user;
-    }
-
-    public void setUser(String user) {
         this.user = user;
-    }
-
-    public double getDistance() {
-        return distance;
-    }
-
-    public void setDistance(double distance) {
         this.distance = distance;
-    }
-
-    public double getDuration() {
-        return duration;
-    }
-
-    public void setDuration(double duration) {
         this.duration = duration;
+        this.comments = comments;
     }
 }
