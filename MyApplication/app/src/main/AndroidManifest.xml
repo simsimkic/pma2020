@@ -17,10 +17,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".ui.GoalDetailActivity"></activity>
         <activity
             android:name=".ui.MenageGoals"
             android:label="@string/title_activity_menage_goals"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.NotificationActivity"
             android:label="@string/title_activity_notification"

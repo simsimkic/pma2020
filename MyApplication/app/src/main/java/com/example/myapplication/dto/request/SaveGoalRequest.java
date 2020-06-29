@@ -7,18 +7,38 @@ public class SaveGoalRequest {
     private double distance;
     private String timestampe;
     private String end_time;
+    private Boolean archived;
     private Long user_id;
+    private Long id;
 
-    public SaveGoalRequest(String title, double duration, double distance, String timestampe, String end_time, Long user_id) {
+    public SaveGoalRequest(String title, double duration, double distance, String timestampe, String end_time, Long user_id, Long id, boolean archived) {
         this.title = title;
         this.duration = duration;
         this.distance = distance;
         this.timestampe = timestampe;
         this.end_time = end_time;
         this.user_id = user_id;
+        this.id = id;
+        this.archived = archived;
     }
 
     public SaveGoalRequest() {
+    }
+
+    public Boolean getArchived() {
+        return archived;
+    }
+
+    public void setArchived(Boolean archived) {
+        this.archived = archived;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getTitle() {

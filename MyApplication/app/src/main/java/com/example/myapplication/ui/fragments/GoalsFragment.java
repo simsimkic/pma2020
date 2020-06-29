@@ -1,14 +1,18 @@
 package com.example.myapplication.ui.fragments;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -18,18 +22,22 @@ import com.example.myapplication.adapter.ActivitieAdapter;
 import com.example.myapplication.adapter.FriendAdapter;
 import com.example.myapplication.adapter.GoalAdapter;
 import com.example.myapplication.dto.response.BitmapDtoResponse;
+import com.example.myapplication.dto.response.FriendResponse;
 import com.example.myapplication.dto.response.GoalResponse;
 import com.example.myapplication.interfaces.ApiInterface;
 import com.example.myapplication.model.Activitie;
 import com.example.myapplication.model.Friend;
 import com.example.myapplication.model.Goal;
 import com.example.myapplication.ui.FindFriendsActivity;
+import com.example.myapplication.ui.FriendDetailActivity;
+import com.example.myapplication.ui.GoalDetailActivity;
 import com.example.myapplication.ui.MenageGoals;
 import com.example.myapplication.ui.ProfileActivity;
 import com.example.myapplication.util.ApiClient;
 import com.example.myapplication.util.SaveSharedPreference;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Set;
 
@@ -112,19 +120,35 @@ public class GoalsFragment extends Fragment {
                 Log.e("tag","Bitmap here!");
                 Set<GoalResponse> data = response.body();
                 ArrayList<Goal> arrayOfGoal = new ArrayList<Goal>();
+                ArrayList<GoalResponse> goalReponses = new ArrayList<GoalResponse>();
                 if (data != null){
                     for (GoalResponse goal: data) {
                         Log.e("tag","Proba : " + goal.getTimestamp());
                         Goal activity = new Goal(goal.getTitle(),goal.getDistance(),goal.getDuration(),true,goal.getEnd_time());
                         arrayOfGoal.add(activity);
+                        goalReponses.add(goal);
                     }
                 }
+
 
                 // Create the adapter to convert the array to views
                 GoalAdapter adapter = new GoalAdapter(getActivity(), arrayOfGoal);
                 // Attach the adapter to a ListView
                 ListView listView = (ListView) view.findViewById(R.id.goals_list);
                 listView.setAdapter(adapter);
+
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.N)
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        GoalResponse goal = goalReponses.get(position);
+                        Intent intent = new Intent(getActivity(), GoalDetailActivity.class);
+
+                        intent.putExtra("goal", goal);
+
+                        startActivity(intent);
+                    }
+                });
             }
 
             @Override

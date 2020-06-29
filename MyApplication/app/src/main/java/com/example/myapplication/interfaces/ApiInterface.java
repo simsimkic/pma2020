@@ -67,6 +67,16 @@ public interface ApiInterface {
     @POST("saveGoal")
     Call<GoalResponse> saveGoal(@Body SaveGoalRequest saveGoalRequest);
 
+    @DELETE("deleteGoal/{goalId}")
+    Call<Boolean> deleteGoal(@Path("goalId") Long goalId);
+
+    @Headers({
+            "User-Agent: Mobile-Android",
+            "Content-Type:application/json"
+    })
+    @PUT("updateGoal")
+    Call<GoalResponse> updateGoal(@Body SaveGoalRequest saveGoalRequest);
+
     @Headers({
             "User-Agent: Mobile-Android",
             "Content-Type:application/json"
@@ -78,6 +88,7 @@ public interface ApiInterface {
             "User-Agent: Mobile-Android",
             "Content-Type:application/json"
     })
+
     @GET("friends/get/{username}")
     Call<ArrayList<FriendResponse>> getFriends(@Path("username") String username);
 

@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:gravity="center"
     android:orientation="horizontal">
     <LinearLayout
         android:layout_width="wrap_content"
@@ -72,25 +73,9 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_gravity="center">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="Archived"/>
-            <TextView
-                android:id="@+id/achieved"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:layout_marginTop="12dp"
-                android:text="Yes"/>
-        </LinearLayout>
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:layout_marginLeft="20dp">
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -112,29 +97,29 @@
     </LinearLayout>
 
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center">
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_gravity="center">
-            <ImageView
-                android:id="@+id/remove"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                app:srcCompat="@drawable/baseline_clear_black_48dp"
-                android:layout_gravity="right"/>
-            <ImageView
-                android:id="@+id/edit"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                app:srcCompat="@drawable/baseline_create_black_48dp"
-                android:layout_gravity="right"/>
-        </LinearLayout>
-    </FrameLayout>
+<!--    <FrameLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_gravity="center">-->
+<!--        <LinearLayout-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="vertical"-->
+<!--            android:layout_gravity="center">-->
+<!--            <ImageView-->
+<!--                android:id="@+id/remove"-->
+<!--                android:layout_width="48dp"-->
+<!--                android:layout_height="48dp"-->
+<!--                app:srcCompat="@drawable/baseline_clear_black_48dp"-->
+<!--                android:layout_gravity="right"/>-->
+<!--            <ImageView-->
+<!--                android:id="@+id/edit"-->
+<!--                android:layout_width="48dp"-->
+<!--                android:layout_height="48dp"-->
+<!--                app:srcCompat="@drawable/baseline_create_black_48dp"-->
+<!--                android:layout_gravity="right"/>-->
+<!--        </LinearLayout>-->
+<!--    </FrameLayout>-->
 
 
 

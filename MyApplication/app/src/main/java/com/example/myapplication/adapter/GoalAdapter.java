@@ -32,22 +32,22 @@ public class GoalAdapter extends ArrayAdapter<Goal> {
         TextView name = convertView.findViewById(R.id.name);
         TextView distance = convertView.findViewById(R.id.distance);
         TextView duration = convertView.findViewById(R.id.duration);
-        TextView archived = convertView.findViewById(R.id.achieved);
+//        TextView archived = convertView.findViewById(R.id.achieved);
         TextView end_time = convertView.findViewById(R.id.end_time);
-        ImageView btn_remove = (ImageView) convertView.findViewById(R.id.remove);
-        btn_remove.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        ImageView btn_edit = (ImageView) convertView.findViewById(R.id.edit);
-        btn_remove.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+//        ImageView btn_remove = (ImageView) convertView.findViewById(R.id.remove);
+//        btn_remove.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
+//        ImageView btn_edit = (ImageView) convertView.findViewById(R.id.edit);
+//        btn_remove.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
 
 
         name.setText(goal.getName());
@@ -62,12 +62,12 @@ public class GoalAdapter extends ArrayAdapter<Goal> {
             duration.setText(goal.getDuration() + " h");
         }
 
-        if(goal.getArchived()){
-            archived.setText("Yes");
-        }else{
-            archived.setText("No");
-        }
-        end_time.setText(goal.getEnd_time());
+//        if(goal.getArchived()){
+//            archived.setText("Yes");
+//        }else{
+//            archived.setText("No");
+//        }
+        end_time.setText(goal.getEnd_time().split(". ")[0]);
 
         return  convertView;
     }
