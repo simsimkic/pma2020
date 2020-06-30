@@ -5,6 +5,7 @@ import lombok.Data;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -16,7 +17,7 @@ public class Comment implements Serializable {
 
 
     private String text;
-    private Date timestamp;
+    private LocalDateTime timestamp;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
@@ -25,4 +26,14 @@ public class Comment implements Serializable {
     @ManyToOne
     @JoinColumn(name = "post_id", nullable = false)
     private Post post;
+
+    public Comment() {
+    }
+
+    public Comment(String text, LocalDateTime timestamp, User user, Post post) {
+        this.text = text;
+        this.timestamp = timestamp;
+        this.user = user;
+        this.post = post;
+    }
 }

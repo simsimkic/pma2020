@@ -11,6 +11,7 @@ import com.pma.running.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +33,8 @@ public class NotificationService {
             NotificationDto dto = new NotificationDto();
             dto.setId(n.getId());
             dto.setDescription(n.getDescription());
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            dto.setDate(n.getTimestamp().format(formatter));
             switch (n.getNotificationType()){
                 case APPROVED_FRIENDSHIP:
                     dto.setType(com.pma.running.dto.NotificationType.ACCEPT_FRIEND);

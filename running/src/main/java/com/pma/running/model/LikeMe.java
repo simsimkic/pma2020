@@ -21,4 +21,17 @@ public class LikeMe implements Serializable {
     @ManyToOne
     @JoinColumn(name = "post_id", nullable = false)
     private Post post;
+
+    public LikeMe(User user, Post post) {
+        this.user = user;
+        this.post = post;
+    }
+    public LikeMe(Long id, User user, Post post) {
+        this.id = id;
+        this.user = user;
+        this.post = post;
+    }
+
+    public LikeMe() {
+    }
 }

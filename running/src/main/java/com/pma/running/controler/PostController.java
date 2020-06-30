@@ -1,12 +1,15 @@
 package com.pma.running.controler;
 
+import com.pma.running.dto.CommentDto;
 import com.pma.running.dto.PostDto;
-import com.pma.running.model.Post;
+import com.pma.running.dto.PostLikeDto;
 import com.pma.running.service.PostService;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -19,5 +22,33 @@ public class PostController {
     @GetMapping(value = "/get/{username}")
     public List<PostDto> get(@PathVariable String username){
             return  postService.getAllPostByUser(username);
+    }
+
+
+
+
+    @PostMapping(value = "/like")
+    public List<PostDto> likeOrDislike(@RequestBody PostLikeDto postLikeDto) {
+        System.out.println("User " + postLikeDto.getUsername() + " like or dislike post: "  + postLikeDto.getPost_id() );
+        try {
+            return postService.likeOrDislikePost(postLikeDto);
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+    }
+
+    @PostMapping(value="/addComment")
+    public List<PostDto> comment(@RequestBody CommentDto commentDto){
+
+        System.out.println("User " + commentDto.getUser() + " comment post " + commentDto.getPost_id());
+
+        try {
+            return postService.comment(commentDto);
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+
     }
 }

@@ -135,7 +135,6 @@ public class FindFriendsActivity extends AppCompatActivity {
                         FriendListAdapter adapter = new FriendListAdapter(getApplicationContext(), friends);
                         list.setAdapter(adapter);
 
-                        list.setAdapter(adapter);
                     }
 
                 }
