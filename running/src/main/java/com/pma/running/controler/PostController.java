@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -27,18 +28,18 @@ public class PostController {
 
 
     @PostMapping(value = "/like")
-    public boolean likeOrDislike(@RequestBody PostLikeDto postLikeDto) {
+    public List<PostDto> likeOrDislike(@RequestBody PostLikeDto postLikeDto) {
         System.out.println("User " + postLikeDto.getUsername() + " like or dislike post: "  + postLikeDto.getPost_id() );
         try {
             return postService.likeOrDislikePost(postLikeDto);
         } catch (NotFoundException e) {
             e.printStackTrace();
-            return false;
+            return new ArrayList<>();
         }
     }
 
     @PostMapping(value="/addComment")
-    public boolean comment(@RequestBody CommentDto commentDto){
+    public List<PostDto> comment(@RequestBody CommentDto commentDto){
 
         System.out.println("User " + commentDto.getUser() + " comment post " + commentDto.getPost_id());
 
@@ -46,7 +47,7 @@ public class PostController {
             return postService.comment(commentDto);
         } catch (NotFoundException e) {
             e.printStackTrace();
-            return false;
+            return new ArrayList<>();
         }
 
     }

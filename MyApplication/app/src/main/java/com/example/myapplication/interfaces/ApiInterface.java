@@ -5,6 +5,7 @@ import com.example.myapplication.dto.request.EditUserRequest;
 
 import com.example.myapplication.dto.request.FriendshipRequest;
 
+import com.example.myapplication.dto.request.LikePostRequest;
 import com.example.myapplication.dto.request.NotificationSettingsDto;
 import com.example.myapplication.dto.request.PrivacySettingsDto;
 import com.example.myapplication.dto.request.SaveGoalRequest;
@@ -12,6 +13,7 @@ import com.example.myapplication.dto.request.ThemeSettingsDto;
 
 import com.example.myapplication.dto.request.UserLogin;
 import com.example.myapplication.dto.request.UserRequest;
+import com.example.myapplication.dto.response.CommentResponseDto;
 import com.example.myapplication.dto.response.FriendResponse;
 import com.example.myapplication.dto.response.BitmapDtoResponse;
 import com.example.myapplication.dto.response.NotificationResponse;
@@ -177,4 +179,18 @@ public interface ApiInterface {
     })
     @GET("notification/get/{username}")
     Call<ArrayList<NotificationResponse>> getNotifications(@Path("username") String username);
+
+    @Headers({
+            "User-Agent: Mobile-Android",
+            "Content-Type:application/json"
+    })
+    @POST("post/like")
+    Call<ArrayList<PostResponse>> likePost(@Body LikePostRequest likePost);
+
+    @Headers({
+            "User-Agent: Mobile-Android",
+            "Content-Type:application/json"
+    })
+    @POST("post/addComment")
+    Call<ArrayList<PostResponse>> commentPost(@Body CommentResponseDto comment);
 }

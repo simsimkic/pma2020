@@ -5,6 +5,7 @@ import lombok.Data;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -16,7 +17,7 @@ public class Notification implements Serializable {
     private Long id;
 
 
-    private Date timestamp;
+    private LocalDateTime timestamp;
     @Enumerated(EnumType.STRING)
     private NotificationType notificationType;
     private String description;
@@ -28,19 +29,19 @@ public class Notification implements Serializable {
     public Notification() {
     }
 
-    public Notification(Date timestamp, NotificationType notificationType, String description, User user) {
+    public Notification(LocalDateTime timestamp, NotificationType notificationType, String description, User user) {
         this.timestamp = timestamp;
         this.notificationType = notificationType;
         this.description = description;
         this.user = user;
     }
 
-    public Notification(Date timestamp, NotificationType notificationType, String description) {
+    public Notification(LocalDateTime timestamp, NotificationType notificationType, String description) {
         this.timestamp = timestamp;
         this.notificationType = notificationType;
         this.description = description;
     }
-    public Notification(Long id, Date timestamp, NotificationType notificationType, String description) {
+    public Notification(Long id, LocalDateTime timestamp, NotificationType notificationType, String description) {
         this.id = id;
         this.timestamp = timestamp;
         this.notificationType = notificationType;

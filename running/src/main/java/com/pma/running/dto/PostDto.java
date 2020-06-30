@@ -19,6 +19,7 @@ public class PostDto implements Serializable {
     private double distance;
     private double duration;
     private List<CommentDto> comments;
+    private boolean like;
 
     public PostDto() {
     }
@@ -48,5 +49,20 @@ public class PostDto implements Serializable {
         this.distance = distance;
         this.duration = duration;
         this.comments = comments;
+    }
+
+    public PostDto(Long id, String description, int visibility, int like_num, int comment_num, String date, String bitmap, String user, double distance, double duration, List<CommentDto> comments, boolean like) {
+        this.id = id;
+        this.description = description;
+        this.visibility = visibility;
+        this.like_num = like_num;
+        this.comment_num = comment_num;
+        this.date = date;
+        this.bitmap = bitmap;
+        this.user = user;
+        this.distance = distance;
+        this.duration = duration;
+        this.comments = comments;
+        this.like = like;
     }
 }

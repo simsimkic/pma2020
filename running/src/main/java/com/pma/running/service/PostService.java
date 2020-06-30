@@ -7,9 +7,11 @@ import com.pma.running.dto.PostLikeDto;
 import com.pma.running.model.*;
 import com.pma.running.repository.*;
 import javassist.NotFoundException;
+import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -27,12 +29,13 @@ public class PostService {
     private final FriendsRepository friendsRepository;
     private final LikeMeRepository likeMeRepository;
     private final CommentRepository commentRepository;
+    private  final  NotificationRepository notificationRepository;
 
 
     @Autowired
     public PostService(PostRepository postRepository, ActivityService activityService,
                        UserSettingsService userSettingsService, UserRepository userRepository,
-                       FriendsRepository friendsRepository, LikeMeRepository likeMeRepository, CommentRepository commentRepository) {
+                       FriendsRepository friendsRepository, LikeMeRepository likeMeRepository,NotificationRepository notificationRepository, CommentRepository commentRepository) {
         this.postRepository = postRepository;
         this.activityService = activityService;
         this.userSettingsService = userSettingsService;
@@ -40,6 +43,7 @@ public class PostService {
         this.friendsRepository = friendsRepository;
         this.likeMeRepository = likeMeRepository;
         this.commentRepository = commentRepository;
+        this.notificationRepository = notificationRepository;
     }
 
     public Post save(ActivityDto activityDto, Long activityId) {
@@ -78,13 +82,27 @@ public class PostService {
             //sve public postove ili postove od ulogovanog odmah dodam u listu dodajem u listu
             if (p.getVisibility() == Visibility.PUBLIC || p.getUser().getUsername().equals(loginUser.getUsername())){
                 List<CommentDto> commentDtos = getComment(p);
-                result.add(new PostDto(p.getId(), p.getDescription(), p.getVisibility().ordinal(),p.getLike_num(), commentDtos.size(), p.getDate().format(formatter), p.getActivity().getEncodedMap(), p.getUser().getName(), p.getActivity().getDistance(), p.getActivity().getDuration(), commentDtos));
+                LikeMe likeMe = likeMeRepository.findByPostAndUser(p, loginUser);
+                PostDto res = new PostDto(p.getId(), p.getDescription(), p.getVisibility().ordinal(),p.getLike_num(), commentDtos.size(), p.getDate().format(formatter), p.getActivity().getEncodedMap(), p.getUser().getName(), p.getActivity().getDistance(), p.getActivity().getDuration(), commentDtos);
+                if (likeMe != null){
+                    res.setLike(true);
+                }else {
+                    res.setLike(false);
+                }
+                result.add(res);
             }else if (p.getVisibility() == Visibility.FRIENDS){
                 //moram da proverim da li je prijatelj sa ulogovanim korisnikom
                 Friends friend = friendsRepository.findByUser1AndUser2OrUser2AndUser1(loginUser, p.getUser(), loginUser, p.getUser());
                 if (friend!=null){
                     List<CommentDto> commentDtos = getComment(p);
-                    result.add(new PostDto(p.getId(), p.getDescription(), p.getVisibility().ordinal(),p.getLike_num(),commentDtos.size(), p.getDate().format(formatter), p.getActivity().getEncodedMap(), p.getUser().getName(), p.getActivity().getDistance(), p.getActivity().getDuration(), commentDtos));
+                    LikeMe likeMe = likeMeRepository.findByPostAndUser(p, loginUser);
+                    PostDto res = new PostDto(p.getId(), p.getDescription(), p.getVisibility().ordinal(),p.getLike_num(), commentDtos.size(), p.getDate().format(formatter), p.getActivity().getEncodedMap(), p.getUser().getName(), p.getActivity().getDistance(), p.getActivity().getDuration(), commentDtos);
+                    if (likeMe != null){
+                        res.setLike(true);
+                    }else {
+                        res.setLike(false);
+                    }
+                    result.add(res);
                 }
             }
         }
@@ -103,7 +121,7 @@ public class PostService {
         return commentDtos;
     }
 
-    public boolean likeOrDislikePost(PostLikeDto postLikeDto) throws NotFoundException {
+    public List<PostDto> likeOrDislikePost(PostLikeDto postLikeDto) throws NotFoundException {
         //prvo treba da pogledamo da li postoji post sa prosledjenim id-om
         Post post = postRepository.findById(postLikeDto.getPost_id()).orElseThrow(()->new NotFoundException(""));
 
@@ -117,20 +135,23 @@ public class PostService {
             likeMeRepository.delete(like);
             post.setLike_num(post.getLike_num()-1);
             postRepository.save(post);
-            return true;
+            return getAllPostByUser(user.getUsername());
         }
 
         like = new LikeMe(user, post);
         likeMeRepository.save(like);
         post.setLike_num(1+post.getLike_num());
         postRepository.save(post);
-        return true;
+        //treba napraviti i notifikaciju, notifikacija pripada korisniku ciji je post
+        Notification like_notification = new Notification(LocalDateTime.now(), NotificationType.LIKE_ON_POST, user.getName() + " like your post.", post.getUser());
+        notificationRepository.save(like_notification);
+         return getAllPostByUser(user.getUsername());
 
 
 
     }
 
-    public boolean comment(CommentDto commentDto) throws NotFoundException {
+    public List<PostDto> comment(CommentDto commentDto) throws NotFoundException {
 
         //pronadjemo usera i post i onda postavimo komentar
         User user = userRepository.findByUsername(commentDto.getUser());
@@ -143,7 +164,10 @@ public class PostService {
 
         Comment comment = new Comment(commentDto.getComment(),  LocalDateTime.now() , user, post);
         commentRepository.save(comment);
-        return true;
+        //pravimo notifikaciju za komentar
+        Notification comment_not = new Notification(LocalDateTime.now(), NotificationType.COMMENT_ON_POST, user.getName() + " comment your post.", post.getUser());
+        notificationRepository.save(comment_not);
+        return getAllPostByUser(user.getUsername());
 
     }
 }

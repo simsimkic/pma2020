@@ -8,6 +8,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import java.io.Serializable;
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @DiscriminatorValue("friendship_request")
@@ -20,17 +21,17 @@ public class FriendshipRequestNotification extends Notification {
     public FriendshipRequestNotification() {
     }
 
-    public FriendshipRequestNotification(Date timestamp, NotificationType notificationType, String description, User user, FriendshipRequest friendshipRequest) {
+    public FriendshipRequestNotification(LocalDateTime timestamp, NotificationType notificationType, String description, User user, FriendshipRequest friendshipRequest) {
         super(timestamp, notificationType, description, user);
         this.friendshipRequest = friendshipRequest;
     }
 
-    public FriendshipRequestNotification(Date timestamp, NotificationType notificationType, String description, FriendshipRequest friendshipRequest) {
+    public FriendshipRequestNotification(LocalDateTime timestamp, NotificationType notificationType, String description, FriendshipRequest friendshipRequest) {
         super(timestamp, notificationType, description);
         this.friendshipRequest = friendshipRequest;
     }
 
-    public FriendshipRequestNotification(Long id, Date timestamp, NotificationType notificationType, String description, FriendshipRequest friendshipRequest) {
+    public FriendshipRequestNotification(Long id, LocalDateTime timestamp, NotificationType notificationType, String description, FriendshipRequest friendshipRequest) {
         super(id, timestamp, notificationType, description);
         this.friendshipRequest = friendshipRequest;
     }

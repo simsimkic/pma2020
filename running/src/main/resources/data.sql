@@ -29,11 +29,11 @@ insert into user_settings (id, accepted_activity, accepted_friendship, activity_
 
 --save activity
 
-insert into activity (id, date_time, distance, duration, encoded_map, steps, user_id) values
-(1, '2020-06-06 12:23', 0.0, 23.0,  'bsdej',0,2);
-
--- --post
-insert into post(id, date, description, like_num, visibility, activity_id, user_id ) values (1, '2020-06-06 12:23', 'Running is cool!!', 3, 2, 1, 4);
--- insert into post(id, date, description, like_num, visibility, activity_id, user_id ) values (2, '2020-06-06 12:23', 'Running is cool!!', 13, 0, 2, 1);
--- insert into post(id, date, description, like_num, visibility, activity_id, user_id ) values (3, '2020-06-06 12:23', 'Running is cool!!', 23, 1, 3, 2);
-
+-- insert into activity (id, date_time, distance, duration, encoded_map, steps, user_id) values
+-- (1, '2020-06-06 12:23', 0.0, 23.0,  'bsdej',0,2);
+--
+-- -- --post
+-- insert into post(id, date, description, like_num, visibility, activity_id, user_id ) values (1, '2020-06-06 12:23', 'Running is cool!!', 3, 2, 1, 4);
+-- -- insert into post(id, date, description, like_num, visibility, activity_id, user_id ) values (2, '2020-06-06 12:23', 'Running is cool!!', 13, 0, 2, 1);
+-- -- insert into post(id, date, description, like_num, visibility, activity_id, user_id ) values (3, '2020-06-06 12:23', 'Running is cool!!', 23, 1, 3, 2);
+--
