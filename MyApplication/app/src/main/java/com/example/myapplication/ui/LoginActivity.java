@@ -139,7 +139,8 @@ public class LoginActivity extends AppCompatActivity {
                 if (data != null){
                     for (GoalResponse goal: data) {
                         Goal goalTemp = new Goal(goal.getTitle(),goal.getDistance(),goal.getDuration(),true,goal.getEnd_time());
-                        dataBaseHelper.addGoal(goalTemp);
+                        Integer i = (int) (long) SaveSharedPreference.getLoggedObject(getApplicationContext()).getId();
+                        dataBaseHelper.addGoal(goalTemp,i);
                     }
                 }
             }
@@ -169,11 +170,13 @@ public class LoginActivity extends AppCompatActivity {
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
         Call<UserSettingsResponse> call = apiService.getUserSettings(username);
         call.enqueue(new Callback<UserSettingsResponse>() {
+
             @Override
             public void onResponse(Call<UserSettingsResponse> call, Response<UserSettingsResponse> response) {
                 Log.e("tag","Settings loaded ");
                 SaveSharedPreference.setSettings(getApplicationContext(), response.body());
             }
+
             @Override
             public void onFailure(Call<UserSettingsResponse> call, Throwable t) {
                 Log.e("tag","Settings loading failure: " + t);

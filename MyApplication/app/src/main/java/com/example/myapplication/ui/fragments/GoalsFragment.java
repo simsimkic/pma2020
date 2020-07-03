@@ -28,6 +28,7 @@ import com.example.myapplication.interfaces.ApiInterface;
 import com.example.myapplication.model.Activitie;
 import com.example.myapplication.model.Friend;
 import com.example.myapplication.model.Goal;
+import com.example.myapplication.settings.DataBaseHelper;
 import com.example.myapplication.ui.FindFriendsActivity;
 import com.example.myapplication.ui.FriendDetailActivity;
 import com.example.myapplication.ui.GoalDetailActivity;
@@ -39,6 +40,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import retrofit2.Call;
@@ -108,54 +110,89 @@ public class GoalsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_goals, container, false);
+        DataBaseHelper dataBaseHelper = new DataBaseHelper(getContext());
+        Integer i = (int) (long) SaveSharedPreference.getLoggedObject(getContext()).getId();
+        List<Goal> data = dataBaseHelper.getGoalsByUser(i);
 
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        Call<Set<GoalResponse>> call = apiService.getGoalsByUser(SaveSharedPreference.getLoggedObject(getContext()).getId());
-        call.enqueue(new Callback<Set<GoalResponse>>() {
-            @Override
-            public void onResponse(Call<Set<GoalResponse>> call, Response<Set<GoalResponse>> response) {
-
-                Log.e("tag","Bitmap here!");
-                Set<GoalResponse> data = response.body();
-                ArrayList<Goal> arrayOfGoal = new ArrayList<Goal>();
-                ArrayList<GoalResponse> goalReponses = new ArrayList<GoalResponse>();
-                if (data != null){
-                    for (GoalResponse goal: data) {
-                        Log.e("tag","Proba : " + goal.getTimestamp());
-                        Goal activity = new Goal(goal.getTitle(),goal.getDistance(),goal.getDuration(),true,goal.getEnd_time());
-                        arrayOfGoal.add(activity);
-                        goalReponses.add(goal);
-                    }
-                }
-
-
-                // Create the adapter to convert the array to views
-                GoalAdapter adapter = new GoalAdapter(getActivity(), arrayOfGoal);
-                // Attach the adapter to a ListView
-                ListView listView = (ListView) view.findViewById(R.id.goals_list);
-                listView.setAdapter(adapter);
-
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @RequiresApi(api = Build.VERSION_CODES.N)
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        GoalResponse goal = goalReponses.get(position);
-                        Intent intent = new Intent(getActivity(), GoalDetailActivity.class);
-
-                        intent.putExtra("goal", goal);
-
-                        startActivity(intent);
-                    }
-                });
+        ArrayList<Goal> arrayOfGoal = new ArrayList<Goal>();
+        ArrayList<GoalResponse> goalReponses = new ArrayList<GoalResponse>();
+        if (data != null){
+            int iterator = 1;
+            for (Goal goal: data) {
+                GoalResponse goalResponse = new GoalResponse(new Long(iterator),goal.getDuration(),goal.getDistance(),goal.getEnd_time(),"",goal.getName(),goal.getArchived());
+                arrayOfGoal.add(goal);
+                goalReponses.add(goalResponse);
+                iterator++;
             }
+        }
 
+
+        // Create the adapter to convert the array to views
+        GoalAdapter adapter = new GoalAdapter(getActivity(), arrayOfGoal);
+        // Attach the adapter to a ListView
+        ListView listView = (ListView) view.findViewById(R.id.goals_list);
+        listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
-            public void onFailure(Call<Set<GoalResponse>> call, Throwable t) {
-                Log.e("tag","Bitmap failure: " + t);
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                GoalResponse goal = goalReponses.get(position);
+                Intent intent = new Intent(getActivity(), GoalDetailActivity.class);
+
+                intent.putExtra("goal", goal);
+
+                startActivity(intent);
             }
         });
+//        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+//        Call<Set<GoalResponse>> call = apiService.getGoalsByUser(SaveSharedPreference.getLoggedObject(getContext()).getId());
+//        call.enqueue(new Callback<Set<GoalResponse>>() {
+//            @Override
+//            public void onResponse(Call<Set<GoalResponse>> call, Response<Set<GoalResponse>> response) {
+//
+//                Log.e("tag","Bitmap here!");
+//                Set<GoalResponse> data = response.body();
+//                ArrayList<Goal> arrayOfGoal = new ArrayList<Goal>();
+//                ArrayList<GoalResponse> goalReponses = new ArrayList<GoalResponse>();
+//                if (data != null){
+//                    for (GoalResponse goal: data) {
+//                        Log.e("tag","Proba : " + goal.getTimestamp());
+//                        Goal activity = new Goal(goal.getTitle(),goal.getDistance(),goal.getDuration(),true,goal.getEnd_time());
+//                        arrayOfGoal.add(activity);
+//                        goalReponses.add(goal);
+//                    }
+//                }
+//
+//
+//                // Create the adapter to convert the array to views
+//                GoalAdapter adapter = new GoalAdapter(getActivity(), arrayOfGoal);
+//                // Attach the adapter to a ListView
+//                ListView listView = (ListView) view.findViewById(R.id.goals_list);
+//                listView.setAdapter(adapter);
+//
+//                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                    @RequiresApi(api = Build.VERSION_CODES.N)
+//                    @Override
+//                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                        GoalResponse goal = goalReponses.get(position);
+//                        Intent intent = new Intent(getActivity(), GoalDetailActivity.class);
+//
+//                        intent.putExtra("goal", goal);
+//
+//                        startActivity(intent);
+//                    }
+//                });
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Set<GoalResponse>> call, Throwable t) {
+//                Log.e("tag","Bitmap failure: " + t);
+//            }
+//        });
 
         return view;
     }
