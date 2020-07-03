@@ -35,4 +35,12 @@ public class FriendshipRequestNotification extends Notification {
         super(id, timestamp, notificationType, description);
         this.friendshipRequest = friendshipRequest;
     }
+
+    public FriendshipRequest getFriendshipRequest() {
+        return friendshipRequest;
+    }
+
+    public void setFriendshipRequest(FriendshipRequest friendshipRequest) {
+        this.friendshipRequest = friendshipRequest;
+    }
 }

@@ -18,17 +18,20 @@ public class BitmapDtoResponse {
     private String dateTime;
     @SerializedName("steps")
     private int steps;
+    @SerializedName("description")
+    private String description;
 
     public BitmapDtoResponse() {
     }
 
-    public BitmapDtoResponse(String encodedMap, Long id, double duration, double distance, String dateTime, int steps) {
+    public BitmapDtoResponse(String encodedMap, Long id, double duration, double distance, String dateTime, int steps, String description) {
         this.encodedMap = encodedMap;
         this.id = id;
         this.duration = duration;
         this.distance = distance;
         this.dateTime = dateTime;
         this.steps = steps;
+        this.description = description;
     }
 
     public String getEncodedMap() {
@@ -77,5 +80,13 @@ public class BitmapDtoResponse {
 
     public void setSteps(int steps) {
         this.steps = steps;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
