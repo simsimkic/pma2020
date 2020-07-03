@@ -3,6 +3,7 @@ package com.example.myapplication.model;
 import java.time.Duration;
 
 public class Goal {
+
     private String name;
     private Double distance;
     private Double duration;

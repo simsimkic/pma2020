@@ -9,16 +9,24 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.myapplication.MainActivity;
 import com.example.myapplication.R;
+import com.example.myapplication.adapter.GoalAdapter;
 import com.example.myapplication.dto.request.UserLogin;
+import com.example.myapplication.dto.response.GoalResponse;
 import com.example.myapplication.dto.response.UserResponse;
 import com.example.myapplication.dto.response.UserSettingsResponse;
 import com.example.myapplication.interfaces.ApiInterface;
+import com.example.myapplication.model.Goal;
+import com.example.myapplication.settings.DataBaseHelper;
 import com.example.myapplication.util.ApiClient;
 import com.example.myapplication.util.SaveSharedPreference;
+
+import java.util.ArrayList;
+import java.util.Set;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -95,6 +103,7 @@ public class LoginActivity extends AppCompatActivity {
                     Log.e("tag","Usao sam u login sve okej" + user);
                     loadUserSettings(user.getUsername());
                     SaveSharedPreference.setLoggedIn(getApplicationContext(), true, user);
+                    loadSQLiteDB();
                     Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                     startActivity(intent);
                 }else{
@@ -113,6 +122,34 @@ public class LoginActivity extends AppCompatActivity {
             }
 
         });
+    }
+
+    private void loadSQLiteDB() {
+
+        DataBaseHelper dataBaseHelper = new DataBaseHelper(getApplicationContext());
+        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        Call<Set<GoalResponse>> call = apiService.getGoalsByUser(SaveSharedPreference.getLoggedObject(getApplicationContext()).getId());
+        call.enqueue(new Callback<Set<GoalResponse>>() {
+            @Override
+            public void onResponse(Call<Set<GoalResponse>> call, Response<Set<GoalResponse>> response) {
+
+                Log.e("tag","Bitmap here!");
+                Set<GoalResponse> data = response.body();
+                ArrayList<Goal> arrayOfGoal = new ArrayList<Goal>();
+                if (data != null){
+                    for (GoalResponse goal: data) {
+                        Goal goalTemp = new Goal(goal.getTitle(),goal.getDistance(),goal.getDuration(),true,goal.getEnd_time());
+                        dataBaseHelper.addGoal(goalTemp);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Set<GoalResponse>> call, Throwable t) {
+                Log.e("tag","Bitmap failure: " + t);
+            }
+        });
+
     }
 
     /**
