@@ -5,12 +5,15 @@ import com.example.myapplication.dto.request.EditUserRequest;
 
 import com.example.myapplication.dto.request.FriendshipRequest;
 
+import com.example.myapplication.dto.request.LikePostRequest;
 import com.example.myapplication.dto.request.NotificationSettingsDto;
 import com.example.myapplication.dto.request.PrivacySettingsDto;
+import com.example.myapplication.dto.request.SaveGoalRequest;
 import com.example.myapplication.dto.request.ThemeSettingsDto;
 
 import com.example.myapplication.dto.request.UserLogin;
 import com.example.myapplication.dto.request.UserRequest;
+import com.example.myapplication.dto.response.CommentResponseDto;
 import com.example.myapplication.dto.response.FriendResponse;
 import com.example.myapplication.dto.response.BitmapDtoResponse;
 import com.example.myapplication.dto.response.NotificationResponse;
@@ -63,6 +66,23 @@ public interface ApiInterface {
             "User-Agent: Mobile-Android",
             "Content-Type:application/json"
     })
+    @POST("saveGoal")
+    Call<GoalResponse> saveGoal(@Body SaveGoalRequest saveGoalRequest);
+
+    @DELETE("deleteGoal/{goalId}")
+    Call<Boolean> deleteGoal(@Path("goalId") Long goalId);
+
+    @Headers({
+            "User-Agent: Mobile-Android",
+            "Content-Type:application/json"
+    })
+    @PUT("updateGoal")
+    Call<GoalResponse> updateGoal(@Body SaveGoalRequest saveGoalRequest);
+
+    @Headers({
+            "User-Agent: Mobile-Android",
+            "Content-Type:application/json"
+    })
     @POST("activities/share")
     Call<PostResponse> shareActivity(@Body ActivityDto activityDto);
 
@@ -70,6 +90,7 @@ public interface ApiInterface {
             "User-Agent: Mobile-Android",
             "Content-Type:application/json"
     })
+
     @GET("friends/get/{username}")
     Call<ArrayList<FriendResponse>> getFriends(@Path("username") String username);
 
@@ -158,4 +179,18 @@ public interface ApiInterface {
     })
     @GET("notification/get/{username}")
     Call<ArrayList<NotificationResponse>> getNotifications(@Path("username") String username);
+
+    @Headers({
+            "User-Agent: Mobile-Android",
+            "Content-Type:application/json"
+    })
+    @POST("post/like")
+    Call<ArrayList<PostResponse>> likePost(@Body LikePostRequest likePost);
+
+    @Headers({
+            "User-Agent: Mobile-Android",
+            "Content-Type:application/json"
+    })
+    @POST("post/addComment")
+    Call<ArrayList<PostResponse>> commentPost(@Body CommentResponseDto comment);
 }

@@ -11,13 +11,17 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
+
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.myapplication.R;
 import com.example.myapplication.adapter.FeedActivityAdapter;
 import com.example.myapplication.adapter.FriendListAdapter;
+import com.example.myapplication.dto.request.LikePostRequest;
 import com.example.myapplication.dto.response.FriendResponse;
 import com.example.myapplication.dto.response.PostResponse;
 import com.example.myapplication.interfaces.ApiInterface;
@@ -47,7 +51,8 @@ public class HomeActivity extends AppCompatActivity {
     protected LocationManager locationManager;
     GeoPoint currentLocation;
     Marker marker;
-
+    ArrayList<PostResponse> posts;
+    ListView list;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,10 +102,16 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-
+        list = findViewById(R.id.feed_activities);
         showPost();
 
+
     }
+
+
+
+
+
 
     private void showPost() {
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
@@ -110,11 +121,11 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call call, Response response) {
                 if(response.body() != null){
-                    ArrayList<PostResponse>posts = (ArrayList<PostResponse>) response.body();
+                    posts = (ArrayList<PostResponse>) response.body();
 
                     Log.e("tag", "Dobavili smo postove, ima ih: " + posts.size());
 
-                    ListView list = findViewById(R.id.feed_activities);
+
                     FeedActivityAdapter adapter = new FeedActivityAdapter(getApplicationContext(), posts);
                     list.setAdapter(adapter);
 
@@ -149,4 +160,61 @@ public class HomeActivity extends AppCompatActivity {
 
 
     }
+
+    private AdapterView.OnItemClickListener listClick = new AdapterView.OnItemClickListener(){
+
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            ImageView like = view.findViewById(R.id.like);
+            PostResponse p = posts.get(position);
+            like.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getApplicationContext(), "Like post " + p.getId(), Toast.LENGTH_LONG).show();
+                    //pozivamo metodu za like sa servera
+//                    String username = SaveSharedPreference.getLoggedObject(getApplicationContext()).getUsername();
+//                    LikePostRequest likePostRequest = new LikePostRequest(p.getId(), username);
+//                    ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+//                    Call<ArrayList<PostResponse>> call = apiService.likePost(likePostRequest);
+//                    call.enqueue(new Callback() {
+//
+//                        @Override
+//                        public void onResponse(Call call, Response response) {
+//                            if (response.body() != null) {
+//                                ArrayList<PostResponse> result = (ArrayList<PostResponse>) response.body();
+//
+//                                Log.e("tag", "Like post with id " + p.getId());
+//
+//                                //i promenimo da bude crno srce ili narandzasto
+//                                if(result.size() == 0){
+//                                    Toast.makeText(getApplicationContext(), "Greska prilikom like-ovanja", Toast.LENGTH_LONG).show();
+//                                }
+//
+//                                posts = result;
+//                                list.removeAllViews();
+//                                FeedActivityAdapter adapter = new FeedActivityAdapter(getApplicationContext(), posts);
+//                                list.setAdapter(adapter);
+//
+//
+//                            }
+//
+//
+//                        }
+//
+//                        @Override
+//                        public void onFailure(Call call, Throwable t) {
+//                            Log.e("tag", t.getMessage());
+//                            Log.e("tag", "Greska prilikom like-ovanja posta !!!");
+//
+//                        }
+//
+
+//                    });
+
+
+                }
+            });
+        }
+    };
 }

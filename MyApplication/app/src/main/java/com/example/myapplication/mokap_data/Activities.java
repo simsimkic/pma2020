@@ -19,8 +19,8 @@ public class Activities {
 
     public static ArrayList<Activitie> getActivitie(){
         ArrayList<Activitie> activities = new ArrayList<>();
-        activities.add(new Activitie("Evening run", 3.6, 45.0, "10.04.2020. 19:35", "3", "0", "Mika Mikic"));
-        activities.add(new Activitie("Morning run", 3.6, 60.0, "10.04.2020. 07:35", "13", "2", "Pera Peric"));
+        activities.add(new Activitie(100L, "Evening run", 3.6, 45.0, "10.04.2020. 19:35", "3", "0", "Mika Mikic", "opis 1"));
+        activities.add(new Activitie(101L, "Morning run", 3.6, 60.0, "10.04.2020. 07:35", "13", "2", "Pera Peric", "opis2"));
         return activities;
 
     }

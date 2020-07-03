@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="fragment_layout" type="id" />
+    <item name="comment_list" type="id" />
 </resources>

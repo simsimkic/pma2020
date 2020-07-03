@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -32,15 +33,27 @@ public class GoalController {
     }
 
     @GetMapping("/getGoalsByUser/{userId}")
-    public ResponseEntity<Set<GoalDtoResponse>> getActivitiesByUser(@PathVariable Long userId) {
+    public ResponseEntity<Set<GoalDtoResponse>> getGoalsByUser(@PathVariable Long userId) throws ParseException {
         Set<GoalDtoResponse> goals = goalService.getAllGoalsByUser(userId);
         return new ResponseEntity<Set<GoalDtoResponse>>(goals, HttpStatus.OK);
     }
 
     @PostMapping("/saveGoal")
-    public ResponseEntity<Goal> shareActivity(@RequestBody GoalDtoRequest activityDto) throws Exception {
-        Goal goal = goalService.saveGoal(activityDto);
-        return new ResponseEntity<Goal>(goal, HttpStatus.OK);
+    public ResponseEntity<GoalDtoResponse> saveGoal(@RequestBody GoalDtoRequest activityDto) throws Exception {
+        GoalDtoResponse goal = goalService.saveGoal(activityDto);
+        return new ResponseEntity<GoalDtoResponse>(goal, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/deleteGoal/{goalId}")
+    public ResponseEntity<Boolean> deleteGoal(@PathVariable Long goalId) throws Exception {
+        Boolean goal = goalService.deleteGoal(goalId);
+        return new ResponseEntity<Boolean>(goal, HttpStatus.OK);
+    }
+
+    @PutMapping("/updateGoal")
+    public ResponseEntity<GoalDtoResponse> updateGoal(@RequestBody GoalDtoRequest goalDtoRequest) throws Exception {
+        GoalDtoResponse goalResponse = goalService.updateGoal(goalDtoRequest);
+        return new ResponseEntity<GoalDtoResponse>(goalResponse, HttpStatus.OK);
     }
 
 }

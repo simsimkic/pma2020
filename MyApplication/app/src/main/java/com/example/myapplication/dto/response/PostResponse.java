@@ -2,6 +2,9 @@ package com.example.myapplication.dto.response;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class PostResponse {
 
@@ -22,11 +25,18 @@ public class PostResponse {
     @SerializedName("user")
     private String user;
 
+
     @SerializedName("distance")
     private double distance;
 
     @SerializedName("duration")
     private double duration;
+
+    @SerializedName("like")
+    private boolean like;
+
+    @SerializedName("comments")
+    private List<CommentResponseDto> comments;
 
     public PostResponse() { }
 
@@ -108,5 +118,21 @@ public class PostResponse {
 
     public void setUser(String user) {
         this.user = user;
+    }
+
+    public boolean isLike() {
+        return like;
+    }
+
+    public void setLike(boolean like) {
+        this.like = like;
+    }
+
+    public List<CommentResponseDto> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<CommentResponseDto> comments) {
+        this.comments = comments;
     }
 }
