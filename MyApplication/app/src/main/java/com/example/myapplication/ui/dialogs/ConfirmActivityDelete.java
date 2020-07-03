@@ -14,6 +14,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
 import com.example.myapplication.R;
+import com.example.myapplication.adapter.ActivitieAdapter;
+import com.example.myapplication.adapter.ActivityListAdapter;
 import com.example.myapplication.interfaces.ApiInterface;
 import com.example.myapplication.model.Activity;
 import com.example.myapplication.util.ApiClient;
@@ -24,6 +26,13 @@ import retrofit2.Response;
 
 public class ConfirmActivityDelete extends AppCompatDialogFragment {
 
+<<<<<<< Updated upstream
+=======
+    public Long activityId;
+    private FragmentActivity activity;
+    public ActivitieAdapter adapter;
+
+>>>>>>> Stashed changes
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -56,6 +65,12 @@ public class ConfirmActivityDelete extends AppCompatDialogFragment {
                             @Override
                             public void onResponse(Call<Activity> call, Response<Activity> response) {
                                 Log.e("tag","deleted");
+<<<<<<< Updated upstream
+=======
+                                Toast.makeText(activity, "Deleted!",
+                                        Toast.LENGTH_LONG).show();
+                                adapter.refresh(activityId);
+>>>>>>> Stashed changes
                             }
                             @Override
                             public void onFailure(Call<Activity> call, Throwable t) {

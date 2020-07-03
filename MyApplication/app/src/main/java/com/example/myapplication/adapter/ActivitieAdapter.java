@@ -38,16 +38,23 @@ public class ActivitieAdapter extends ArrayAdapter<Activitie> {
     private MapView mMapView;
     private MapController mMapController;
     private ImageButton deleteActButton;
+    private ActivitieAdapter thisAdapter;
+    private ArrayList<Activitie> activities;
 
-    public ActivitieAdapter(Context context, ArrayList<Activitie> friend){
-        super(context, 0, friend);
+    public ActivitieAdapter(Context context, ArrayList<Activitie> activities){
+        super(context, 0, activities);
+        this.activities = activities;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
         Activitie activitie = getItem(position);
+<<<<<<< Updated upstream
 
+=======
+        thisAdapter = this;
+>>>>>>> Stashed changes
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_activitie, parent, false);
         }
@@ -83,9 +90,22 @@ public class ActivitieAdapter extends ArrayAdapter<Activitie> {
         deleteActButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 ConfirmActivityDelete confirmActivityDelete = new ConfirmActivityDelete();
+<<<<<<< Updated upstream
+=======
+                confirmActivityDelete.activityId = activityId;
+                confirmActivityDelete.adapter = thisAdapter;
+>>>>>>> Stashed changes
                 FragmentManager fragmentManager = ((FragmentActivity)getContext()).getSupportFragmentManager();
                 confirmActivityDelete.show(fragmentManager, "Confirm delete dialog");
             }
         });
+    }
+
+    public void refresh(Long activityId) {
+        for (int i = 0; i < activities.size(); i++) {
+            if (activities.get(i).getId() == activityId)
+                activities.remove(i);
+        }
+        notifyDataSetChanged();
     }
 }
