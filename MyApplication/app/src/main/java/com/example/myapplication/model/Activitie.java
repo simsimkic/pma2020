@@ -6,6 +6,7 @@ import java.sql.Time;
 import java.util.Date;
 
 public class Activitie {
+    private Long id;
     private String name;
     private Bitmap encodedMap;
     private Double distance;
@@ -14,9 +15,12 @@ public class Activitie {
     private String likes;
     private String comment;
     private String user;
+    private String description;
 
 
-    public Activitie(String name, Double distance, Double duration, String time, String likes, String comment, String user) {
+    public Activitie(Long id, String name, Double distance, Double duration, String time, String likes,
+                     String comment, String user, String description) {
+        this.id = id;
         this.name = name;
         this.distance = distance;
         this.duration = duration;
@@ -24,13 +28,16 @@ public class Activitie {
         this.likes = likes;
         this.comment = comment;
         this.user=user;
+        this.description = description;
     }
 
-    public Activitie(Double distance, Double duration, String time, Bitmap encodedMap) {
+    public Activitie(Long id, Double distance, Double duration, String time, Bitmap encodedMap, String description) {
+        this.id = id;
         this.distance = distance;
         this.duration = duration;
         this.time = time;
         this.encodedMap = encodedMap;
+        this.description = description;
     }
 
     public String getName() {
@@ -95,5 +102,21 @@ public class Activitie {
 
     public void setUser(String user) {
         this.user = user;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
