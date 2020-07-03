@@ -48,36 +48,27 @@ public class ActivitieAdapter extends ArrayAdapter<Activitie> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
         Activitie activitie = getItem(position);
-<<<<<<< Updated upstream
-
-=======
         thisAdapter = this;
->>>>>>> Stashed changes
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_activitie, parent, false);
         }
 
         deleteActButton = convertView.findViewById(R.id.delete_act_button);
-        configureDeleteActButton();
+        configureDeleteActButton(activitie.getId());
 
+        TextView description = convertView.findViewById(R.id.description);
         TextView name = convertView.findViewById(R.id.name);
         TextView distance = convertView.findViewById(R.id.distance);
         TextView duration = convertView.findViewById(R.id.duration);
         TextView time = convertView.findViewById(R.id.time);
         ImageView imageView = convertView.findViewById(R.id.map_image);
 
-
-
         imageView.setImageBitmap(activitie.getEncodedMap());
         distance.setText(activitie.getDistance() + " km" );
         duration.setText(activitie.getDuration() + " sec");
         time.setText(activitie.getTime());
-
-
-
-
+        description.setText(activitie.getDescription());
         return  convertView;
     }
 
@@ -86,15 +77,12 @@ public class ActivitieAdapter extends ArrayAdapter<Activitie> {
         return BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
     }
 
-    private void configureDeleteActButton() {
+    private void configureDeleteActButton(Long activityId) {
         deleteActButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 ConfirmActivityDelete confirmActivityDelete = new ConfirmActivityDelete();
-<<<<<<< Updated upstream
-=======
                 confirmActivityDelete.activityId = activityId;
                 confirmActivityDelete.adapter = thisAdapter;
->>>>>>> Stashed changes
                 FragmentManager fragmentManager = ((FragmentActivity)getContext()).getSupportFragmentManager();
                 confirmActivityDelete.show(fragmentManager, "Confirm delete dialog");
             }

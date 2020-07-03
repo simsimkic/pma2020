@@ -4,6 +4,7 @@ import com.pma.running.dto.ActivityDto;
 import com.pma.running.dto.ActivityResponseDto;
 import com.pma.running.model.Activity;
 import com.pma.running.model.Post;
+import com.pma.running.repository.PostRepository;
 import com.pma.running.service.ActivityService;
 import com.pma.running.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +22,14 @@ public class ActivityController {
 
     private final ActivityService activityService;
     private final PostService postService;
+    private final PostRepository postRepository;
 
     @Autowired
-    public ActivityController(ActivityService activityService, PostService postService) {
+    public ActivityController(ActivityService activityService, PostService postService,
+                              PostRepository postRepository) {
         this.activityService = activityService;
         this.postService = postService;
+        this.postRepository = postRepository;
     }
 
     @PostMapping("/activities/share")
@@ -43,11 +47,13 @@ public class ActivityController {
         }
         for (Activity act: activity) {
             ActivityResponseDto responseO = new ActivityResponseDto();
+            Post post = postRepository.findByActivityId(act.getId());
             responseO.setDistance(act.getDistance());
             responseO.setDuration(act.getDuration());
             responseO.setEncodedMap(act.getEncodedMap());
             responseO.setDateTime(act.getDateTime().toString());
             responseO.setId(act.getId());
+            responseO.setDescription(post.getDescription());
             response.add(responseO);
         }
 

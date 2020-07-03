@@ -82,13 +82,13 @@ public class ActivityFragment extends Fragment {
             @Override
             public void onResponse(Call<Set<BitmapDtoResponse>> call, Response<Set<BitmapDtoResponse>> response) {
 
-                Log.e("tag","Bitmap here!");
                 Set<BitmapDtoResponse> data = response.body();
                 ArrayList<Activitie> arrayOfActivity = new ArrayList<Activitie>();
                 if (data != null){
                     for (BitmapDtoResponse activitie: data) {
-                        Log.e("tag","Proba : " + activitie.getDateTime());
-                        Activitie activity = new Activitie(activitie.getDistance(),activitie.getDuration(),activitie.getDateTime(),decodeBase64(activitie.getEncodedMap()));
+                        Activitie activity = new Activitie(activitie.getId(), activitie.getDistance(),
+                                activitie.getDuration(),activitie.getDateTime(),
+                                decodeBase64(activitie.getEncodedMap()), activitie.getDescription());
                         arrayOfActivity.add(activity);
                     }
                 }
