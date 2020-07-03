@@ -26,13 +26,9 @@ public class FriendshipRequestNotification extends Notification {
         this.friendshipRequest = friendshipRequest;
     }
 
-    public FriendshipRequestNotification(LocalDateTime timestamp, NotificationType notificationType, String description, FriendshipRequest friendshipRequest) {
-        super(timestamp, notificationType, description);
-        this.friendshipRequest = friendshipRequest;
-    }
 
-    public FriendshipRequestNotification(Long id, LocalDateTime timestamp, NotificationType notificationType, String description, FriendshipRequest friendshipRequest) {
-        super(id, timestamp, notificationType, description);
+    public FriendshipRequestNotification(Long id, LocalDateTime timestamp, NotificationType notificationType, String description, User user, FriendshipRequest friendshipRequest) {
+        super(id, timestamp, notificationType, description, user);
         this.friendshipRequest = friendshipRequest;
     }
 }

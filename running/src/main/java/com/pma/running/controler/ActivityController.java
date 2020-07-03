@@ -2,10 +2,13 @@ package com.pma.running.controler;
 
 import com.pma.running.dto.ActivityDto;
 import com.pma.running.dto.ActivityResponseDto;
+import com.pma.running.dto.GroupActivityAnswerDto;
+import com.pma.running.dto.GroupActivityDto;
 import com.pma.running.model.Activity;
 import com.pma.running.model.Post;
 import com.pma.running.service.ActivityService;
 import com.pma.running.service.PostService;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -61,6 +64,36 @@ public class ActivityController {
             return new ResponseEntity<Activity>(deletedActivity, HttpStatus.OK);
         }
         return new ResponseEntity<Activity>(deletedActivity, HttpStatus.NOT_FOUND);
+    }
+
+    @PostMapping("/send_activity_request")
+    public ResponseEntity<GroupActivityDto> sendActivityRequest(@RequestBody GroupActivityDto groupActivityDto){
+        System.out.println("Send activity request");
+        GroupActivityDto activityDto = null;
+        try {
+            activityDto = this.activityService.sendActivityRequest(groupActivityDto);
+            return new ResponseEntity<>(activityDto, HttpStatus.OK);
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+
+    }
+
+    @PostMapping("/group_activity/accept_decline")
+    public ResponseEntity<String> acceptOrDeaclineRequest(@RequestBody GroupActivityAnswerDto groupActivityAnswerDto){
+        String accept = groupActivityAnswerDto.getAccept() ? "accept" : "decline";
+        System.out.println(accept  + "request");
+
+        try {
+            String message = this.activityService.acceptOrDeclineRequest(groupActivityAnswerDto);
+            return new ResponseEntity<>(message, HttpStatus.OK);
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+
+
     }
 
 }

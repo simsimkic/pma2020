@@ -1,6 +1,7 @@
 package com.example.myapplication.interfaces;
 
 import com.example.myapplication.dto.request.ActivityDto;
+import com.example.myapplication.dto.request.ActivityInviteRequest;
 import com.example.myapplication.dto.request.EditUserRequest;
 
 import com.example.myapplication.dto.request.FriendshipRequest;
@@ -193,4 +194,10 @@ public interface ApiInterface {
     })
     @POST("post/addComment")
     Call<ArrayList<PostResponse>> commentPost(@Body CommentResponseDto comment);
+    @Headers({
+            "User-Agent: Mobile-Android",
+            "Content-Type:application/json"
+    })
+    @POST("send_activity_request")
+    Call<ActivityInviteRequest> sendInvite(@Body ActivityInviteRequest invite);
 }

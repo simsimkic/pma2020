@@ -1,10 +1,15 @@
 package com.example.myapplication.ui;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import com.example.myapplication.adapter.FriendListAdapter;
+import com.example.myapplication.dto.request.ActivityInviteRequest;
 import com.example.myapplication.dto.request.FriendshipRequest;
 import com.example.myapplication.dto.response.FriendResponse;
 import com.example.myapplication.interfaces.ApiInterface;
@@ -15,9 +20,11 @@ import com.example.myapplication.ui.fragments.UserFriendsList;
 import com.example.myapplication.ui.fragments.UserGoalsFragment;
 import com.example.myapplication.util.ApiClient;
 import com.example.myapplication.util.SaveSharedPreference;
+import com.google.android.gms.common.api.Status;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -25,6 +32,7 @@ import androidx.fragment.app.FragmentContainer;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.text.InputType;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -32,6 +40,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -39,12 +49,24 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
 import com.google.android.material.tabs.TabLayout;
+import com.mapbox.api.geocoding.v5.models.CarmenFeature;
+import com.mapbox.mapboxsdk.camera.CameraPosition;
+import com.mapbox.mapboxsdk.geometry.LatLng;
+import com.mapbox.mapboxsdk.plugins.places.autocomplete.PlaceAutocomplete;
+import com.mapbox.mapboxsdk.plugins.places.autocomplete.model.PlaceOptions;
+import com.mapbox.mapboxsdk.plugins.places.picker.PlacePicker;
+import com.mapbox.mapboxsdk.plugins.places.picker.model.PlacePickerOptions;
 
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -52,10 +74,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class FriendDetailActivity extends AppCompatActivity {
+    final String MAPBOX_ACCESS_TOKEN = "pk.eyJ1IjoicG1hMjAyMCIsImEiOiJja2M2OHd2MWMwOTRpMnZueDQ3ejhnbTZlIn0.62gLuTCl6gOrhxzN_EbYng";
     BottomNavigationView bottom_navigation;
     Intent intent;
     Toolbar toolbar;
     TabLayout tab;
+    EditText locationEdit;
 
 
     @Override
@@ -75,18 +99,23 @@ public class FriendDetailActivity extends AppCompatActivity {
         FriendResponse user = (FriendResponse) getIntent().getSerializableExtra("friend");
 
         tv.setText(user.getName());
+        Button invite_btn = findViewById(R.id.invite_btn);
 
         ImageView imageView = findViewById(R.id.icon_friend);
         if(user.getFriend()==1){
             imageView.setImageResource(R.drawable.ic_denied);
+
         }else if(user.getFriend()==0){
             imageView.setImageResource(R.drawable.ic_add_friend);
+            invite_btn.setVisibility(View.INVISIBLE);
         }else if(user.getFriend()==2){
             //zahtev je poslat
             imageView.setImageResource(R.drawable.ic_send_request);
+            invite_btn.setVisibility(View.INVISIBLE);
         }else{
             //zahtev je primljen
             imageView.setImageResource(R.drawable.ic_accept_request);
+            invite_btn.setVisibility(View.INVISIBLE);
         }
 
         setHandleTabs();
@@ -95,7 +124,7 @@ public class FriendDetailActivity extends AppCompatActivity {
 
         clickImage(imageView, user);
 
-        clickInviteButton();
+        clickInviteButton(user.getUsername());
 
 
     }
@@ -340,7 +369,7 @@ public class FriendDetailActivity extends AppCompatActivity {
         });
     }
 
-    private void clickInviteButton() {
+    private void clickInviteButton(String username) {
         Button invite_btn = findViewById(R.id.invite_btn);
         invite_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -378,7 +407,154 @@ public class FriendDetailActivity extends AppCompatActivity {
                 );
 
 
+                //klik na edit field za unos datuma
+                inputDate(popupView);
+                inputTime(popupView);
+                inputLocation(popupView);
+                clickSendButton(popupView, username);
 
+            }
+        });
+    }
+
+    private void inputLocation(View popupView) {
+        //initialize places
+        //Set EditText non focusable
+        locationEdit = popupView.findViewById(R.id.location);
+        locationEdit.setFocusable(false);
+
+        locationEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(getApplicationContext(), SelectLocationActivity.class);
+                startActivityForResult(intent, 100);
+
+            }
+        });
+
+    }
+
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 100 && resultCode == RESULT_OK){
+            //when success
+            //initialize place
+            String location = data.getStringExtra("location");
+            Toast.makeText(getApplicationContext(), location, Toast.LENGTH_LONG).show();
+            locationEdit.setText(location);
+
+
+        }else{
+
+            Toast.makeText(getApplicationContext(), "Not found place", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void clickSendButton(View popupView, String requestee) {
+        //obracamo se back-u
+        Button send = popupView.findViewById(R.id.send_btn);
+        send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+                String login_user = SaveSharedPreference.getLoggedObject(getApplicationContext()).getUsername();
+                EditText l_edit = popupView.findViewById(R.id.location);
+                String location = l_edit.getText().toString();
+                EditText editText = popupView.findViewById(R.id.time);
+                String time = editText.getText().toString();
+                EditText dateEdit = popupView.findViewById(R.id.date);
+                String date = dateEdit.getText().toString();
+//                Toast.makeText(getApplicationContext(), date + " " + time, Toast.LENGTH_LONG).show();
+                String timestamp = date + " " + time;
+                ActivityInviteRequest invite = new ActivityInviteRequest(timestamp, login_user, requestee, location);
+                Call<ActivityInviteRequest> call = apiService.sendInvite(invite);
+                call.enqueue(new Callback() {
+
+                    @Override
+                    public void onResponse(Call call, Response response) {
+                        if(response.body() != null){
+
+
+                            Log.e("tag", "Uspesno je poslat zahtev za grupno trcanje");
+                            Toast.makeText(getApplicationContext(), "Successfully send activity request", Toast.LENGTH_LONG).show();
+
+
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(Call call, Throwable t) {
+                        Log.e("tag","Greska prilikom slanja zahteva za grupno trcanje!!!");
+
+                    }
+
+
+
+
+
+                });
+
+            }
+        });
+
+    }
+
+
+    private void inputTime(View popupView) {
+        EditText editText = popupView.findViewById(R.id.time);
+        editText.setInputType(InputType.TYPE_NULL);
+        editText.setFocusable(false);
+        editText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar calendar = Calendar.getInstance();
+                int hour = calendar.get(Calendar.HOUR_OF_DAY);
+                int minute = calendar.get(Calendar.MINUTE);
+
+                TimePickerDialog dialog = new TimePickerDialog(popupView.getContext(), R.style.datepicker, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        editText.setText(hourOfDay + ":" + minute);
+                    }
+                }, hour, minute, false);
+                dialog.show();
+            }
+        });
+    }
+
+    private void inputDate(View popupView) {
+
+        EditText editText = popupView.findViewById(R.id.date);
+        editText.setInputType(InputType.TYPE_NULL);
+        editText.setFocusable(false);
+        editText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar calendar = Calendar.getInstance();
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
+                int month = calendar.get(Calendar.MONTH);
+                int year = calendar.get(Calendar.YEAR);
+
+                //date picker dialog
+                DatePickerDialog picker = new DatePickerDialog(popupView.getContext(), R.style.datepicker, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        String monthText = "";
+
+                        if((month+ 1) < 10){
+                            monthText = "0" + (month+1);
+                        }else {
+                            monthText = Integer.toString(month+1);
+                        }
+                        editText.setText((dayOfMonth<10? ("0" + dayOfMonth) : dayOfMonth) + "-" + monthText + "-" + year);
+                    }
+                }, year, month, day);
+                picker.show();
             }
         });
     }
