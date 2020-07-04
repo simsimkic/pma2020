@@ -75,7 +75,7 @@ public class PostService {
         //izvucem sve postove iz baze
         List<Post> posts = postRepository.findAll();
         //prodjem kroz sve postove
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy. HH:mm:ss");
 
         List<PostDto> result = new ArrayList<>();
         for (Post p: posts) {
@@ -114,7 +114,7 @@ public class PostService {
     private List<CommentDto> getComment(Post p) {
         List<Comment> comments = commentRepository.findByPost(p);
         ArrayList<CommentDto> commentDtos = new ArrayList<>();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy. HH:mm:ss");
         for (Comment c: comments) {
             commentDtos.add(new CommentDto(c.getUser().getName(), c.getTimestamp().format(formatter), c.getText()));
         }

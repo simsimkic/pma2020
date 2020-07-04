@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,10 +15,13 @@ import com.example.myapplication.dto.response.FriendResponse;
 import com.example.myapplication.model.Friend;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 public class FriendListAdapter extends BaseAdapter {
     Context context;
     ArrayList<FriendResponse> friends;
+    ArrayList<FriendResponse> friendsFiltered;
     public FriendListAdapter(Context applicationContext, ArrayList<FriendResponse> friendsList){
         this.context = applicationContext;
         this.friends = friendsList;
@@ -69,5 +74,24 @@ public class FriendListAdapter extends BaseAdapter {
         }
 
         return view;
+    }
+
+   public void filter(String text){
+        text = text.toLowerCase(Locale.getDefault());
+        friendsFiltered = new ArrayList<>();
+        if(text.length() == 0){
+            friendsFiltered.addAll(friends);
+        }else {
+            for (FriendResponse f : friends){
+                if(f.getName().toLowerCase(Locale.getDefault()).contains(text)){
+                    friendsFiltered.add(f);
+                }
+            }
+        }
+        notifyDataSetChanged();
+   }
+
+    public interface FriendsAdapterListener{
+        void onContactSelected(FriendResponse friendResponse);
     }
 }

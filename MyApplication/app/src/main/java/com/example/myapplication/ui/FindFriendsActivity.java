@@ -18,6 +18,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -25,7 +27,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.example.myapplication.R;
 import com.google.gson.Gson;
@@ -36,11 +41,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class FindFriendsActivity extends AppCompatActivity {
+public class FindFriendsActivity extends AppCompatActivity{
 
     private BottomNavigationView bottom_navigation;
     private Intent intent;
     private ArrayList<FriendResponse> friends;
+    private FriendListAdapter friendListAdapter;
+    private SearchView searchFriend;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +76,9 @@ public class FindFriendsActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
+
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
 
@@ -113,7 +123,14 @@ public class FindFriendsActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+
+
+
+
+
     }
+
 
     private void setUserList() {
 
@@ -132,8 +149,9 @@ public class FindFriendsActivity extends AppCompatActivity {
 
                         ListView list = findViewById(R.id.friends_show);
                         //ovde treba da dobavimo sve korisnike sistema i da ih prikazemo
-                        FriendListAdapter adapter = new FriendListAdapter(getApplicationContext(), friends);
-                        list.setAdapter(adapter);
+                        friendListAdapter = new FriendListAdapter(getApplicationContext(), friends);
+                        list.setAdapter(friendListAdapter);
+
 
                     }
 
@@ -151,6 +169,7 @@ public class FindFriendsActivity extends AppCompatActivity {
 
             });
     }
+
 
 
 }

@@ -71,7 +71,7 @@ public class ActivityService {
         }
 
         //treba da napravimo localdate na osnovu prosledjenih parametara
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy. HH:mm");
         LocalDateTime timestamp = LocalDateTime.parse(groupActivityDto.getTimestamp(), formatter);
 
         //napravimo zahtev i sacuvamo ga

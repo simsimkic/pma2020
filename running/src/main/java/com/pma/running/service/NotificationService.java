@@ -31,7 +31,7 @@ public class NotificationService {
             NotificationDto dto = new NotificationDto();
             dto.setId(n.getId());
             dto.setDescription(n.getDescription());
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy. HH:mm");
             dto.setDate(n.getTimestamp().format(formatter));
             if(n.getNotificationType() == com.pma.running.model.NotificationType.APPROVED_FRIENDSHIP){
                 dto.setType(com.pma.running.dto.NotificationType.ACCEPT_FRIEND);

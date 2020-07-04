@@ -45,7 +45,7 @@ public class GroupActivityDto implements Serializable {
 
     public GroupActivityDto(ActivityRequest ar){
         this.id = ar.getId();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy. HH:mm");
         this.timestamp = formatter.format(ar.getTimestamp());
         this.username_requestee = ar.getActivityRequestee().getName();
         this.username_requestor = ar.getActivityRequestor().getName();

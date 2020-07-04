@@ -6,6 +6,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 
 import com.example.myapplication.adapter.FriendListAdapter;
@@ -25,6 +26,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -63,6 +65,9 @@ import com.mapbox.mapboxsdk.plugins.places.picker.PlacePicker;
 import com.mapbox.mapboxsdk.plugins.places.picker.model.PlacePickerOptions;
 
 import java.sql.Time;
+import java.text.DateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -220,6 +225,8 @@ public class FriendDetailActivity extends AppCompatActivity {
                     Log.e("tag", "Prihvatili ste zahtev za prijateljstvo");
                     Toast.makeText(getApplicationContext(), "Successfully accept friendship request", Toast.LENGTH_LONG).show();
                     imageView.setImageResource(R.drawable.ic_group);
+                    Button invite = findViewById(R.id.invite_btn);
+                    invite.setVisibility(View.VISIBLE);
                     imageView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -260,6 +267,8 @@ public class FriendDetailActivity extends AppCompatActivity {
 
                     Toast.makeText(getApplicationContext(), "Successfully remove friend", Toast.LENGTH_LONG).show();
                     imageView.setImageResource(R.drawable.ic_add_friend);
+                    Button invite = findViewById(R.id.invite_btn);
+                    invite.setVisibility(View.INVISIBLE);
                     imageView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -372,6 +381,7 @@ public class FriendDetailActivity extends AppCompatActivity {
     private void clickInviteButton(String username) {
         Button invite_btn = findViewById(R.id.invite_btn);
         invite_btn.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
                 LayoutInflater inflater = (LayoutInflater)
@@ -397,6 +407,16 @@ public class FriendDetailActivity extends AppCompatActivity {
 //                };
                 popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
 
+                EditText editText = popupView.findViewById(R.id.date);
+                LocalDateTime localDateTime = LocalDateTime.now();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy.");
+                editText.setText(localDateTime.toLocalDate().format(formatter));
+
+                DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+                EditText editText1  = popupView.findViewById(R.id.time);
+                editText1.setText(localDateTime.format(timeFormatter));
+
+
                 ImageView remove = popupView.findViewById(R.id.remove);
                 remove.setOnClickListener(new View.OnClickListener() {
                                               @Override
@@ -411,7 +431,7 @@ public class FriendDetailActivity extends AppCompatActivity {
                 inputDate(popupView);
                 inputTime(popupView);
                 inputLocation(popupView);
-                clickSendButton(popupView, username);
+                clickSendButton(popupView, username, popupWindow);
 
             }
         });
@@ -444,7 +464,7 @@ public class FriendDetailActivity extends AppCompatActivity {
             //when success
             //initialize place
             String location = data.getStringExtra("location");
-            Toast.makeText(getApplicationContext(), location, Toast.LENGTH_LONG).show();
+//            Toast.makeText(getApplicationContext(), location, Toast.LENGTH_LONG).show();
             locationEdit.setText(location);
 
 
@@ -454,7 +474,7 @@ public class FriendDetailActivity extends AppCompatActivity {
         }
     }
 
-    private void clickSendButton(View popupView, String requestee) {
+    private void clickSendButton(View popupView, String requestee, PopupWindow popupWindow) {
         //obracamo se back-u
         Button send = popupView.findViewById(R.id.send_btn);
         send.setOnClickListener(new View.OnClickListener() {
@@ -468,6 +488,9 @@ public class FriendDetailActivity extends AppCompatActivity {
                 String time = editText.getText().toString();
                 EditText dateEdit = popupView.findViewById(R.id.date);
                 String date = dateEdit.getText().toString();
+                if(location.equals("")){
+                    Toast.makeText(getApplicationContext(), "Please input location!", Toast.LENGTH_LONG);
+                }else{
 //                Toast.makeText(getApplicationContext(), date + " " + time, Toast.LENGTH_LONG).show();
                 String timestamp = date + " " + time;
                 ActivityInviteRequest invite = new ActivityInviteRequest(timestamp, login_user, requestee, location);
@@ -481,7 +504,7 @@ public class FriendDetailActivity extends AppCompatActivity {
 
                             Log.e("tag", "Uspesno je poslat zahtev za grupno trcanje");
                             Toast.makeText(getApplicationContext(), "Successfully send activity request", Toast.LENGTH_LONG).show();
-
+                            popupWindow.dismiss();
 
                         }
 
@@ -499,7 +522,7 @@ public class FriendDetailActivity extends AppCompatActivity {
 
                 });
 
-            }
+            }}
         });
 
     }
@@ -551,7 +574,7 @@ public class FriendDetailActivity extends AppCompatActivity {
                         }else {
                             monthText = Integer.toString(month+1);
                         }
-                        editText.setText((dayOfMonth<10? ("0" + dayOfMonth) : dayOfMonth) + "-" + monthText + "-" + year);
+                        editText.setText((dayOfMonth<10? ("0" + dayOfMonth) : dayOfMonth) + "." + monthText + "." + year +".");
                     }
                 }, year, month, day);
                 picker.show();
