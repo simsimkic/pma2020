@@ -81,19 +81,24 @@ public class ActivityController {
     }
 
     @PostMapping("/group_activity/accept_decline")
-    public ResponseEntity<String> acceptOrDeaclineRequest(@RequestBody GroupActivityAnswerDto groupActivityAnswerDto){
+    public ResponseEntity<List<GroupActivityDto>> acceptOrDeaclineRequest(@RequestBody GroupActivityAnswerDto groupActivityAnswerDto){
         String accept = groupActivityAnswerDto.getAccept() ? "accept" : "decline";
         System.out.println(accept  + "request");
 
         try {
-            String message = this.activityService.acceptOrDeclineRequest(groupActivityAnswerDto);
-            return new ResponseEntity<>(message, HttpStatus.OK);
+            List<GroupActivityDto> activityDtos = this.activityService.acceptOrDeclineRequest(groupActivityAnswerDto);
+            return  new ResponseEntity<>(activityDtos, HttpStatus.OK);
         } catch (NotFoundException e) {
             e.printStackTrace();
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
 
 
+    }
+
+    @GetMapping("/get/group_activity/{username}")
+    public List<GroupActivityDto> getGroupActivity(@PathVariable String username){
+        return this.activityService.getGroupActivity(username);
     }
 
 }

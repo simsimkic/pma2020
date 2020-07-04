@@ -16,6 +16,9 @@ public class ActivityInviteRequest implements Serializable {
     private String username_requestee;
     @SerializedName("location")
     private String location;
+    @SerializedName("status")
+    private ActivityRequestStatus status;
+
 
     public ActivityInviteRequest() {
     }
@@ -25,6 +28,23 @@ public class ActivityInviteRequest implements Serializable {
         this.username_requestor = username_requestor;
         this.username_requestee = username_requestee;
         this.location = location;
+    }
+
+    public ActivityInviteRequest(Long id, String timestamp, String username_requestor, String username_requestee, String location, ActivityRequestStatus status) {
+        this.id = id;
+        this.timestamp = timestamp;
+        this.username_requestor = username_requestor;
+        this.username_requestee = username_requestee;
+        this.location = location;
+        this.status = status;
+    }
+
+    public ActivityRequestStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(ActivityRequestStatus status) {
+        this.status = status;
     }
 
     public String getTimestamp() {

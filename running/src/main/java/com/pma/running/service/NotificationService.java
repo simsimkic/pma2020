@@ -31,37 +31,46 @@ public class NotificationService {
             NotificationDto dto = new NotificationDto();
             dto.setId(n.getId());
             dto.setDescription(n.getDescription());
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
             dto.setDate(n.getTimestamp().format(formatter));
-            switch (n.getNotificationType()){
-                case APPROVED_FRIENDSHIP:
-                    dto.setType(com.pma.running.dto.NotificationType.ACCEPT_FRIEND);
-                    break;
-                case FRIENDSHIP_REQUEST:
-                    FriendshipRequestNotification frn = (FriendshipRequestNotification)n;
-                    if(frn.getFriendshipRequest().getStatus()== FriendshipStatus.SEND_REQUEST) {
-                        dto.setType(com.pma.running.dto.NotificationType.SEND_FRIEND);
-                        dto.setFriend_username(frn.getFriendshipRequest().getFriendshipRequestor().getUsername());
-                    }
+            if(n.getNotificationType() == com.pma.running.model.NotificationType.APPROVED_FRIENDSHIP){
+                dto.setType(com.pma.running.dto.NotificationType.ACCEPT_FRIEND);
+                result.add(dto);
+            }else if(n.getNotificationType() == com.pma.running.model.NotificationType.FRIENDSHIP_REQUEST){
+                FriendshipRequestNotification frn = (FriendshipRequestNotification)n;
+                if(frn.getFriendshipRequest().getStatus()== FriendshipStatus.SEND_REQUEST) {
+                    dto.setType(com.pma.running.dto.NotificationType.SEND_FRIEND);
+                    dto.setFriend_username(frn.getFriendshipRequest().getFriendshipRequestor().getUsername());
+                    result.add(dto);
+                }
+            }else if(n.getNotificationType() == com.pma.running.model.NotificationType.COMMENT_ON_POST) {
 
-                    break;
-                case COMMENT_ON_POST:
-                    dto.setType(com.pma.running.dto.NotificationType.COMMENT);
-                    break;
-                case LIKE_ON_POST:
+                dto.setType(com.pma.running.dto.NotificationType.COMMENT);
+                result.add(dto);
+            } else if(n.getNotificationType() == com.pma.running.model.NotificationType.LIKE_ON_POST){
+
                     dto.setType(com.pma.running.dto.NotificationType.LIKE);
-                    break;
-                case ACTIVITY_REQUEST:
+                result.add(dto);
+            } else if(n.getNotificationType() == com.pma.running.model.NotificationType.ACTIVITY_REQUEST) {
+
+                ActivityRequestNotification arn = (ActivityRequestNotification) n;
+                if (arn.getActivityRequest().getStatus() == ActivityRequestStatus.SEND) {
                     dto.setType(com.pma.running.dto.NotificationType.SEND_INVITATION);
                     //treba da dodam i aktivnost
-                    addActivityData(dto, (ActivityRequestNotification)n);
-                    break;
-                case APPROVED_ACTIVITY_REQUEST:
+
+                    addActivityData(dto, (ActivityRequestNotification) n);
+                    result.add(dto);
+                }
+            }
+             else if (n.getNotificationType() == com.pma.running.model.NotificationType.APPROVED_ACTIVITY_REQUEST) {
+
+
                     dto.setType(NotificationType.ACCEPT_INVITATION);
                     addActivityData(dto, (ActivityRequestNotification)n);
-                    break;
+                result.add(dto);
+
             }
-            result.add(dto);
+
 
         }
 

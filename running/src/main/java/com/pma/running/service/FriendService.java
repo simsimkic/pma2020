@@ -107,7 +107,7 @@ public class FriendService {
             if (friendshipRequestDto.getAccept()){
                 foundRequest.setStatus(FriendshipStatus.APPROVED_REQUEST);
                 foundRequest = this.friendshipRepository.save(foundRequest);
-                FriendshipRequestNotification notification = new FriendshipRequestNotification(LocalDateTime.now(), NotificationType.APPROVED_FRIENDSHIP, requestee.getUsername() + " accepted your friend request", requestor ,foundRequest);
+                FriendshipRequestNotification notification = new FriendshipRequestNotification(LocalDateTime.now(), NotificationType.APPROVED_FRIENDSHIP, requestee.getName() + " accepted your friend request", requestor ,foundRequest);
                 this.notificationRepository.save(notification);
                 Friends friends = new Friends(foundRequest.getFriendshipRequestee(), foundRequest.getFriendshipRequestor());
                 this.friendsRepository.save(friends);

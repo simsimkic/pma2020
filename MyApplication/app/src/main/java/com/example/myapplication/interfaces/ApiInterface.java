@@ -2,6 +2,7 @@ package com.example.myapplication.interfaces;
 
 import com.example.myapplication.dto.request.ActivityDto;
 import com.example.myapplication.dto.request.ActivityInviteRequest;
+import com.example.myapplication.dto.request.ActivityRequestAnswer;
 import com.example.myapplication.dto.request.EditUserRequest;
 
 import com.example.myapplication.dto.request.FriendshipRequest;
@@ -26,6 +27,7 @@ import com.example.myapplication.dto.response.UserSettingsResponse;
 import com.example.myapplication.model.Activity;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import okhttp3.ResponseBody;
@@ -200,4 +202,18 @@ public interface ApiInterface {
     })
     @POST("send_activity_request")
     Call<ActivityInviteRequest> sendInvite(@Body ActivityInviteRequest invite);
+
+    @Headers({
+            "User-Agent: Mobile-Android",
+            "Content-Type:application/json"
+    })
+    @GET("get/group_activity/{username}")
+    Call<List<ActivityInviteRequest>> getGroupActivity(@Path("username") String username);
+    @Headers({
+            "User-Agent: Mobile-Android",
+            "Content-Type:application/json"
+    })
+    @POST("group_activity/accept_decline")
+    Call<List<ActivityInviteRequest>> acceptOrDeclineActivityRequest(@Body ActivityRequestAnswer answer);
+
 }

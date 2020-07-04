@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -86,7 +87,7 @@ public class ActivityService {
 
     }
 
-    public String acceptOrDeclineRequest(GroupActivityAnswerDto groupActivityAnswerDto) throws NotFoundException {
+    public List<GroupActivityDto> acceptOrDeclineRequest(GroupActivityAnswerDto groupActivityAnswerDto) throws NotFoundException {
         //prvo proverimo da li postoji zahtev sa prosledjenim id-om
         ActivityRequest activityRequest = this.activityRequestRepository.findById(groupActivityAnswerDto.getId()).orElseThrow(() -> new NotFoundException("Activity request not found!"));
 
@@ -96,14 +97,32 @@ public class ActivityService {
             activityRequest = this.activityRequestRepository.save(activityRequest);
             ActivityRequestNotification notification = new ActivityRequestNotification(LocalDateTime.now(), NotificationType.APPROVED_ACTIVITY_REQUEST, activityRequest.getActivityRequestee().getName() + " accepted your activity invitation.", activityRequest.getActivityRequestor(), activityRequest);
             notificationRepository.save(notification);
-            return "Successfully accepted the activity request!";
+            return getGroupActivity(groupActivityAnswerDto.getUsername());
         }
 
         activityRequest.setStatus(ActivityRequestStatus.DECLINE);
         activityRequest = this.activityRequestRepository.save(activityRequest);
         ActivityRequestNotification notification = new ActivityRequestNotification(LocalDateTime.now(), NotificationType.REJECTED_ACTIVITY_REQUEST, activityRequest.getActivityRequestee().getName() + " reject your activity invitation.", activityRequest.getActivityRequestor(), activityRequest);
         notificationRepository.save(notification);
-        return  "Successfully rejected the activity request!";
+        return  getGroupActivity(groupActivityAnswerDto.getUsername());
+
+    }
+
+    public List<GroupActivityDto> getGroupActivity(String username) {
+        User loginUser = this.userService.findByUsername(username);
+        //izvucemo sve grupne aktivnosti za ulogovanog korisnika
+        List<ActivityRequest> activityRequests = this.activityRequestRepository.findByActivityRequesteeOrActivityRequestor(loginUser,loginUser);
+
+        //treba da prebacimo u dto i to je to
+        ArrayList<GroupActivityDto> groupActivityDtos = new ArrayList<>();
+
+        GroupActivityDto dtos;
+        for (ActivityRequest ar: activityRequests) {
+            dtos = new GroupActivityDto(ar);
+            groupActivityDtos.add(dtos);
+        }
+
+        return  groupActivityDtos;
 
     }
 }

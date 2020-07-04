@@ -18,20 +18,34 @@ import android.widget.ListView;
 
 import com.example.myapplication.R;
 import com.example.myapplication.adapter.ActivityListAdapter;
+import com.example.myapplication.adapter.FriendListAdapter;
+import com.example.myapplication.dto.request.ActivityInviteRequest;
+import com.example.myapplication.dto.request.ActivityRequestStatus;
+import com.example.myapplication.dto.response.FriendResponse;
+import com.example.myapplication.interfaces.ApiInterface;
 import com.example.myapplication.model.Activity;
 import com.example.myapplication.mokap_data.Activities;
 import com.example.myapplication.ui.fragments.NotificationsSettingsFragment;
 import com.example.myapplication.ui.fragments.PrivacySettingsFragment;
 import com.example.myapplication.ui.fragments.ThemeSettingsFragment;
+import com.example.myapplication.util.ApiClient;
 import com.example.myapplication.util.SaveSharedPreference;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class GroupActivitiesActivity extends AppCompatActivity {
 
     BottomNavigationView bottom_navigation;
     Intent intent;
     DrawerLayout drawerLayout;
+    ArrayList<ActivityInviteRequest> activityInviteRequests;
 
     Toolbar toolbar;
 
@@ -87,8 +101,39 @@ public class GroupActivitiesActivity extends AppCompatActivity {
 
     private void drawList() {
         ListView list = findViewById(R.id.activity_list);
-        ActivityListAdapter adapter = new ActivityListAdapter(getApplicationContext(), Activities.getActivities());
-        list.setAdapter(adapter);
+        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        Call<List<ActivityInviteRequest>> call = apiService.getGroupActivity(SaveSharedPreference.getLoggedObject(getApplicationContext()).getUsername());
+        call.enqueue(new Callback() {
+
+            @Override
+            public void onResponse(Call call, Response response) {
+                if(response.body() != null){
+                    activityInviteRequests = (ArrayList<ActivityInviteRequest>) response.body();
+
+                    Log.e("tag", "Dobavili smo grupne aktivnosti, ima ih: " + activityInviteRequests.size());
+
+
+                    ActivityListAdapter adapter = new ActivityListAdapter(getApplicationContext(), activityInviteRequests, list);
+                    list.setAdapter(adapter);
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                Log.e("tag","Greska prilikom dobavljanja grupnih aktivnosti!!");
+
+            }
+
+
+
+
+
+        });
+
+
+
     }
 
 

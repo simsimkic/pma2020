@@ -73,7 +73,7 @@ public class SelectLocationActivity extends AppCompatActivity {
                 selectedLocationTextView.setText(String.format(
                         getString(R.string.selected_place_info), carmenFeature.toJson()));
                 Intent intent =new Intent();
-//                Toast.makeText(getApplicationContext(),  carmenFeature.placeName(), Toast.LENGTH_LONG).show();
+//                Toast.makeText(getApplicationContext(),  carmenFeature.toString(), Toast.LENGTH_LONG).show();
                 intent.putExtra("location", carmenFeature.placeName());
                 setResult(RESULT_OK, intent);
                 finish();
