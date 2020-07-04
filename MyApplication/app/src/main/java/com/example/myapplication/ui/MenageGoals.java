@@ -8,12 +8,15 @@ import android.os.Bundle;
 import com.example.myapplication.dto.request.SaveGoalRequest;
 import com.example.myapplication.dto.response.GoalResponse;
 import com.example.myapplication.interfaces.ApiInterface;
+import com.example.myapplication.model.Goal;
+import com.example.myapplication.settings.DataBaseHelper;
 import com.example.myapplication.util.ApiClient;
 import com.example.myapplication.util.SaveSharedPreference;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -70,6 +73,7 @@ public class MenageGoals extends AppCompatActivity {
 
         };
 
+        end_time.setFocusable(false);
         end_time.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -103,8 +107,16 @@ public class MenageGoals extends AppCompatActivity {
                 SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
                 saveGoalRequest.setTimestampe(sdf.format(new Date()));
 
+                DataBaseHelper dataBaseHelper = new DataBaseHelper(getApplicationContext());
+                Goal goalTemp = new Goal(name.getText().toString().equals("") ? "" : name.getText().toString()
+                        ,Double.parseDouble(distance.getText().toString()),Double.parseDouble(duration.getText().toString()),true,
+                        end_time.getText().toString());
+                String i = SaveSharedPreference.getLoggedObject(getApplicationContext()).getUsername();
+                dataBaseHelper.addGoal(goalTemp,i);
+
                 ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
                 Call<GoalResponse> call = apiService.saveGoal(saveGoalRequest);
+
                 call.enqueue(new Callback<GoalResponse>() {
 
                     @Override

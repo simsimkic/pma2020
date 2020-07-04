@@ -27,7 +27,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_GOALS_ARCHIVED = "COLUMN_GOALS_ARCHIVED";
     public static final String COLUMN_GOALS_END_TIME = "COLUMN_GOALS_END_TIME";
     public static final String COLUMN_GOALS_ID = "COLUMN_GOALS_ID";
-    public static final String COLUMN_GOALS_USER_ID = "COLUMN_GOALS_USER_ID";
+    public static final String COLUMN_GOALS_USERNAME = "COLUMN_GOALS_USERNAME";
 
     public DataBaseHelper(@Nullable Context context) {
         super(context, "running.db", null, 1);
@@ -37,10 +37,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
 
         String createTableStatement = "CREATE TABLE " + GOALS_TABLE + " (" + COLUMN_GOALS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_GOALS_NAME + " TEXT, "+ COLUMN_GOALS_DISTANCE +" REAL, " +
-                COLUMN_GOALS_DURATION +" REAL, " + COLUMN_GOALS_ARCHIVED +" INTEGER, " + COLUMN_GOALS_END_TIME + " TEXT, " + COLUMN_GOALS_USER_ID + " INTEGER)";
+                COLUMN_GOALS_DURATION +" REAL, " + COLUMN_GOALS_ARCHIVED +" INTEGER, " + COLUMN_GOALS_END_TIME + " TEXT, " + COLUMN_GOALS_USERNAME + " INTEGER)";
 
         db.execSQL(createTableStatement);
-
     }
 
     @Override
@@ -48,7 +47,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public boolean addGoal(Goal goal, Integer id){
+    public boolean addGoal(Goal goal, String username){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
@@ -62,29 +61,36 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
 
         cv.put(COLUMN_GOALS_END_TIME, goal.getEnd_time().toString());
-        Log.e("LOG","usao da ispisem :" + id);
-        cv.put(COLUMN_GOALS_USER_ID, id);
+        cv.put(COLUMN_GOALS_USERNAME, username);
 
         db.insert(GOALS_TABLE,null,cv);
 
         return true;
     }
 
-    public List<Goal> getGoalsByUser(Integer id){
+    public void clear(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        db.execSQL("DROP TABLE IF EXISTS GOALS_TABLE");
+        onCreate(db);
+    }
+
+    public List<Goal> getGoalsByUser(String id){
         List<Goal> returnGoal = new ArrayList<Goal>();
 
         Log.e("LOG","usao da ispisem :" + id);
-        String queryString = "SELECT * FROM " + GOALS_TABLE + " WHERE " + COLUMN_GOALS_USER_ID + " = '" + id + "'";
-
+        String queryString = "SELECT * FROM " + GOALS_TABLE + " WHERE column_goals_username='" + id + "'";
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(queryString,null);
 
+
+        Cursor cursor = db.rawQuery(queryString,null);
+        Log.e("LOG","usao da ispisem :" + id);
         if(cursor.moveToFirst()){
             do {
                 String name = cursor.getString(1);
                 Double distance = cursor.getDouble(2);
                 Double duration = cursor.getDouble(3);
                 int archived = cursor.getInt(4);
+                Log.e("LOG","Ispisujem boolean ... : :  :" + archived);
                 boolean arch;
                 if(archived == 1){
                     arch = true;
@@ -92,9 +98,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                     arch = false;
                 }
                 String time = cursor.getString(5);
+                Log.e("LOG","usao da ispisem ime :" + name);
+                Log.e("LOG","usao da ispisem ime :" + distance);
                 Goal goalTemp = new Goal(name,distance,duration,arch,time);
                 returnGoal.add(goalTemp);
-            } while (cursor.moveToFirst());
+            } while (cursor.moveToNext());
         }else{
             //fail case
         }

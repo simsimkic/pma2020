@@ -127,6 +127,7 @@ public class LoginActivity extends AppCompatActivity {
     private void loadSQLiteDB() {
 
         DataBaseHelper dataBaseHelper = new DataBaseHelper(getApplicationContext());
+        dataBaseHelper.clear();
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
         Call<Set<GoalResponse>> call = apiService.getGoalsByUser(SaveSharedPreference.getLoggedObject(getApplicationContext()).getId());
         call.enqueue(new Callback<Set<GoalResponse>>() {
@@ -138,8 +139,8 @@ public class LoginActivity extends AppCompatActivity {
                 ArrayList<Goal> arrayOfGoal = new ArrayList<Goal>();
                 if (data != null){
                     for (GoalResponse goal: data) {
-                        Goal goalTemp = new Goal(goal.getTitle(),goal.getDistance(),goal.getDuration(),true,goal.getEnd_time());
-                        Integer i = (int) (long) SaveSharedPreference.getLoggedObject(getApplicationContext()).getId();
+                        Goal goalTemp = new Goal(goal.getTitle(),goal.getDistance(),goal.getDuration(),goal.getArchived(),goal.getEnd_time());
+                        String i = SaveSharedPreference.getLoggedObject(getApplicationContext()).getUsername();
                         dataBaseHelper.addGoal(goalTemp,i);
                     }
                 }
