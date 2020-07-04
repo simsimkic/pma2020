@@ -61,7 +61,7 @@ public class GoalDetailActivity extends AppCompatActivity {
                 ArrayList<Goal> arrayOfGoal = new ArrayList<Goal>();
                 if (data != null){
                     for (GoalResponse goal: data) {
-                        Goal goalTemp = new Goal(goal.getTitle(),goal.getDistance(),goal.getDuration(),goal.getArchived(),goal.getEnd_time());
+                        Goal goalTemp = new Goal(goal.getId(),goal.getTitle(),goal.getDistance(),goal.getDuration(),goal.getArchived(),goal.getEnd_time());
                         String i = SaveSharedPreference.getLoggedObject(getApplicationContext()).getUsername();
                         dataBaseHelper.addGoal(goalTemp,i);
                     }
@@ -139,13 +139,13 @@ public class GoalDetailActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-                    loadSQLiteDB();
                     Call<Boolean> call = apiService.deleteGoal(goal.getId());
                     call.enqueue(new Callback<Boolean>() {
 
                         @Override
                         public void onResponse(Call<Boolean> call, Response<Boolean> response) {
                             Intent intent = new Intent(GoalDetailActivity.this, ProfileActivity.class);
+                            loadSQLiteDB();
                             startActivity(intent);
                         }
 
@@ -166,7 +166,6 @@ public class GoalDetailActivity extends AppCompatActivity {
 
                     String myFormat = "dd.MM.yyyy. HH:mm"; //In which you need put here
                     SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-                    loadSQLiteDB();
                     goalRequest.setTimestampe(sdf.format(new Date()));
                     goalRequest.setEnd_time(end_time.getText().toString());
                     goalRequest.setTitle(name.getText().toString());
@@ -184,6 +183,7 @@ public class GoalDetailActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(Call<GoalResponse> call, Response<GoalResponse> response) {
                             Intent intent = new Intent(GoalDetailActivity.this, ProfileActivity.class);
+                            loadSQLiteDB();
                             startActivity(intent);
                         }
 
@@ -204,13 +204,13 @@ public class GoalDetailActivity extends AppCompatActivity {
 
                     String myFormat = "dd.MM.yyyy. HH:mm"; //In which you need put here
                     SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-                    loadSQLiteDB();
                     goalRequest.setTimestampe(sdf.format(new Date()));
                     goalRequest.setEnd_time(end_time.getText().toString());
                     goalRequest.setTitle(name.getText().toString());
                     goalRequest.setDistance(Double.parseDouble(distance.getText().toString()));
                     goalRequest.setDuration(Double.parseDouble(duration.getText().toString()));
                     goalRequest.setArchived(true);
+                    Log.e("tag","Usao update sam nista nije okej kod goalsa " + goal.getId());
                     goalRequest.setId(goal.getId());
                     goalRequest.setUser_id(SaveSharedPreference.getLoggedObject(getApplicationContext()).getId());
 
@@ -221,6 +221,7 @@ public class GoalDetailActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(Call<GoalResponse> call, Response<GoalResponse> response) {
                             Intent intent = new Intent(GoalDetailActivity.this, ProfileActivity.class);
+                            loadSQLiteDB();
                             startActivity(intent);
                         }
 

@@ -139,7 +139,7 @@ public class LoginActivity extends AppCompatActivity {
                 ArrayList<Goal> arrayOfGoal = new ArrayList<Goal>();
                 if (data != null){
                     for (GoalResponse goal: data) {
-                        Goal goalTemp = new Goal(goal.getTitle(),goal.getDistance(),goal.getDuration(),goal.getArchived(),goal.getEnd_time());
+                        Goal goalTemp = new Goal(goal.getId(),goal.getTitle(),goal.getDistance(),goal.getDuration(),goal.getArchived(),goal.getEnd_time());
                         String i = SaveSharedPreference.getLoggedObject(getApplicationContext()).getUsername();
                         dataBaseHelper.addGoal(goalTemp,i);
                     }

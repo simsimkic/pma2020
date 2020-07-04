@@ -4,18 +4,28 @@ import java.time.Duration;
 
 public class Goal {
 
+    private Long id;
     private String name;
     private Double distance;
     private Double duration;
     private Boolean archived;
     private String end_time;
 
-    public Goal(String name, Double distance, Double duration, Boolean archived, String end_time) {
+    public Goal(Long id, String name, Double distance, Double duration, Boolean archived, String end_time) {
+        this.id= id;
         this.name = name;
         this.distance = distance;
         this.duration = duration;
         this.archived = archived;
         this.end_time = end_time;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {

@@ -9,6 +9,7 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import com.example.myapplication.dto.response.GoalResponse;
 import com.example.myapplication.model.Goal;
 
 import java.io.StringBufferInputStream;
@@ -51,6 +52,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
+        cv.put(COLUMN_GOALS_ID, goal.getId());
         cv.put(COLUMN_GOALS_NAME, goal.getName());
         cv.put(COLUMN_GOALS_DISTANCE, goal.getDistance());
         cv.put(COLUMN_GOALS_DURATION, goal.getDuration());
@@ -74,8 +76,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public List<Goal> getGoalsByUser(String id){
-        List<Goal> returnGoal = new ArrayList<Goal>();
+    public List<GoalResponse> getGoalsByUser(String id){
+        List<GoalResponse> returnGoal = new ArrayList<GoalResponse>();
 
         Log.e("LOG","usao da ispisem :" + id);
         String queryString = "SELECT * FROM " + GOALS_TABLE + " WHERE column_goals_username='" + id + "'";
@@ -86,6 +88,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         Log.e("LOG","usao da ispisem :" + id);
         if(cursor.moveToFirst()){
             do {
+                Long ido = cursor.getLong(0);
                 String name = cursor.getString(1);
                 Double distance = cursor.getDouble(2);
                 Double duration = cursor.getDouble(3);
@@ -100,7 +103,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 String time = cursor.getString(5);
                 Log.e("LOG","usao da ispisem ime :" + name);
                 Log.e("LOG","usao da ispisem ime :" + distance);
-                Goal goalTemp = new Goal(name,distance,duration,arch,time);
+                GoalResponse goalTemp = new GoalResponse(ido,duration,distance,time,"",name,arch);
                 returnGoal.add(goalTemp);
             } while (cursor.moveToNext());
         }else{
