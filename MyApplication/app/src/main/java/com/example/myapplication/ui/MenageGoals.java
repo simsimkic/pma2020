@@ -107,12 +107,7 @@ public class MenageGoals extends AppCompatActivity {
                 SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
                 saveGoalRequest.setTimestampe(sdf.format(new Date()));
 
-                DataBaseHelper dataBaseHelper = new DataBaseHelper(getApplicationContext());
-                Goal goalTemp = new Goal(name.getText().toString().equals("") ? "" : name.getText().toString()
-                        ,Double.parseDouble(distance.getText().toString()),Double.parseDouble(duration.getText().toString()),true,
-                        end_time.getText().toString());
-                String i = SaveSharedPreference.getLoggedObject(getApplicationContext()).getUsername();
-                dataBaseHelper.addGoal(goalTemp,i);
+
 
                 ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
                 Call<GoalResponse> call = apiService.saveGoal(saveGoalRequest);
@@ -122,6 +117,12 @@ public class MenageGoals extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<GoalResponse> call, Response<GoalResponse> response) {
                         GoalResponse user = response.body();
+                        DataBaseHelper dataBaseHelper = new DataBaseHelper(getApplicationContext());
+                        Goal goalTemp = new Goal(user.getId(),name.getText().toString().equals("") ? "" : name.getText().toString()
+                                ,Double.parseDouble(distance.getText().toString()),Double.parseDouble(duration.getText().toString()),false,
+                                end_time.getText().toString());
+                        String i = SaveSharedPreference.getLoggedObject(getApplicationContext()).getUsername();
+                        dataBaseHelper.addGoal(goalTemp,i);
                         Log.e("tag","Usao sam sve okej" + user);
                         Intent intent = new Intent(MenageGoals.this, ProfileActivity.class);
                         startActivity(intent);

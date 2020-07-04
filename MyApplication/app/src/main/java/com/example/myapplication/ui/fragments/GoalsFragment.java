@@ -115,16 +115,16 @@ public class GoalsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_goals, container, false);
         DataBaseHelper dataBaseHelper = new DataBaseHelper(getContext());
         String i = SaveSharedPreference.getLoggedObject(getContext()).getUsername();
-        List<Goal> data = dataBaseHelper.getGoalsByUser(i);
+        List<GoalResponse> data = dataBaseHelper.getGoalsByUser(i);
 
         ArrayList<Goal> arrayOfGoal = new ArrayList<Goal>();
         ArrayList<GoalResponse> goalReponses = new ArrayList<GoalResponse>();
         if (data != null){
             int iterator = 1;
-            for (Goal goal: data) {
-                GoalResponse goalResponse = new GoalResponse(new Long(iterator),goal.getDuration(),goal.getDistance(),goal.getEnd_time(),"",goal.getName(),goal.getArchived());
-                arrayOfGoal.add(goal);
-                goalReponses.add(goalResponse);
+            for (GoalResponse goal: data) {
+                Goal goalResponse = new Goal(goal.getId(),goal.getTitle(),goal.getDistance(),goal.getDuration(),goal.getArchived(),goal.getEnd_time());
+                arrayOfGoal.add(goalResponse);
+                goalReponses.add(goal);
                 iterator++;
             }
         }
@@ -142,7 +142,7 @@ public class GoalsFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 GoalResponse goal = goalReponses.get(position);
                 Intent intent = new Intent(getActivity(), GoalDetailActivity.class);
-
+                Log.e("tag","Javljham se iz goals menagera !!! >>> " + goal.getId());
                 intent.putExtra("goal", goal);
 
                 startActivity(intent);
