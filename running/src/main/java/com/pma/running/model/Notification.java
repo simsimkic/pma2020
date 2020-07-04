@@ -41,11 +41,12 @@ public class Notification implements Serializable {
         this.notificationType = notificationType;
         this.description = description;
     }
-    public Notification(Long id, LocalDateTime timestamp, NotificationType notificationType, String description) {
-        this.id = id;
+    public Notification(Long id, LocalDateTime timestamp, NotificationType notificationType, String description, User user) {
         this.timestamp = timestamp;
         this.notificationType = notificationType;
         this.description = description;
+        this.user = user;
+        this.id = id;
     }
 
 }

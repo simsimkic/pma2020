@@ -62,5 +62,9 @@
     <string name="title_activity_notification">NotificationActivity</string>
     <string name="delete">Delete</string>
     <string name="title_activity_menage_goals">MenageGoals</string>
+    <string name="title_activity_select_place">SelectPlaceActivity</string>
+    <string name="title_activity_select_location">SelectLocationActivity</string>
+    <string name="access_token">\"pk.eyJ1IjoicG1hMjAyMCIsImEiOiJja2M2OHd2MWMwOTRpMnZueDQ3ejhnbTZlIn0.62gLuTCl6gOrhxzN_EbYng\"</string>
+    <string name="selected_place_info" />
 
 </resources>

@@ -17,13 +17,20 @@ public class ActivityRequestNotification extends Notification {
     @JoinColumn(name = "activity_id")
     private ActivityRequest activityRequest;
 
-    public ActivityRequestNotification(LocalDateTime timestamp, NotificationType notificationType, String description, ActivityRequest activityRequest) {
-        super(timestamp, notificationType, description);
+    public ActivityRequestNotification(){}
+
+
+    public ActivityRequestNotification(ActivityRequest activityRequest) {
         this.activityRequest = activityRequest;
     }
 
-    public ActivityRequestNotification(Long id, LocalDateTime timestamp, NotificationType notificationType, String description, ActivityRequest activityRequest) {
-        super(id, timestamp, notificationType, description);
+    public ActivityRequestNotification(LocalDateTime timestamp, NotificationType notificationType, String description, User user, ActivityRequest activityRequest) {
+        super(timestamp, notificationType, description, user);
+        this.activityRequest = activityRequest;
+    }
+
+    public ActivityRequestNotification(Long id, LocalDateTime timestamp, NotificationType notificationType, String description, User user, ActivityRequest activityRequest) {
+        super(id, timestamp, notificationType, description, user);
         this.activityRequest = activityRequest;
     }
 }

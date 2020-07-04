@@ -103,14 +103,16 @@ public class FriendService {
         FriendshipRequest foundRequest = this.friendshipRepository.findByFriendshipRequestorAndFriendshipRequestee(requestor, requestee);
 
         if(foundRequest != null){
-            //dodamo i notifikaciju ako je prihvacen zahtev i dodamo povezemo prijatelje
+            //dodamo i notifikaciju ako je prihvacen zahtev i  povezemo prijatelje
             if (friendshipRequestDto.getAccept()){
                 foundRequest.setStatus(FriendshipStatus.APPROVED_REQUEST);
                 foundRequest = this.friendshipRepository.save(foundRequest);
-                FriendshipRequestNotification notification = new FriendshipRequestNotification(LocalDateTime.now(), NotificationType.APPROVED_FRIENDSHIP, requestee.getUsername() + " accepted your friend request", requestor ,foundRequest);
+                FriendshipRequestNotification notification = new FriendshipRequestNotification(LocalDateTime.now(), NotificationType.APPROVED_FRIENDSHIP, requestee.getName() + " accepted your friend request", requestor ,foundRequest);
                 this.notificationRepository.save(notification);
                 Friends friends = new Friends(foundRequest.getFriendshipRequestee(), foundRequest.getFriendshipRequestor());
                 this.friendsRepository.save(friends);
+                //treba da sredimo notifikaciju koja se odnosila na sam zahtev
+
                 return notification.getDescription();
             }else {
                 //izbrisem zahtev za prijateljstvo

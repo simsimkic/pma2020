@@ -2,11 +2,14 @@ package com.pma.running.controler;
 
 import com.pma.running.dto.ActivityDto;
 import com.pma.running.dto.ActivityResponseDto;
+import com.pma.running.dto.GroupActivityAnswerDto;
+import com.pma.running.dto.GroupActivityDto;
 import com.pma.running.model.Activity;
 import com.pma.running.model.Post;
 import com.pma.running.repository.PostRepository;
 import com.pma.running.service.ActivityService;
 import com.pma.running.service.PostService;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -67,6 +70,41 @@ public class ActivityController {
             return new ResponseEntity<Activity>(deletedActivity, HttpStatus.OK);
         }
         return new ResponseEntity<Activity>(deletedActivity, HttpStatus.NOT_FOUND);
+    }
+
+    @PostMapping("/send_activity_request")
+    public ResponseEntity<GroupActivityDto> sendActivityRequest(@RequestBody GroupActivityDto groupActivityDto){
+        System.out.println("Send activity request");
+        GroupActivityDto activityDto = null;
+        try {
+            activityDto = this.activityService.sendActivityRequest(groupActivityDto);
+            return new ResponseEntity<>(activityDto, HttpStatus.OK);
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+
+    }
+
+    @PostMapping("/group_activity/accept_decline")
+    public ResponseEntity<List<GroupActivityDto>> acceptOrDeaclineRequest(@RequestBody GroupActivityAnswerDto groupActivityAnswerDto){
+        String accept = groupActivityAnswerDto.getAccept() ? "accept" : "decline";
+        System.out.println(accept  + "request");
+
+        try {
+            List<GroupActivityDto> activityDtos = this.activityService.acceptOrDeclineRequest(groupActivityAnswerDto);
+            return  new ResponseEntity<>(activityDtos, HttpStatus.OK);
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+
+
+    }
+
+    @GetMapping("/get/group_activity/{username}")
+    public List<GroupActivityDto> getGroupActivity(@PathVariable String username){
+        return this.activityService.getGroupActivity(username);
     }
 
 }

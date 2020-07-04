@@ -50,30 +50,32 @@
                 android:id="@+id/location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:gravity="center_vertical"
+                android:textSize="8sp"
+                android:layout_gravity="center_vertical"
                 android:textColor="@color/black"
                 android:text="check location"
                 android:layout_toEndOf="@id/activity_state"
                 
                 android:layout_alignParentTop="true"
                 />
-            <TextView
-                android:id="@+id/date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:gravity="center_vertical"
-                android:textColor="@color/black"
-                android:text="15.04.2020. 19:35"
-                android:layout_toEndOf="@id/location"
-                
-                android:layout_alignParentTop="true"
-                android:layout_marginLeft="10dp"
-                />
-
 
         </LinearLayout>
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp">
+                <TextView
+                    android:id="@+id/date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="10sp"
+                    android:textColor="@color/black"
+                    android:text="15.04.2020. 19:35"
+                    />
+            </LinearLayout>
+
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -82,7 +84,6 @@
             android:orientation="horizontal" />
 
     </LinearLayout>
-
 
 
 

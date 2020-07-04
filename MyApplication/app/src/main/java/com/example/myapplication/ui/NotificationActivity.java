@@ -84,7 +84,7 @@ public class NotificationActivity extends AppCompatActivity {
                     Log.e("tag", "Dobavili smo notifikacije, ima ih: " + notifications.size());
 
                     ;
-                    list.setAdapter(new NotificationAdapter(getApplicationContext(), notifications));
+                    list.setAdapter(new NotificationAdapter(getApplicationContext(), notifications, list));
 
                 }
 
