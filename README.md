@@ -2,6 +2,7 @@
 
 Running App je aplikacija namenjena korisnicima koji žele da prate svoje fizičke aktivnosti (trčanje) i
 podele ih sa svojim prijateljima.
+Demo: https://www.youtube.com/watch?v=3943dLlzZ-s&feature=youtu.be
 
 
 Spisak funkcionalnosti:
