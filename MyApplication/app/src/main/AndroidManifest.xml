@@ -2,20 +2,70 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.myapplication">
 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission. ACCESS_COARSE_LOCATION" /> <!-- ACTIVITY RECOGNITION for step counter sensor -->
+    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".ui.SelectLocationActivity"></activity>
+        <activity android:name=".ui.GoalDetailActivity" />
+        <activity
+            android:name=".ui.MenageGoals"
+            android:label="@string/title_activity_menage_goals"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.NotificationActivity"
+            android:label="@string/title_activity_notification"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.FriendDetailActivity"
+            android:label="@string/title_activity_friend_detail"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.FindFriendsActivity"
+            android:label="@string/title_activity_find_friends"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ui.EditProfileActivity" />
+        <activity android:name=".ui.GroupActivitiesActivity" />
+        <activity android:name=".ui.TrackingActivity" />
+        <activity android:name=".ui.HomeActivity" />
+        <activity
+            android:name=".ui.ProfileActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/title_activity_profile"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.LoginActivity"
+            android:excludeFromRecents="true"
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".MainActivity"
+            android:excludeFromRecents="true"
+            android:noHistory="true" />
+        <activity
+            android:name=".ui.SingupActivity"
+            android:excludeFromRecents="true"
+            android:noHistory="true" />
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

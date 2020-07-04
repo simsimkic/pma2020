@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="fragment_layout" type="id" />
+    <item name="comment_list" type="id" />
+    <item name="accpet_friend_btn" type="id" />
+    <item name="decline_friend_btn" type="id" />
+    <item name="cancel_btn" type="id" />
+    <item name="accept_invite_btn" type="id" />
+    <item name="decline_invite_btn" type="id" />
+</resources>

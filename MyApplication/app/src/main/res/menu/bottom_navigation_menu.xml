@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/home"
+        android:icon="@drawable/baseline_home_black_24dp"
+        android:title="@string/home" />
+    <item
+        android:id="@+id/tracking"
+        android:icon="@drawable/baseline_gps_fixed_black_24dp"
+        android:title="@string/tracking_bottom_nav" />
+    <item
+        android:id="@+id/profile"
+        android:icon="@drawable/baseline_person_black_24dp"
+        android:title="@string/profile" />
+    <item
+        android:id="@+id/activities"
+        android:icon="@drawable/baseline_accessibility_new_black_24dp"
+        android:title="@string/activities" />
+</menu>
