@@ -16,6 +16,13 @@ buildscript {
 
 allprojects {
     repositories {
+        maven {
+            url 'https://maven.google.com'
+        }
+        // NOTE: this is the public repo for the MapQuest Navigation SDK
+        maven {
+            url "http://artifactory.cloud.mapquest.com/artifactory/et-android-binaries"
+        }
         google()
         jcenter()
         

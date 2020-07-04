@@ -27,7 +27,9 @@ import com.example.myapplication.model.Activitie;
 import com.example.myapplication.util.ApiClient;
 import com.example.myapplication.util.SaveSharedPreference;
 
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -90,7 +92,12 @@ public class FeedActivityAdapter extends BaseAdapter {
         map.setImageBitmap(decodeBase64(p.getBitmap()));
         user.setText(p.getUser());
         description.setText(p.getDescription());
-        duration.setText(Double.toString(p.getDuration()) + " min");
+        long seconds = (long)p.getDuration();
+        long day = TimeUnit.SECONDS.toDays(seconds);
+        long hours = TimeUnit.SECONDS.toHours(seconds) - (day*24);
+        long min = TimeUnit.SECONDS.toMinutes(seconds) - (TimeUnit.SECONDS.toHours(seconds)*60);
+        long sec = TimeUnit.SECONDS.toSeconds(seconds) - (TimeUnit.SECONDS.toMinutes(seconds)*60);
+        duration.setText(Long.toString(hours) + "h " + Long.toString(min) + "min " + Long.toString(sec) + "s");
         distance.setText(Double.toString(p.getDistance()) + " km");
         time.setText(p.getDate());
         likes.setText(Integer.toString(p.getLike_num()));

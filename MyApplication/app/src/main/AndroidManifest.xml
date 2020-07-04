@@ -17,7 +17,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.GoalDetailActivity"></activity>
+        <activity android:name=".ui.SelectLocationActivity"></activity>
+        <activity android:name=".ui.GoalDetailActivity" />
         <activity
             android:name=".ui.MenageGoals"
             android:label="@string/title_activity_menage_goals"

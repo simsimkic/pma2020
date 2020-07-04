@@ -1,5 +1,6 @@
 package com.example.myapplication.dto.response;
 
+import com.example.myapplication.dto.request.ActivityInviteRequest;
 import com.example.myapplication.model.NotificationType;
 import com.google.gson.annotations.SerializedName;
 
@@ -10,7 +11,10 @@ public class NotificationResponse {
     private String description;
     @SerializedName("type")
     private NotificationType type;
-
+    @SerializedName("friend_username")
+    private String friend_username;
+    @SerializedName("activityDto")
+    private ActivityInviteRequest activityDto;
     public NotificationResponse() {
     }
 
@@ -42,5 +46,21 @@ public class NotificationResponse {
 
     public void setType(NotificationType type) {
         this.type = type;
+    }
+
+    public String getFriend_username() {
+        return friend_username;
+    }
+
+    public void setFriend_username(String friend_username) {
+        this.friend_username = friend_username;
+    }
+
+    public ActivityInviteRequest getActivityDto() {
+        return activityDto;
+    }
+
+    public void setActivityDto(ActivityInviteRequest activityDto) {
+        this.activityDto = activityDto;
     }
 }
