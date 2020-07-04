@@ -17,13 +17,17 @@ import com.example.myapplication.dto.request.SaveGoalRequest;
 import com.example.myapplication.dto.response.GoalResponse;
 import com.example.myapplication.dto.response.UserResponse;
 import com.example.myapplication.interfaces.ApiInterface;
+import com.example.myapplication.model.Goal;
+import com.example.myapplication.settings.DataBaseHelper;
 import com.example.myapplication.util.ApiClient;
 import com.example.myapplication.util.SaveSharedPreference;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Set;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -41,6 +45,35 @@ public class GoalDetailActivity extends AppCompatActivity {
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
         end_time.setText(sdf.format(myCalendar.getTime()));
+    }
+    private void loadSQLiteDB() {
+
+        DataBaseHelper dataBaseHelper = new DataBaseHelper(getApplicationContext());
+        dataBaseHelper.clear();
+        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        Call<Set<GoalResponse>> call = apiService.getGoalsByUser(SaveSharedPreference.getLoggedObject(getApplicationContext()).getId());
+        call.enqueue(new Callback<Set<GoalResponse>>() {
+            @Override
+            public void onResponse(Call<Set<GoalResponse>> call, Response<Set<GoalResponse>> response) {
+
+                Log.e("tag","Bitmap here!");
+                Set<GoalResponse> data = response.body();
+                ArrayList<Goal> arrayOfGoal = new ArrayList<Goal>();
+                if (data != null){
+                    for (GoalResponse goal: data) {
+                        Goal goalTemp = new Goal(goal.getTitle(),goal.getDistance(),goal.getDuration(),goal.getArchived(),goal.getEnd_time());
+                        String i = SaveSharedPreference.getLoggedObject(getApplicationContext()).getUsername();
+                        dataBaseHelper.addGoal(goalTemp,i);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Set<GoalResponse>> call, Throwable t) {
+                Log.e("tag","Bitmap failure: " + t);
+            }
+        });
+
     }
 
     @Override
@@ -86,6 +119,8 @@ public class GoalDetailActivity extends AppCompatActivity {
                 }
 
             };
+
+            end_time.setFocusable(false);
             end_time.setOnClickListener(new View.OnClickListener() {
 
                 @Override
@@ -104,7 +139,7 @@ public class GoalDetailActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-
+                    loadSQLiteDB();
                     Call<Boolean> call = apiService.deleteGoal(goal.getId());
                     call.enqueue(new Callback<Boolean>() {
 
@@ -131,7 +166,7 @@ public class GoalDetailActivity extends AppCompatActivity {
 
                     String myFormat = "dd.MM.yyyy. HH:mm"; //In which you need put here
                     SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-
+                    loadSQLiteDB();
                     goalRequest.setTimestampe(sdf.format(new Date()));
                     goalRequest.setEnd_time(end_time.getText().toString());
                     goalRequest.setTitle(name.getText().toString());
@@ -140,6 +175,7 @@ public class GoalDetailActivity extends AppCompatActivity {
                     goalRequest.setArchived(goal.getArchived());
                     goalRequest.setId(goal.getId());
                     goalRequest.setUser_id(SaveSharedPreference.getLoggedObject(getApplicationContext()).getId());
+                    DataBaseHelper dataBaseHelper = new DataBaseHelper(getApplicationContext());
 
                     ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
                     Call<GoalResponse> call = apiService.updateGoal(goalRequest);
@@ -168,7 +204,7 @@ public class GoalDetailActivity extends AppCompatActivity {
 
                     String myFormat = "dd.MM.yyyy. HH:mm"; //In which you need put here
                     SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-
+                    loadSQLiteDB();
                     goalRequest.setTimestampe(sdf.format(new Date()));
                     goalRequest.setEnd_time(end_time.getText().toString());
                     goalRequest.setTitle(name.getText().toString());
@@ -198,6 +234,8 @@ public class GoalDetailActivity extends AppCompatActivity {
                 }
             });
         }
+
+
 
 
     }
